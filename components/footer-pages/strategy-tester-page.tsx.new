@@ -1,0 +1,11 @@
+import { FC } from 'react';
+
+const StrategyTesterPage: FC = () => {
+  return (
+    <div className="h-full p-4">
+      {/* Strategy Tester content will be added here in the future */}
+    </div>
+  );
+};
+
+export default StrategyTesterPage;

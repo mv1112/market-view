@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111827; /* bg-gray-900 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1f2937; /* bg-gray-800 */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #374151; /* bg-gray-700 */
+}
+
 @font-face {
 	font-family: Linear;
 	font-weight: 400 800;

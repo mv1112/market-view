@@ -14,7 +14,7 @@ import BrokerPage from "@/components/footer-pages/broker-page"
 import AlgoScriptPage from "@/components/footer-pages/algo-script-page"
 import ScreenerPage from "@/components/footer-pages/screener-page"
 import StrategyTesterPage from "@/components/footer-pages/strategy-tester-page"
-import HftPanelPage from "@/components/footer-pages/hft-panel-page"
+
 import { LuAlarmClock, LuLogOut, LuScreenShare, LuMaximize } from "react-icons/lu"
 import { SquarePlay } from "lucide-react"
 import { GiArchiveResearch } from "react-icons/gi"
@@ -26,7 +26,7 @@ import { MdModeEditOutline, MdFullscreen } from "react-icons/md"
 import { FaCamera } from "react-icons/fa"
 import Link from "next/link"
 
-type FooterPageType = 'broker' | 'algo-script' | 'screener' | 'strategy-tester' | 'hft-panel' | 'strategy-builder'
+type FooterPageType = 'broker' | 'algo-script' | 'screener' | 'strategy-tester' | 'strategy-builder'
 
 export default function ChartsPage() {
   const [userEmail, setUserEmail] = useState<string>("")
@@ -59,13 +59,7 @@ export default function ChartsPage() {
     getCurrentUser()
   }, [])
 
-  // Show broker page content even when footer is collapsed
-  useEffect(() => {
-    // Ensure broker is always the default active page
-    if (activeFooterPage !== 'broker') {
-      setActiveFooterPage('broker')
-    }
-  }, [activeFooterPage])
+
 
   // Handle clicking outside dropdowns
   useEffect(() => {
@@ -118,6 +112,7 @@ export default function ChartsPage() {
 
   // Smart handler function that only expands if footer is collapsed
   const handleFooterPageChange = useCallback((page: FooterPageType) => {
+    console.log('Switching to page:', page, 'Current height:', footerHeight)
     // If footer is collapsed (at minimum height), expand it to 50%
     if (footerHeight <= 48) {
       openFooterTo50Percent(page)
@@ -132,11 +127,11 @@ export default function ChartsPage() {
   const handleAlgoScriptClick = useCallback(() => handleFooterPageChange('algo-script'), [handleFooterPageChange])
   const handleScreenerClick = useCallback(() => handleFooterPageChange('screener'), [handleFooterPageChange])
   const handleStrategyTesterClick = useCallback(() => handleFooterPageChange('strategy-tester'), [handleFooterPageChange])
-  const handleHftPanelClick = useCallback(() => handleFooterPageChange('hft-panel'), [handleFooterPageChange])
   const handleStrategyBuilderClick = useCallback(() => handleFooterPageChange('strategy-builder'), [handleFooterPageChange])
 
   // Function to render the active footer page
   const renderActiveFooterPage = useCallback(() => {
+    console.log('Rendering page:', activeFooterPage)
     switch (activeFooterPage) {
       case 'broker':
         return <BrokerPage />
@@ -146,8 +141,6 @@ export default function ChartsPage() {
         return <ScreenerPage />
       case 'strategy-tester':
         return <StrategyTesterPage />
-      case 'hft-panel':
-        return <HftPanelPage />
       case 'strategy-builder':
         return <div className="p-4 text-white">Strategy Builder Page - Coming Soon</div>
       default:
@@ -364,18 +357,6 @@ export default function ChartsPage() {
                   <span>Algo Script</span>
                 </button>
                 
-                {/* Screener Button */}
-                <button 
-                  onClick={handleScreenerClick}
-                  className={`h-8 px-3 rounded flex items-center text-sm transition-colors ${
-                    activeFooterPage === 'screener'
-                      ? 'bg-white text-black'
-                      : 'hover:bg-white hover:text-black'
-                  }`}
-                >
-                  <span>Screener</span>
-                </button>
-                
                 {/* Strategy Tester Button */}
                 <button 
                   onClick={handleStrategyTesterClick}
@@ -388,18 +369,19 @@ export default function ChartsPage() {
                   <span>Strategy Tester</span>
                 </button>
                 
-                {/* HFT Panel Button */}
+                {/* Screener Button */}
                 <button 
-                  onClick={handleHftPanelClick}
+                  onClick={handleScreenerClick}
                   className={`h-8 px-3 rounded flex items-center text-sm transition-colors ${
-                    activeFooterPage === 'hft-panel'
+                    activeFooterPage === 'screener'
                       ? 'bg-white text-black'
                       : 'hover:bg-white hover:text-black'
                   }`}
                 >
-                  <span>HFT Panel</span>
+                  <span>Screener</span>
                 </button>
                 
+
                 {/* Strategy Builder Button */}
                 <button 
                   onClick={handleStrategyBuilderClick}
