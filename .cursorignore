@@ -1,0 +1,5 @@
+# Add directories or file patterns to ignore during indexing (e.g. foo/ or *.csv)
+
+# Include .env files in Cursor indexing (override .gitignore)
+!.env
+!.env*.local

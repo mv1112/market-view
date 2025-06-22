@@ -1,0 +1,162 @@
+.candlestick__dropdown {
+  @apply relative;
+}
+
+.candlestick__trigger {
+  @apply flex items-center gap-2 px-3 py-2 bg-transparent border border-gray-300 rounded-md text-gray-900 text-sm font-medium;
+  @apply hover:bg-gray-100 hover:border-gray-400 transition-colors duration-200;
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50;
+  background: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  min-width: 120px;
+  height: 36px;
+}
+
+.candlestick__trigger__active {
+  @apply border-gray-400 bg-gray-100;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.candlestick__icon {
+  @apply text-gray-600;
+  flex-shrink: 0;
+}
+
+.candlestick__selected {
+  @apply flex-1 text-left text-gray-700;
+  font-size: 13px;
+}
+
+.chevron {
+  @apply text-gray-500 transition-transform duration-200;
+  flex-shrink: 0;
+}
+
+.chevron__rotated {
+  @apply rotate-180;
+}
+
+.candlestick__menu {
+  @apply absolute top-full left-0 mt-1 w-full min-w-[200px];
+  @apply bg-white border border-gray-300 rounded-md shadow-xl;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  z-index: 9999;
+}
+
+.candlestick__menu__content {
+  @apply py-1;
+}
+
+.candlestick__option {
+  @apply w-full flex items-center justify-between px-3 py-2 text-left text-sm text-gray-700;
+  @apply hover:bg-gray-100 hover:text-gray-900 transition-colors duration-150;
+  @apply focus:outline-none focus:bg-gray-100 focus:text-gray-900;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.candlestick__option:first-child {
+  @apply rounded-t-md;
+}
+
+.candlestick__option:last-child {
+  @apply rounded-b-md;
+}
+
+.candlestick__option__selected {
+  @apply bg-blue-600 text-white;
+  background: rgba(59, 130, 246, 0.8);
+}
+
+.candlestick__option__selected:hover {
+  @apply bg-blue-500;
+  background: rgba(59, 130, 246, 0.9);
+}
+
+.check__icon {
+  @apply text-white;
+  flex-shrink: 0;
+}
+
+/* Dark theme adjustments */
+@media (prefers-color-scheme: dark) {
+  .candlestick__trigger {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .candlestick__trigger:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+  
+  .candlestick__menu {
+    background: rgba(15, 15, 17, 0.95);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* Animation for dropdown */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.candlestick__menu {
+  animation: slideDown 0.2s ease-out;
+}
+
+/* Custom scrollbar for dropdown if needed */
+.candlestick__menu__content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.candlestick__menu__content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.candlestick__menu__content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+.candlestick__menu__content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .candlestick__trigger {
+    min-width: 100px;
+    padding: 6px 12px;
+    height: 32px;
+  }
+  
+  .candlestick__selected {
+    font-size: 12px;
+  }
+  
+  .candlestick__menu {
+    min-width: 180px;
+  }
+  
+  .candlestick__option {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+} 
