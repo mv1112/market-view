@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { SocialLoginButton } from "@/components/ui/social-login-button"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState, useEffect } from "react"
@@ -125,6 +126,12 @@ export function LoginForm({ className, onSwitchToSignUp, onSwitchToForgotPasswor
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Signing in..." : "Sign in"}
               </Button>
+              
+              {/* Social Login Buttons */}
+              <div className="grid grid-cols-2 gap-3">
+                <SocialLoginButton provider="google" disabled={isLoading} />
+                <SocialLoginButton provider="github" disabled={isLoading} />
+              </div>
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}

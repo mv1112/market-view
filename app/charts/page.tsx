@@ -182,7 +182,9 @@ export default function ChartsPage() {
     setAppliedIndicators(prev => [...prev, indicatorName])
   }
 
-
+  const handleRemoveIndicator = (indicatorName: string) => {
+    setAppliedIndicators(prev => prev.filter(indicator => indicator !== indicatorName))
+  }
 
   return (
     <div className="h-screen bg-white text-gray-900 flex flex-col overflow-hidden" ref={containerRef}>
@@ -332,6 +334,7 @@ export default function ChartsPage() {
                 timeFrame={selectedTimeFrame}
                 chartType={selectedCandlestickType}
                 indicators={appliedIndicators}
+                onRemoveIndicator={handleRemoveIndicator}
                 className="w-full h-full"
               />
             </div>

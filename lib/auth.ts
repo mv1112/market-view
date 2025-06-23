@@ -154,6 +154,78 @@ export class AuthService {
     }
   }
 
+  // Social login with OAuth providers
+  async loginWithOAuth(provider: 'google' | 'github') {
+    try {
+      const currentPath = window.location.pathname
+      const redirectTo = currentPath === '/auth/login' || currentPath === '/auth/sign-up' ? '/charts' : currentPath
+      
+      const { data, error } = await this.supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/auth/confirm?redirectTo=${encodeURIComponent(redirectTo)}`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          }
+        }
+      })
+
+      if (error) {
+        await this.logSecurityEvent({
+          event_type: 'oauth_login_failed',
+          event_description: `Failed OAuth login attempt with ${provider}: ${error.message}`,
+          risk_score: 20,
+          metadata: { provider, error: error.message }
+        })
+        throw error
+      }
+
+      return { data, error: null }
+    } catch (error) {
+      return { data: null, error }
+    }
+  }
+
+  // Get user's OAuth connections
+  async getUserOAuthConnections(userId: string) {
+    try {
+      const { data, error } = await this.supabase
+        .from('oauth_connections')
+        .select('*')
+        .eq('user_id', userId)
+        .order('connected_at', { ascending: false })
+
+      return { data: data || [], error }
+    } catch (error) {
+      return { data: [], error }
+    }
+  }
+
+  // Disconnect OAuth provider
+  async disconnectOAuthProvider(userId: string, provider: string) {
+    try {
+      const { error } = await this.supabase
+        .from('oauth_connections')
+        .delete()
+        .eq('user_id', userId)
+        .eq('provider', provider)
+
+      if (!error) {
+        await this.logSecurityEvent({
+          event_type: 'oauth_disconnected',
+          event_description: `OAuth connection removed for ${provider}`,
+          risk_score: 5,
+          metadata: { provider }
+        }, userId)
+      }
+
+      return { error }
+    } catch (error) {
+      return { error }
+    }
+  }
+
   // Get user profile
   async getUserProfile(userId: string): Promise<UserProfile | null> {
     try {

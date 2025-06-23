@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { SocialLoginButton } from "@/components/ui/social-login-button"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
@@ -180,6 +181,12 @@ export function SignUpForm({ className, onSwitchToLogin, ...props }: SignUpFormP
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Creating account..." : "Create account"}
               </Button>
+              
+              {/* Social Login Buttons */}
+              <div className="grid grid-cols-2 gap-3">
+                <SocialLoginButton provider="google" disabled={isLoading} />
+                <SocialLoginButton provider="github" disabled={isLoading} />
+              </div>
             </div>
             <div className="mt-4 text-center text-sm">
               Already have an account?{" "}
