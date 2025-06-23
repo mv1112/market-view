@@ -4,7 +4,7 @@ import { LogoutButton } from "@/components/logout-button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Shield, User, Clock, Activity, MapPin, Monitor } from "lucide-react"
+import { Shield, User, Clock, Activity, MapPin, Monitor, TrendingUp } from "lucide-react"
 
 export default async function ProtectedPage() {
   const supabase = await createClient()
@@ -24,21 +24,22 @@ export default async function ProtectedPage() {
     .eq('id', user.id)
     .single()
 
-  // Get recent security logs
-  const { data: securityLogs } = await supabase
-    .from('security_logs')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-    .limit(10)
+  // Get user statistics
+  let userStats = null
+  try {
+    const { data: statsData } = await supabase.rpc('get_user_stats', {
+      user_id_param: user.id
+    })
+    userStats = statsData?.[0] || null
+  } catch (error) {
+    console.warn('Failed to fetch user stats:', error)
+  }
 
-  // Get active sessions
-  const { data: sessions } = await supabase
-    .from('user_sessions')
-    .select('*')
+  // Get OAuth connections (from Supabase native table)
+  const { data: oauthConnections } = await supabase
+    .from('auth.identities')
+    .select('provider, created_at')
     .eq('user_id', user.id)
-    .eq('is_active', true)
-    .order('last_activity_at', { ascending: false })
 
   const getRoleColor = (role: string) => {
     switch (role) {
@@ -62,13 +63,26 @@ export default async function ProtectedPage() {
     return new Date(dateString).toLocaleString()
   }
 
+  const timeAgo = (dateString: string) => {
+    const now = new Date()
+    const date = new Date(dateString)
+    const diffMs = now.getTime() - date.getTime()
+    const diffMins = Math.floor(diffMs / (1000 * 60))
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+
+    if (diffMins < 60) return `${diffMins}m ago`
+    if (diffHours < 24) return `${diffHours}h ago`
+    return `${diffDays}d ago`
+  }
+
   return (
     <div className="container mx-auto py-8 px-4 max-w-6xl">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Authentication Dashboard</h1>
+          <h1 className="text-3xl font-bold tracking-tight">User Dashboard</h1>
           <p className="text-muted-foreground">
-            Manage your account security and view authentication details
+            Manage your account and view your activity
           </p>
         </div>
         <LogoutButton variant="outline" />
@@ -92,6 +106,18 @@ export default async function ProtectedPage() {
               <p className="text-sm font-medium">Email</p>
               <p className="text-sm text-muted-foreground">{user.email}</p>
             </div>
+            {profile?.company && (
+              <div className="space-y-2">
+                <p className="text-sm font-medium">Company</p>
+                <p className="text-sm text-muted-foreground">{profile.company}</p>
+              </div>
+            )}
+            {profile?.job_title && (
+              <div className="space-y-2">
+                <p className="text-sm font-medium">Job Title</p>
+                <p className="text-sm text-muted-foreground">{profile.job_title}</p>
+              </div>
+            )}
             <div className="space-y-2">
               <p className="text-sm font-medium">Role</p>
               <Badge className={getRoleColor(profile?.role || 'user')}>
@@ -113,12 +139,12 @@ export default async function ProtectedPage() {
           </CardContent>
         </Card>
 
-        {/* Security Status Card */}
+        {/* Account Security Card */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Shield className="h-5 w-5" />
-              Security Status
+              Account Security
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -137,7 +163,19 @@ export default async function ProtectedPage() {
             <div className="space-y-2">
               <p className="text-sm font-medium">Last Login</p>
               <p className="text-sm text-muted-foreground">
-                {profile?.last_login_at ? formatDate(profile.last_login_at) : 'Never'}
+                {profile?.last_login_at ? (
+                  <>
+                    {formatDate(profile.last_login_at)}
+                    <br />
+                    <span className="text-xs">({timeAgo(profile.last_login_at)})</span>
+                  </>
+                ) : 'Never'}
+              </p>
+            </div>
+            <div className="space-y-2">
+              <p className="text-sm font-medium">Last Activity</p>
+              <p className="text-sm text-muted-foreground">
+                {profile?.last_activity_at ? timeAgo(profile.last_activity_at) : 'Unknown'}
               </p>
             </div>
             <div className="space-y-2">
@@ -146,137 +184,123 @@ export default async function ProtectedPage() {
                 {profile?.last_login_ip || 'Unknown'}
               </p>
             </div>
+            {profile?.account_locked_until && new Date(profile.account_locked_until) > new Date() && (
+              <div className="space-y-2">
+                <p className="text-sm font-medium text-red-600">Account Locked Until</p>
+                <p className="text-sm text-red-600">
+                  {formatDate(profile.account_locked_until)}
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
 
-        {/* Active Sessions Card */}
+        {/* Activity Stats Card */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Monitor className="h-5 w-5" />
-              Active Sessions
+              <TrendingUp className="h-5 w-5" />
+              Activity Stats
             </CardTitle>
-            <CardDescription>
-              {sessions?.length || 0} active session(s)
-            </CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {sessions?.slice(0, 3).map((session) => (
-                <div key={session.id} className="border rounded-lg p-3">
-                  <div className="flex justify-between items-start mb-2">
-                    <p className="text-sm font-medium">
-                      {session.device_info?.platform || 'Unknown Device'}
-                    </p>
-                    <Badge variant="outline" className="text-xs">
-                      Active
-                    </Badge>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    {session.ip_address}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Last active: {formatDate(session.last_activity_at)}
-                  </p>
-                </div>
-              ))}
-              {(sessions?.length || 0) > 3 && (
-                <p className="text-sm text-muted-foreground text-center">
-                  +{(sessions?.length || 0) - 3} more sessions
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <p className="text-sm font-medium">Total Logins</p>
+              <p className="text-2xl font-bold">
+                {userStats?.login_count || profile?.login_count || 0}
+              </p>
+            </div>
+            <div className="space-y-2">
+              <p className="text-sm font-medium">Failed Login Attempts</p>
+              <p className="text-lg font-semibold text-yellow-600">
+                {profile?.failed_login_attempts || 0}
+              </p>
+            </div>
+            {profile?.last_failed_login_at && (
+              <div className="space-y-2">
+                <p className="text-sm font-medium">Last Failed Login</p>
+                <p className="text-sm text-muted-foreground">
+                  {timeAgo(profile.last_failed_login_at)}
                 </p>
-              )}
+              </div>
+            )}
+            <div className="space-y-2">
+              <p className="text-sm font-medium">Account Status</p>
+              <Badge className={userStats?.is_locked ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}>
+                {userStats?.is_locked ? 'Locked' : 'Active'}
+              </Badge>
             </div>
           </CardContent>
         </Card>
 
-        {/* Recent Activity Card */}
+        {/* Connected Accounts Card */}
         <Card className="md:col-span-2 lg:col-span-3">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Activity className="h-5 w-5" />
-              Recent Security Activity
+              Connected Accounts
             </CardTitle>
             <CardDescription>
-              Your recent authentication and security events
+              OAuth providers connected to your account
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              {securityLogs?.map((log) => (
-                <div key={log.id} className="border rounded-lg p-4">
-                  <div className="flex justify-between items-start mb-2">
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium capitalize">
-                        {log.event_type.replace(/_/g, ' ')}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {log.event_description}
-                      </p>
-                    </div>
-                    <div className="text-right text-xs text-muted-foreground">
-                      <p>{formatDate(log.created_at)}</p>
-                      {log.ip_address && (
-                        <p className="flex items-center gap-1">
-                          <MapPin className="h-3 w-3" />
-                          {log.ip_address}
+            {oauthConnections && oauthConnections.length > 0 ? (
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {oauthConnections.map((connection, index) => (
+                  <div key={index} className="border rounded-lg p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                        {connection.provider === 'google' ? '🔍' : 
+                         connection.provider === 'github' ? '🐙' : '🔗'}
+                      </div>
+                      <div>
+                        <p className="font-medium capitalize">{connection.provider}</p>
+                        <p className="text-sm text-muted-foreground">
+                          Connected {formatDate(connection.created_at)}
                         </p>
-                      )}
+                      </div>
                     </div>
                   </div>
-                  {log.risk_score > 0 && (
-                    <Badge 
-                      className={
-                        log.risk_score > 50 
-                          ? 'bg-red-100 text-red-800' 
-                          : log.risk_score > 20 
-                          ? 'bg-yellow-100 text-yellow-800' 
-                          : 'bg-blue-100 text-blue-800'
-                      }
-                    >
-                      Risk Score: {log.risk_score}
-                    </Badge>
-                  )}
-                </div>
-              ))}
-              {(!securityLogs || securityLogs.length === 0) && (
-                <p className="text-center text-muted-foreground py-8">
-                  No security events found
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">No connected accounts</p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  You can connect OAuth providers for easier sign-in
                 </p>
-              )}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Settings & Preferences */}
+        <Card className="md:col-span-2 lg:col-span-3">
+          <CardHeader>
+            <CardTitle>Settings & Preferences</CardTitle>
+            <CardDescription>
+              Current account settings and preferences
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4 md:grid-cols-3">
+              <div className="space-y-2">
+                <p className="text-sm font-medium">Timezone</p>
+                <p className="text-sm text-muted-foreground">{profile?.timezone || 'UTC'}</p>
+              </div>
+              <div className="space-y-2">
+                <p className="text-sm font-medium">Language</p>
+                <p className="text-sm text-muted-foreground">{profile?.language || 'en'}</p>
+              </div>
+              <div className="space-y-2">
+                <p className="text-sm font-medium">Theme</p>
+                <p className="text-sm text-muted-foreground capitalize">{profile?.theme || 'light'}</p>
+              </div>
             </div>
           </CardContent>
         </Card>
       </div>
-
-      {/* Quick Actions */}
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-          <CardDescription>
-            Common security and account management tasks
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center space-y-2">
-              <Shield className="h-5 w-5" />
-              <span className="text-sm">Enable 2FA</span>
-            </Button>
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center space-y-2">
-              <User className="h-5 w-5" />
-              <span className="text-sm">Edit Profile</span>
-            </Button>
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center space-y-2">
-              <Clock className="h-5 w-5" />
-              <span className="text-sm">Change Password</span>
-            </Button>
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center space-y-2">
-              <Monitor className="h-5 w-5" />
-              <span className="text-sm">Manage Sessions</span>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   )
 }

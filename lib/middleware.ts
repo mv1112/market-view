@@ -60,87 +60,158 @@ export async function updateSession(request: NextRequest) {
 
   // For authenticated users on protected routes, check user status
   if (user && isProtectedRoute) {
-    // Get user profile to check status (gracefully handle missing table)
     try {
       const { data: profile } = await supabase
         .from('user_profiles')
-        .select('status, role')
+        .select('status, role, account_locked_until')
         .eq('id', user.id)
         .single()
 
-      // If user is suspended or inactive, redirect to error page
-      if (profile && (profile.status === 'suspended' || profile.status === 'inactive')) {
-        url.pathname = '/auth/error'
-        url.searchParams.set('message', 'Account suspended or inactive')
-        return NextResponse.redirect(url)
+      if (profile) {
+        // Check if account is locked
+        if (profile.account_locked_until) {
+          const lockedUntil = new Date(profile.account_locked_until)
+          if (lockedUntil > new Date()) {
+            url.pathname = '/auth/error'
+            url.searchParams.set('message', `Account is locked until ${lockedUntil.toLocaleString()}`)
+            return NextResponse.redirect(url)
+          }
+        }
+
+        // If user is suspended or inactive, redirect to error page
+        if (profile.status === 'suspended' || profile.status === 'inactive') {
+          url.pathname = '/auth/error'
+          url.searchParams.set('message', 'Account suspended or inactive')
+          return NextResponse.redirect(url)
+        }
       }
     } catch (error) {
       console.warn('User profile check failed in middleware, proceeding:', error)
       // Continue without profile check if table doesn't exist
     }
 
-    // Log session activity for security monitoring (skip if function doesn't exist)
+    // Log simple activity (optional, lightweight)
     try {
-      await supabase.rpc('log_security_event', {
+      await supabase.rpc('log_user_activity', {
         user_id_param: user.id,
-        event_type_param: 'page_access',
-        event_description_param: `User accessed ${pathname}`,
-        ip_address_param: request.ip || request.headers.get('x-forwarded-for'),
-        user_agent_param: request.headers.get('user-agent'),
-        risk_score_param: 0,
-        metadata_param: { 
-          path: pathname,
-          method: request.method,
-          timestamp: new Date().toISOString()
-        }
+        activity_type: 'page_visit'
       })
-          } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-        console.warn('Security logging unavailable (expected during initial setup):', errorMessage)
-        // Don't block the request if security logging fails
-      }
+    } catch (error) {
+      // Silently fail if function doesn't exist or fails
+      // This is optional functionality
+    }
   }
 
   return response
 }
 
-// Rate limiting middleware
-export async function checkRateLimit(
-  request: NextRequest,
+// Production-ready rate limiting options
+export interface RateLimitConfig {
+  windowMs: number      // Time window in milliseconds
+  maxAttempts: number   // Max attempts per window
+  skipSuccessfulRequests?: boolean
+  skipFailedRequests?: boolean
+}
+
+// Option 1: Database-backed rate limiting (production-ready)
+export async function checkDatabaseRateLimit(
+  supabase: any,
   identifier: string,
   action: string,
-  maxAttempts: number = 5,
-  windowMinutes: number = 15
-): Promise<boolean> {
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll()
-        },
-        setAll() {
-          // No-op for rate limiting check
-        },
-      },
+  config: RateLimitConfig = { windowMs: 15 * 60 * 1000, maxAttempts: 5 }
+): Promise<{ allowed: boolean; remaining: number; resetTime: Date }> {
+  const windowStart = new Date(Date.now() - config.windowMs)
+  
+  try {
+    // Create a simple rate_limits table if needed
+    const { data: attempts, error } = await supabase
+      .from('rate_limit_attempts')
+      .select('count(*)')
+      .eq('identifier', identifier)
+      .eq('action', action)
+      .gte('created_at', windowStart.toISOString())
+      .single()
+
+    const currentAttempts = attempts?.count || 0
+    const remaining = Math.max(0, config.maxAttempts - currentAttempts)
+    const allowed = currentAttempts < config.maxAttempts
+
+    // If allowed, record this attempt
+    if (allowed) {
+      await supabase
+        .from('rate_limit_attempts')
+        .insert({
+          identifier,
+          action,
+          created_at: new Date().toISOString()
+        })
     }
-  )
+
+    return {
+      allowed,
+      remaining,
+      resetTime: new Date(Date.now() + config.windowMs)
+    }
+  } catch (error) {
+    console.warn('Rate limit check failed, allowing request:', error)
+    return {
+      allowed: true,
+      remaining: config.maxAttempts,
+      resetTime: new Date(Date.now() + config.windowMs)
+    }
+  }
+}
+
+// Option 2: Edge KV storage (Vercel/Cloudflare)
+export async function checkEdgeKVRateLimit(
+  kv: any, // Your KV storage instance
+  identifier: string,
+  config: RateLimitConfig = { windowMs: 15 * 60 * 1000, maxAttempts: 5 }
+): Promise<{ allowed: boolean; remaining: number; resetTime: Date }> {
+  const key = `rate_limit:${identifier}`
+  const now = Date.now()
+  const windowStart = now - config.windowMs
 
   try {
-    const { data } = await supabase.rpc('check_rate_limit', {
-      identifier_param: identifier,
-      action_param: action,
-      max_attempts: maxAttempts,
-      window_minutes: windowMinutes
-    })
+    const data = await kv.get(key)
+    let attempts = data ? JSON.parse(data).filter((timestamp: number) => timestamp > windowStart) : []
+    
+    const allowed = attempts.length < config.maxAttempts
+    
+    if (allowed) {
+      attempts.push(now)
+      await kv.set(key, JSON.stringify(attempts), { ex: Math.ceil(config.windowMs / 1000) })
+    }
 
-    return data === true
+    return {
+      allowed,
+      remaining: Math.max(0, config.maxAttempts - attempts.length),
+      resetTime: new Date(now + config.windowMs)
+    }
   } catch (error) {
-    console.error('Rate limit check failed:', error)
-    // Allow request if rate limit check fails
-    return true
+    console.warn('Edge KV rate limit check failed, allowing request:', error)
+    return {
+      allowed: true,
+      remaining: config.maxAttempts,
+      resetTime: new Date(now + config.windowMs)
+    }
   }
+}
+
+// Option 3: Header-based rate limiting (for simpler cases)
+export function addRateLimitHeaders(
+  response: NextResponse,
+  result: { allowed: boolean; remaining: number; resetTime: Date }
+): NextResponse {
+  response.headers.set('X-RateLimit-Limit', '5')
+  response.headers.set('X-RateLimit-Remaining', result.remaining.toString())
+  response.headers.set('X-RateLimit-Reset', Math.ceil(result.resetTime.getTime() / 1000).toString())
+  
+  if (!result.allowed) {
+    response.headers.set('Retry-After', Math.ceil((result.resetTime.getTime() - Date.now()) / 1000).toString())
+  }
+  
+  return response
 }
 
 // Security headers middleware

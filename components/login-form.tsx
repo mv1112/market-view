@@ -59,7 +59,7 @@ export function LoginForm({ className, onSwitchToSignUp, onSwitchToForgotPasswor
     setError(null)
 
     try {
-      const { data, error } = await authService.login(email, password, deviceInfo, ipAddress)
+      const { data, error } = await authService.login(email, password, ipAddress)
 
       if (error) {
         setError(error instanceof Error ? error.message : "An error occurred during login")

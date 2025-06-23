@@ -21,18 +21,13 @@ export interface UserProfile {
   status: 'active' | 'inactive' | 'suspended' | 'pending'
   last_login_at?: string
   last_login_ip?: string
+  last_activity_at?: string
+  login_count?: number
+  failed_login_attempts?: number
+  last_failed_login_at?: string
+  account_locked_until?: string
   created_at: string
   updated_at: string
-}
-
-export interface SecurityEvent {
-  event_type: string
-  event_description?: string
-  ip_address?: string
-  user_agent?: string
-  location?: any
-  risk_score?: number
-  metadata?: any
 }
 
 export interface DeviceInfo {
@@ -45,28 +40,40 @@ export interface DeviceInfo {
   language: string
 }
 
-export interface SessionInfo {
-  id: string
-  user_id: string
-  device_info: DeviceInfo
-  ip_address: string
-  location?: any
-  is_active: boolean
-  expires_at: string
-  created_at: string
-  last_activity_at: string
+export interface UserStats {
+  login_count: number
+  last_login_at?: string
+  last_activity_at?: string
+  account_status: string
+  is_locked: boolean
 }
 
 export class AuthService {
   private supabase = createClient()
 
-  // Enhanced login with security logging
-  async login(email: string, password: string, deviceInfo?: DeviceInfo, ipAddress?: string) {
+  // Simplified login with production-ready rate limiting
+  async login(email: string, password: string, ipAddress?: string) {
     try {
-      // Check rate limiting first
-      const isAllowed = await this.checkRateLimit(email, 'login_attempt')
-      if (!isAllowed) {
-        throw new Error('Too many login attempts. Please try again later.')
+      // Check rate limiting first (production-ready)
+      const identifier = ipAddress || email
+      const rateLimitResult = await this.checkRateLimit(identifier, 'login_attempt')
+      
+      if (!rateLimitResult.allowed) {
+        throw new Error(`Too many login attempts. Try again after ${rateLimitResult.resetTime.toLocaleTimeString()}`)
+      }
+
+      // Check if account exists and is locked
+      const { data: profileData } = await this.supabase
+        .from('user_profiles')
+        .select('id, account_locked_until, failed_login_attempts')
+        .eq('email', email)
+        .single()
+
+      if (profileData?.account_locked_until) {
+        const lockedUntil = new Date(profileData.account_locked_until)
+        if (lockedUntil > new Date()) {
+          throw new Error(`Account is locked until ${lockedUntil.toLocaleString()}`)
+        }
       }
 
       const { data, error } = await this.supabase.auth.signInWithPassword({
@@ -75,33 +82,27 @@ export class AuthService {
       })
 
       if (error) {
-        // Log failed login attempt
-        await this.logSecurityEvent({
-          event_type: 'login_failed',
-          event_description: `Failed login attempt for ${email}: ${error.message}`,
-          ip_address: ipAddress,
-          user_agent: deviceInfo?.userAgent,
-          risk_score: 30,
-          metadata: { email, error: error.message }
-        })
+        // Record failed rate limit attempt
+        await this.recordRateLimitAttempt(identifier, 'login_attempt')
+        
+        // Update failed login attempts
+        if (profileData) {
+          await this.supabase.rpc('update_user_login', {
+            user_id_param: profileData.id,
+            ip_address_param: ipAddress,
+            success_param: false
+          })
+        }
         throw error
       }
 
       if (data.user) {
-        // Log successful login
-        await this.logSecurityEvent({
-          event_type: 'login_success',
-          event_description: `Successful login for ${email}`,
-          ip_address: ipAddress,
-          user_agent: deviceInfo?.userAgent,
-          risk_score: 0,
-          metadata: { email }
-        }, data.user.id)
-
-        // Create session record
-        if (deviceInfo && ipAddress) {
-          await this.createSession(data.user.id, deviceInfo, ipAddress)
-        }
+        // Update successful login (no need to record rate limit attempt for success)
+        await this.supabase.rpc('update_user_login', {
+          user_id_param: data.user.id,
+          ip_address_param: ipAddress,
+          success_param: true
+        })
       }
 
       return { data, error: null }
@@ -110,43 +111,18 @@ export class AuthService {
     }
   }
 
-  // Enhanced signup with profile creation
-  async signup(email: string, password: string, fullName?: string, additionalData?: any) {
+  // Simplified signup
+  async signup(email: string, password: string, fullName?: string) {
     try {
-      const isAllowed = await this.checkRateLimit(email, 'signup_attempt')
-      if (!isAllowed) {
-        throw new Error('Too many signup attempts. Please try again later.')
-      }
-
       const { data, error } = await this.supabase.auth.signUp({
         email,
         password,
         options: {
           data: {
-            full_name: fullName,
-            ...additionalData
+            full_name: fullName
           }
         }
       })
-
-      if (error) {
-        await this.logSecurityEvent({
-          event_type: 'signup_failed',
-          event_description: `Failed signup attempt for ${email}: ${error.message}`,
-          risk_score: 20,
-          metadata: { email, error: error.message }
-        })
-        throw error
-      }
-
-      if (data.user) {
-        await this.logSecurityEvent({
-          event_type: 'signup_success',
-          event_description: `New user signup: ${email}`,
-          risk_score: 0,
-          metadata: { email }
-        }, data.user.id)
-      }
 
       return { data, error: null }
     } catch (error) {
@@ -171,30 +147,19 @@ export class AuthService {
         }
       })
 
-      if (error) {
-        await this.logSecurityEvent({
-          event_type: 'oauth_login_failed',
-          event_description: `Failed OAuth login attempt with ${provider}: ${error.message}`,
-          risk_score: 20,
-          metadata: { provider, error: error.message }
-        })
-        throw error
-      }
-
       return { data, error: null }
     } catch (error) {
       return { data: null, error }
     }
   }
 
-  // Get user's OAuth connections
+  // Get user's OAuth connections from Supabase native table
   async getUserOAuthConnections(userId: string) {
     try {
       const { data, error } = await this.supabase
-        .from('oauth_connections')
+        .from('auth.identities')
         .select('*')
         .eq('user_id', userId)
-        .order('connected_at', { ascending: false })
 
       return { data: data || [], error }
     } catch (error) {
@@ -205,20 +170,17 @@ export class AuthService {
   // Disconnect OAuth provider
   async disconnectOAuthProvider(userId: string, provider: string) {
     try {
-      const { error } = await this.supabase
-        .from('oauth_connections')
-        .delete()
-        .eq('user_id', userId)
-        .eq('provider', provider)
-
-      if (!error) {
-        await this.logSecurityEvent({
-          event_type: 'oauth_disconnected',
-          event_description: `OAuth connection removed for ${provider}`,
-          risk_score: 5,
-          metadata: { provider }
-        }, userId)
-      }
+      // Note: Supabase doesn't provide a direct way to delete OAuth identities via the client library
+      // This would typically require admin/server-side operations
+      // For now, we'll simulate the operation but note that this is a limitation
+      console.warn('OAuth disconnection requires server-side implementation')
+      
+      // You would need to implement this on the server side using the Supabase Admin API
+      // or create a custom database function
+      const { error } = await this.supabase.rpc('disconnect_oauth_provider', {
+        user_id_param: userId,
+        provider_param: provider
+      })
 
       return { error }
     } catch (error) {
@@ -236,7 +198,6 @@ export class AuthService {
         .single()
 
       if (error) {
-        // If table doesn't exist or query fails, return null gracefully
         console.warn('User profile fetch failed:', error.message)
         return null
       }
@@ -250,155 +211,92 @@ export class AuthService {
 
   // Update user profile
   async updateUserProfile(userId: string, updates: Partial<UserProfile>) {
-    const { data, error } = await this.supabase
-      .from('user_profiles')
-      .update(updates)
-      .eq('id', userId)
-      .select()
-      .single()
+    try {
+      const { data, error } = await this.supabase
+        .from('user_profiles')
+        .update(updates)
+        .eq('id', userId)
+        .select()
+        .single()
 
-    if (!error && data) {
-      await this.logSecurityEvent({
-        event_type: 'profile_updated',
-        event_description: 'User profile updated',
-        risk_score: 5,
-        metadata: { updated_fields: Object.keys(updates) }
-      }, userId)
+      return { data, error }
+    } catch (error) {
+      return { data: null, error }
     }
-
-    return { data, error }
   }
 
-  // Check rate limiting
-  private async checkRateLimit(identifier: string, action: string): Promise<boolean> {
-    const { data } = await this.supabase.rpc('check_rate_limit', {
-      identifier_param: identifier,
-      action_param: action,
-      max_attempts: parseInt(process.env.RATE_LIMIT_MAX_ATTEMPTS || '5'),
-      window_minutes: parseInt(process.env.RATE_LIMIT_WINDOW_MINUTES || '15')
-    })
+  // Get user statistics
+  async getUserStats(userId: string): Promise<UserStats | null> {
+    try {
+      const { data, error } = await this.supabase.rpc('get_user_stats', {
+        user_id_param: userId
+      })
 
-    return data === true
-  }
+      if (error || !data || data.length === 0) {
+        return null
+      }
 
-  // Log security events
-  private async logSecurityEvent(event: SecurityEvent, userId?: string) {
-    await this.supabase.rpc('log_security_event', {
-      user_id_param: userId || null,
-      event_type_param: event.event_type,
-      event_description_param: event.event_description,
-      ip_address_param: event.ip_address,
-      user_agent_param: event.user_agent,
-      location_param: event.location,
-      risk_score_param: event.risk_score || 0,
-      metadata_param: event.metadata
-    })
-  }
-
-  // Create session
-  private async createSession(userId: string, deviceInfo: DeviceInfo, ipAddress: string) {
-    const sessionToken = crypto.randomUUID()
-    
-    await this.supabase.rpc('create_user_session', {
-      user_id_param: userId,
-      session_token_param: sessionToken,
-      device_info_param: deviceInfo,
-      ip_address_param: ipAddress
-    })
-
-    return sessionToken
-  }
-
-  // Get user sessions
-  async getUserSessions(userId: string): Promise<SessionInfo[]> {
-    const { data, error } = await this.supabase
-      .from('user_sessions')
-      .select('*')
-      .eq('user_id', userId)
-      .eq('is_active', true)
-      .order('last_activity_at', { ascending: false })
-
-    if (error || !data) return []
-    return data as SessionInfo[]
-  }
-
-  // Revoke session
-  async revokeSession(sessionId: string, userId: string) {
-    const { error } = await this.supabase
-      .from('user_sessions')
-      .update({ is_active: false })
-      .eq('id', sessionId)
-      .eq('user_id', userId)
-
-    if (!error) {
-      await this.logSecurityEvent({
-        event_type: 'session_revoked',
-        event_description: 'User revoked a session',
-        risk_score: 5,
-        metadata: { session_id: sessionId }
-      }, userId)
+      return data[0] as UserStats
+    } catch (error) {
+      console.warn('Error fetching user stats:', error)
+      return null
     }
-
-    return { error }
   }
 
-  // Get security logs
-  async getSecurityLogs(userId: string, limit: number = 50) {
-    const { data, error } = await this.supabase
-      .from('security_logs')
-      .select('*')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-      .limit(limit)
-
-    return { data, error }
+  // Log user activity (simplified)
+  async logActivity(userId: string, activityType: string = 'page_visit') {
+    try {
+      await this.supabase.rpc('log_user_activity', {
+        user_id_param: userId,
+        activity_type: activityType
+      })
+    } catch (error) {
+      console.warn('Activity logging failed:', error)
+    }
   }
 
-  // Password reset with rate limiting
+  // Reset password with rate limiting
   async resetPassword(email: string) {
-    const isAllowed = await this.checkRateLimit(email, 'password_reset')
-    if (!isAllowed) {
-      throw new Error('Too many password reset attempts. Please try again later.')
+    try {
+      // Check rate limiting for password reset
+      const rateLimitResult = await this.checkRateLimit(email, 'password_reset', 3, 60 * 60 * 1000) // 3 attempts per hour
+      
+      if (!rateLimitResult.allowed) {
+        throw new Error(`Too many password reset attempts. Try again after ${rateLimitResult.resetTime.toLocaleTimeString()}`)
+      }
+
+      const { data, error } = await this.supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth/update-password`
+      })
+
+      if (error) {
+        // Record failed attempt
+        await this.recordRateLimitAttempt(email, 'password_reset')
+        throw error
+      }
+
+      return { data, error }
+    } catch (error) {
+      return { data: null, error }
     }
-
-    const { data, error } = await this.supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/auth/update-password`
-    })
-
-    await this.logSecurityEvent({
-      event_type: 'password_reset_requested',
-      event_description: `Password reset requested for ${email}`,
-      risk_score: 10,
-      metadata: { email }
-    })
-
-    return { data, error }
   }
 
   // Update password
   async updatePassword(newPassword: string) {
-    const { data, error } = await this.supabase.auth.updateUser({
-      password: newPassword
-    })
+    try {
+      const { data, error } = await this.supabase.auth.updateUser({
+        password: newPassword
+      })
 
-    if (!error && data.user) {
-      await this.logSecurityEvent({
-        event_type: 'password_changed',
-        event_description: 'User changed password',
-        risk_score: 10,
-        metadata: {}
-      }, data.user.id)
+      return { data, error }
+    } catch (error) {
+      return { data: null, error }
     }
-
-    return { data, error }
   }
 
-  // Logout with session cleanup
+  // Logout
   async logout() {
     const { error } = await this.supabase.auth.signOut()
-    
-    // Note: Session cleanup is handled by database triggers and middleware
-    
     return { error }
   }
 
@@ -413,45 +311,115 @@ export class AuthService {
     
     return { user: null, profile: null, error }
   }
+
+  // Admin function to unlock user account
+  async unlockUserAccount(userId: string) {
+    try {
+      await this.supabase.rpc('unlock_user_account', {
+        user_id_param: userId
+      })
+      return { error: null }
+    } catch (error) {
+      return { error }
+    }
+  }
+
+  // Production-ready rate limiting
+  private async checkRateLimit(
+    identifier: string, 
+    action: string,
+    maxAttempts: number = 5,
+    windowMs: number = 15 * 60 * 1000
+  ): Promise<{ allowed: boolean; remaining: number; resetTime: Date }> {
+    const windowStart = new Date(Date.now() - windowMs)
+    
+    try {
+      // Use the rate_limit_attempts table for production
+      const { data: attempts, error } = await this.supabase
+        .from('rate_limit_attempts')
+        .select('id')
+        .eq('identifier', identifier)
+        .eq('action', action)
+        .gte('created_at', windowStart.toISOString())
+
+      const currentAttempts = attempts?.length || 0
+      const remaining = Math.max(0, maxAttempts - currentAttempts)
+      const allowed = currentAttempts < maxAttempts
+
+      return {
+        allowed,
+        remaining,
+        resetTime: new Date(Date.now() + windowMs)
+      }
+    } catch (error) {
+      console.warn('Rate limit check failed, allowing request:', error)
+      // Fail open - allow request if rate limit check fails
+      return {
+        allowed: true,
+        remaining: maxAttempts,
+        resetTime: new Date(Date.now() + windowMs)
+      }
+    }
+  }
+
+  // Record rate limit attempt
+  private async recordRateLimitAttempt(identifier: string, action: string) {
+    try {
+      await this.supabase
+        .from('rate_limit_attempts')
+        .insert({
+          identifier,
+          action,
+          created_at: new Date().toISOString()
+        })
+    } catch (error) {
+      console.warn('Failed to record rate limit attempt:', error)
+    }
+  }
 }
+
+// Create singleton instance
+export const authService = new AuthService()
 
 // Utility function to get device fingerprint
 export function getDeviceFingerprint(): DeviceInfo {
+  if (typeof window === 'undefined') {
+    return {
+      fingerprint: 'server',
+      userAgent: 'server',
+      platform: 'server',
+      browser: 'server',
+      screen_resolution: '0x0',
+      timezone: 'UTC',
+      language: 'en'
+    }
+  }
+
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')
-  ctx!.textBaseline = 'top'
-  ctx!.font = '14px Arial'
-  ctx!.fillText('Device fingerprint', 2, 2)
-  
-  const fingerprint = btoa(
-    navigator.userAgent +
-    navigator.language +
-    screen.width + 'x' + screen.height +
-    screen.colorDepth +
-    new Date().getTimezoneOffset() +
-    canvas.toDataURL()
-  ).slice(0, 32)
+  ctx?.fillText('fingerprint', 10, 10)
+  const canvasFingerprint = canvas.toDataURL()
 
   return {
-    fingerprint,
+    fingerprint: btoa(canvasFingerprint + navigator.userAgent + screen.width + screen.height),
     userAgent: navigator.userAgent,
     platform: navigator.platform,
-    browser: navigator.userAgent.split(' ').pop() || 'unknown',
+    browser: navigator.userAgent.includes('Chrome') ? 'Chrome' : 
+             navigator.userAgent.includes('Firefox') ? 'Firefox' : 
+             navigator.userAgent.includes('Safari') ? 'Safari' : 'Other',
     screen_resolution: `${screen.width}x${screen.height}`,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     language: navigator.language
   }
 }
 
-// Utility function to get client IP (for client-side usage)
+// Get client IP (simplified)
 export async function getClientIP(): Promise<string> {
   try {
     const response = await fetch('https://api.ipify.org?format=json')
     const data = await response.json()
-    return data.ip
+    return data.ip || 'unknown'
   } catch {
     return 'unknown'
   }
-}
-
-export const authService = new AuthService() 
+} 
