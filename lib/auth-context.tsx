@@ -100,9 +100,9 @@ export function AuthProvider({ children, fallback }: AuthProviderProps) {
     try {
       setAuthState(prev => ({ ...prev, isLoading: true, error: null }))
 
-      // Add timeout to prevent hanging
+      // Add timeout to prevent hanging - much shorter
       const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('Auth initialization timeout')), 10000) // 10 second timeout
+        setTimeout(() => reject(new Error('Auth initialization timeout')), 3000) // 3 second timeout
       })
 
       // Get current session with timeout
@@ -116,24 +116,29 @@ export function AuthProvider({ children, fallback }: AuthProviderProps) {
       }
 
       if (session?.user) {
-        // Fetch user profile with error handling - make it optional
-        let profile = null
-        try {
-          profile = await authService.getUserProfile(session.user.id)
-        } catch (error) {
-          console.warn('Failed to fetch user profile, continuing without it:', error)
-          // Continue without profile - this is not critical for basic auth
-        }
-        
+        // Set auth state immediately, fetch profile in background
         setAuthState(prev => ({
           ...prev,
           user: session.user,
-          profile,
+          profile: null, // Will be updated when loaded
           session,
           isLoading: false,
           isInitialized: true,
           error: null
         }))
+        
+        // Fetch profile in background (non-blocking)
+        authService.getUserProfile(session.user.id)
+          .then(profile => {
+            setAuthState(prev => ({
+              ...prev,
+              profile
+            }))
+          })
+          .catch(error => {
+            console.warn('Failed to fetch user profile:', error)
+            // Don't update auth state for profile errors
+          })
       } else {
         // No valid session
         setAuthState(prev => ({
@@ -185,8 +190,8 @@ export function AuthProvider({ children, fallback }: AuthProviderProps) {
 
     initAuth()
 
-    // Fallback timeout - shorter in development for faster loading
-    const timeoutDuration = process.env.NODE_ENV === 'development' ? 2000 : 5000
+    // Much shorter timeout for faster UX
+    const timeoutDuration = 1000 // 1 second timeout
     const fallbackTimeout = setTimeout(() => {
       setAuthState(prev => {
         if (!prev.isInitialized) {
@@ -214,22 +219,25 @@ export function AuthProvider({ children, fallback }: AuthProviderProps) {
         try {
           if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
             if (session?.user) {
-              let profile = null
-              try {
-                profile = await authService.getUserProfile(session.user.id)
-              } catch (error) {
-                console.warn('Failed to fetch user profile, continuing without it:', error)
-              }
-              
+              // Set auth state immediately
               setAuthState(prev => ({
                 ...prev,
                 user: session.user,
-                profile,
+                profile: null, // Will be loaded in background
                 session,
                 isLoading: false,
                 isInitialized: true,
                 error: null
               }))
+              
+              // Load profile in background
+              authService.getUserProfile(session.user.id)
+                .then(profile => {
+                  setAuthState(prev => ({ ...prev, profile }))
+                })
+                .catch(error => {
+                  console.warn('Failed to fetch user profile:', error)
+                })
             }
           } else if (event === 'SIGNED_OUT') {
             setAuthState(prev => ({
@@ -303,7 +311,7 @@ export function withAuth<P extends object>(
     
     if (!isAuthenticated) {
       if (typeof window !== 'undefined') {
-        window.location.href = options?.redirectTo || '/auth/login'
+        window.location.href = options?.redirectTo || '/auth'
       }
       return null
     }
@@ -338,7 +346,7 @@ export function useAuthGuard(options?: {
   
   useEffect(() => {
     if (!canAccess && !auth.isLoading && typeof window !== 'undefined') {
-      window.location.href = options?.redirectTo || '/auth/login'
+      window.location.href = options?.redirectTo || '/auth'
     }
   }, [canAccess, auth.isLoading, options?.redirectTo])
   

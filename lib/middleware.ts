@@ -39,7 +39,7 @@ export async function updateSession(request: NextRequest) {
 
   // Define protected routes
   const protectedRoutes = ['/protected', '/charts', '/dashboard']
-  const authRoutes = ['/auth/login', '/auth/sign-up', '/auth/forgot-password']
+  const authRoutes = ['/auth']
   
   // Check if current path is protected
   const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route))
@@ -47,7 +47,7 @@ export async function updateSession(request: NextRequest) {
 
   // If user is not authenticated and trying to access protected route
   if (!user && isProtectedRoute) {
-    url.pathname = '/auth/login'
+    url.pathname = '/auth'
     url.searchParams.set('redirectTo', pathname)
     return NextResponse.redirect(url)
   }

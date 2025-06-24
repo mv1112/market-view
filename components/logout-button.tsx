@@ -34,13 +34,13 @@ export function LogoutButton({
       }
       
       // Redirect to login page
-      router.push('/auth/login')
+      router.push('/auth')
       router.refresh() // Refresh to clear auth state
       
     } catch (error) {
       console.error('Logout failed:', error)
       // Redirect anyway for security
-      router.push('/auth/login')
+      router.push('/auth')
       router.refresh()
     } finally {
       setIsLoading(false)

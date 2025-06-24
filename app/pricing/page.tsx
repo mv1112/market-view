@@ -17,7 +17,7 @@ const PricingPage: FC = () => {
 				price: plan.monthlyPrice.toString(),
 				yearly: plan.yearlyPrice.toString()
 			})
-			router.push(`/auth/login?redirectTo=/cart?${planParams.toString()}`)
+			      router.push(`/auth?redirectTo=/cart?${planParams.toString()}`)
 			return
 		}
 

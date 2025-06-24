@@ -12,7 +12,7 @@ export default function CartPage() {
   const [selectedPayment, setSelectedPayment] = useState('card')
   const [saveInfo, setSaveInfo] = useState(false)
   const { user } = useAuth()
-  const { shouldRender } = useAuthRedirect({ requireAuth: true, redirectTo: '/auth/login?redirectTo=/cart' })
+  const { shouldRender } = useAuthRedirect({ requireAuth: true, redirectTo: '/auth?redirectTo=/cart' })
   const searchParams = useSearchParams()
 
   // Get plan info from URL params

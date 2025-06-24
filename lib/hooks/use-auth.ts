@@ -33,7 +33,7 @@ export function useAuthRedirect(options?: {
 
     if (shouldRedirect) {
       const redirectPath = options?.redirectTo || 
-        (isAuthenticated ? '/charts' : `/auth/login?redirectTo=${pathname}`)
+        (isAuthenticated ? '/charts' : `/auth?redirectTo=${pathname}`)
       
       router.push(redirectPath)
     }

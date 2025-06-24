@@ -35,22 +35,18 @@ export function LoginForm({ className, onSwitchToSignUp, onSwitchToForgotPasswor
   const redirectTo = searchParams.get('redirectTo') || '/charts'
 
   useEffect(() => {
-    // Get device fingerprint and IP address on component mount
-    const getClientInfo = async () => {
-      try {
-        const deviceFingerprint = getDeviceFingerprint()
-        setDeviceInfo(deviceFingerprint)
-        
-        // Get client IP
-        const response = await fetch('https://api.ipify.org?format=json')
-        const data = await response.json()
-        setIpAddress(data.ip)
-      } catch (error) {
-        console.warn('Failed to get client info:', error)
-      }
-    }
-
-    getClientInfo()
+    // Get device fingerprint immediately (lightweight)
+    const deviceFingerprint = getDeviceFingerprint()
+    setDeviceInfo(deviceFingerprint)
+    
+    // Get IP in background (don't block UI)
+    fetch('https://api.ipify.org?format=json')
+      .then(response => response.json())
+      .then(data => setIpAddress(data.ip))
+      .catch(error => {
+        console.warn('Failed to get IP address:', error)
+        setIpAddress('unknown') // Fallback
+      })
   }, [])
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -64,9 +60,16 @@ export function LoginForm({ className, onSwitchToSignUp, onSwitchToForgotPasswor
       if (error) {
         setError(error instanceof Error ? error.message : "An error occurred during login")
       } else if (data && data.user) {
-        // Successful login - redirect to intended page
-        router.push(redirectTo)
-        router.refresh() // Refresh to update auth state
+        // Successful login - immediately redirect based on role
+        const { isAdminEmail, getRoleBasedRedirect } = await import('@/lib/auth-redirects')
+        
+        let targetPage = '/charts' // default
+        if (isAdminEmail(data.user.email || '')) {
+          targetPage = '/admin'
+        }
+        
+        // Use immediate redirect for better UX
+        window.location.href = targetPage
       }
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred during login")

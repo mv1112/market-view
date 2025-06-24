@@ -97,12 +97,35 @@ export class AuthService {
       }
 
       if (data.user) {
-        // Update successful login (no need to record rate limit attempt for success)
-        await this.supabase.rpc('update_user_login', {
-          user_id_param: data.user.id,
-          ip_address_param: ipAddress,
-          success_param: true
-        })
+        // Do role assignment and login update in parallel for speed
+        const { isAdminEmail } = await import('@/lib/auth-redirects')
+        
+        const promises = []
+        
+        // Check if this is an admin email and ensure proper role
+        if (isAdminEmail(data.user.email || '')) {
+          promises.push(
+            this.supabase
+              .from('user_profiles')
+              .upsert({ 
+                id: data.user.id, 
+                email: data.user.email,
+                role: 'admin' 
+              })
+          )
+        }
+
+        // Update successful login
+        promises.push(
+          this.supabase.rpc('update_user_login', {
+            user_id_param: data.user.id,
+            ip_address_param: ipAddress,
+            success_param: true
+          })
+        )
+        
+        // Execute in parallel instead of sequential
+        await Promise.allSettled(promises)
       }
 
       return { data, error: null }
@@ -124,6 +147,20 @@ export class AuthService {
         }
       })
 
+      // Check if this is an admin email and set role during signup
+      if (data.user && !error) {
+        const { isAdminEmail } = await import('@/lib/auth-redirects')
+        if (isAdminEmail(data.user.email || '')) {
+          await this.supabase
+            .from('user_profiles')
+            .upsert({ 
+              id: data.user.id, 
+              email: data.user.email,
+              role: 'admin' 
+            })
+        }
+      }
+
       return { data, error: null }
     } catch (error) {
       return { data: null, error }
@@ -134,12 +171,17 @@ export class AuthService {
   async loginWithOAuth(provider: 'google' | 'github') {
     try {
       const currentPath = window.location.pathname
-      const redirectTo = currentPath === '/auth/login' || currentPath === '/auth/sign-up' ? '/charts' : currentPath
+      // Don't specify charts as default - let server decide based on role
+      const redirectTo = currentPath === '/auth' ? undefined : currentPath
+      
+      const redirectUrl = redirectTo ? 
+        `${window.location.origin}/auth/confirm?redirectTo=${encodeURIComponent(redirectTo)}` :
+        `${window.location.origin}/auth/confirm`
       
       const { data, error } = await this.supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/auth/confirm?redirectTo=${encodeURIComponent(redirectTo)}`,
+          redirectTo: redirectUrl,
           queryParams: {
             access_type: 'offline',
             prompt: 'consent',

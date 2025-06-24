@@ -2,6 +2,7 @@ import { createClient } from "@/lib/server"
 import { type EmailOtpType } from "@supabase/supabase-js"
 import { redirect } from "next/navigation"
 import { type NextRequest } from "next/server"
+import { getRoleBasedRedirect, isAdminEmail } from "@/lib/auth-redirects"
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -20,11 +21,28 @@ export async function GET(request: NextRequest) {
     
     if (!error && data?.user) {
       try {
-        // The database trigger will automatically handle profile creation and OAuth connection
-        // when the user is created/updated, so we just need to redirect
+        // Simplified - just check email and redirect immediately
+        const finalRedirect = isAdminEmail(data.user.email || '') ? '/admin' : '/charts'
         
-        // Redirect to intended page
-        redirect(next)
+        // Do role assignment in background (non-blocking)
+        if (isAdminEmail(data.user.email || '')) {
+          // Background role assignment - don't block redirect
+          setTimeout(async () => {
+            try {
+              await supabase
+                .from('user_profiles')
+                .upsert({ 
+                  id: data.user.id, 
+                  email: data.user.email,
+                  role: 'admin' 
+                })
+            } catch (err) {
+              console.warn('Background role assignment failed:', err)
+            }
+          }, 0)
+        }
+        
+        redirect(finalRedirect)
       } catch (callbackError) {
         console.error('OAuth callback error:', callbackError)
         redirect(`/auth/error?error=OAuth callback failed`)
@@ -36,15 +54,36 @@ export async function GET(request: NextRequest) {
 
   // Handle email OTP verification (existing functionality)
   if (token_hash && type) {
-    const { error } = await supabase.auth.verifyOtp({
+    const { data, error } = await supabase.auth.verifyOtp({
       type,
       token_hash,
     })
-    if (!error) {
-      // redirect user to specified redirect URL or root of app
-      redirect(next)
+    
+    if (!error && data?.user) {
+      // Simplified - immediate redirect based on email check
+      const finalRedirect = isAdminEmail(data.user.email || '') ? '/admin' : '/charts'
+      
+      // Do role assignment in background (non-blocking)
+      if (data.user && isAdminEmail(data.user.email || '')) {
+        const userId = data.user.id
+        const userEmail = data.user.email
+        setTimeout(async () => {
+          try {
+            await supabase
+              .from('user_profiles')
+              .upsert({ 
+                id: userId, 
+                email: userEmail,
+                role: 'admin' 
+              })
+          } catch (err) {
+            console.warn('Background role assignment failed:', err)
+          }
+        }, 0)
+      }
+      
+      redirect(finalRedirect)
     } else {
-      // redirect the user to an error page with some instructions
       redirect(`/auth/error?error=${error?.message}`)
     }
   }

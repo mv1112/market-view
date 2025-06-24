@@ -14,7 +14,7 @@ export default async function ProtectedPage() {
   } = await supabase.auth.getUser()
 
   if (!user) {
-    return redirect("/auth/login")
+    return redirect("/auth")
   }
 
   // Get user profile
