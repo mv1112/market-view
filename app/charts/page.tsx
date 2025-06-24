@@ -1,9 +1,10 @@
 "use client"
 
 import { useState, useRef, useCallback, useEffect } from "react"
-import { MdFullscreen } from "react-icons/md"
+import { MdFullscreen, MdFullscreenExit } from "react-icons/md"
 import { FaCamera } from "react-icons/fa"
 import { LuScreenShare, LuLogOut } from "react-icons/lu"
+import html2canvas from "html2canvas"
 import SymbolSearchPopup from "@/components/symbol-search-popup"
 import TimeFrameDropdown from "@/components/timeframe-dropdown"
 import CandlestickDropdown from "@/components/candlestick-dropdown"
@@ -42,6 +43,8 @@ export default function ChartsPage() {
   const [isIndicatorsPopupOpen, setIsIndicatorsPopupOpen] = useState(false)
   const [isSettingsPopupOpen, setIsSettingsPopupOpen] = useState(false)
   const [appliedIndicators, setAppliedIndicators] = useState<string[]>([])
+  const [isCapturingScreenshot, setIsCapturingScreenshot] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
   
   // Footer page state
   const [activeFooterPage, setActiveFooterPage] = useState<FooterPageType>('broker')
@@ -66,8 +69,14 @@ export default function ChartsPage() {
   // Handle clicking outside dropdowns
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      // Only close if the dropdown is open and the click is actually outside the dropdown
       if (isCandlestickDropdownOpen) {
-        setIsCandlestickDropdownOpen(false)
+        const target = event.target as Element
+        // Check if the clicked element is outside the candlestick dropdown
+        const candlestickDropdown = document.querySelector('[data-candlestick-dropdown]')
+        if (candlestickDropdown && !candlestickDropdown.contains(target)) {
+          setIsCandlestickDropdownOpen(false)
+        }
       }
     }
 
@@ -87,7 +96,8 @@ export default function ChartsPage() {
     if (!isDragging || !containerRef.current) return
 
     const containerRect = containerRef.current.getBoundingClientRect()
-    const maxHeight = containerRect.height - 48
+    // Allow footer to expand to full screen height, can cover header too
+    const maxHeight = containerRect.height - 1
     const deltaY = startY - e.clientY
     const newHeight = Math.min(Math.max(48, startHeight + deltaY), maxHeight)
     
@@ -102,8 +112,10 @@ export default function ChartsPage() {
     if (!containerRef.current) return
     
     const containerRect = containerRef.current.getBoundingClientRect()
-    const targetHeight = Math.floor(containerRect.height * 0.5)
-    setFooterHeight(targetHeight)
+    // Calculate 50% of available space (minus header and minimal chart space)
+    const availableHeight = containerRect.height - 48 - 1
+    const targetHeight = Math.floor(availableHeight * 0.5) + 48 // Add back the footer's minimum height
+    setFooterHeight(Math.max(targetHeight, 48))
     
     if (page) {
       setActiveFooterPage(page)
@@ -186,6 +198,74 @@ export default function ChartsPage() {
     setAppliedIndicators(prev => prev.filter(indicator => indicator !== indicatorName))
   }
 
+  const handleTakeScreenshot = useCallback(async () => {
+    if (isCapturingScreenshot || !containerRef.current) return
+    
+    try {
+      setIsCapturingScreenshot(true)
+      
+      // Create canvas from the main container
+      const canvas = await html2canvas(containerRef.current)
+      
+      // Convert canvas to blob and download
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const url = URL.createObjectURL(blob)
+          const link = document.createElement('a')
+          link.href = url
+          link.download = `chart-screenshot-${selectedSymbol}-${selectedTimeFrame}-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.png`
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+          URL.revokeObjectURL(url)
+        }
+      }, 'image/png', 0.9)
+      
+    } catch (error) {
+      console.error('Error taking screenshot:', error)
+      alert('Failed to take screenshot. Please try again.')
+    } finally {
+      setIsCapturingScreenshot(false)
+    }
+  }, [isCapturingScreenshot, selectedSymbol, selectedTimeFrame])
+
+  const handleToggleFullscreen = useCallback(async () => {
+    try {
+      if (!document.fullscreenElement) {
+        // Enter fullscreen
+        await document.documentElement.requestFullscreen()
+        setIsFullscreen(true)
+      } else {
+        // Exit fullscreen
+        await document.exitFullscreen()
+        setIsFullscreen(false)
+      }
+    } catch (error) {
+      console.error('Error toggling fullscreen:', error)
+    }
+  }, [])
+
+  // Handle fullscreen change events
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement)
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && document.fullscreenElement) {
+        document.exitFullscreen()
+      }
+    }
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
+
   return (
     <div className="h-screen bg-white text-gray-900 flex flex-col overflow-hidden" ref={containerRef}>
       {/* Header */}
@@ -198,27 +278,27 @@ export default function ChartsPage() {
               </span>
             </div>
             
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <button 
                 onClick={() => setIsSymbolSearchOpen(true)}
-                className="h-8 pl-4 pr-6 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center gap-2 text-sm transition-colors min-w-[120px]"
+                className="h-11 px-4 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center gap-3 text-base font-medium transition-colors min-w-[140px]"
               >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                <span>{selectedSymbol}</span>
+                <span className="text-base font-semibold">{selectedSymbol}</span>
               </button>
               
-              <div className="w-px h-5 bg-gray-300 mx-1"></div>
+              <div className="w-px h-8 bg-gray-300 mx-1 self-center"></div>
               
               <button 
                 onClick={() => setIsTimeFrameDropdownOpen(true)}
-                className="h-8 px-3 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center gap-2 text-sm transition-colors"
+                className="h-10 px-3 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center gap-2 text-base font-medium transition-colors min-w-[65px]"
               >
-                <span>{selectedTimeFrame}</span>
+                <span className="text-base font-semibold">{selectedTimeFrame}</span>
               </button>
               
-              <div className="w-px h-5 bg-gray-300 mx-1"></div>
+              <div className="w-px h-8 bg-gray-300 mx-1 self-center"></div>
               
               <CandlestickDropdown 
                 isOpen={isCandlestickDropdownOpen}
@@ -230,23 +310,23 @@ export default function ChartsPage() {
                 }}
               />
               
-              <div className="w-px h-5 bg-gray-300 mx-1"></div>
+              <div className="w-px h-8 bg-gray-300 mx-1 self-center"></div>
               
               <button 
                 onClick={() => setIsIndicatorsPopupOpen(true)}
-                className="h-8 px-4 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center gap-2 text-sm transition-colors min-w-[100px]"
+                className="h-10 px-3 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center gap-2 text-base font-medium transition-colors min-w-[110px]"
               >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                <span>Indicators</span>
+                <span className="text-base font-semibold">Indicators</span>
               </button>
               
-              <div className="w-px h-5 bg-gray-300 mx-1"></div>
+              <div className="w-px h-8 bg-gray-300 mx-1 self-center"></div>
               
-              <button className="h-8 px-4 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center gap-2 text-sm transition-colors min-w-[90px]">
-                <SquarePlay className="h-4 w-4" />
-                <span>Replay</span>
+              <button className="h-10 px-3 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center gap-2 text-base font-medium transition-colors min-w-[90px]">
+                <SquarePlay className="h-6 w-6" />
+                <span className="text-base font-semibold">Replay</span>
               </button>
             </div>
           </div>
@@ -270,19 +350,26 @@ export default function ChartsPage() {
             <div className="w-px h-5 bg-gray-300 mx-1"></div>
             
             <button 
+              onClick={handleToggleFullscreen}
               className="h-9 w-9 hover:bg-gray-100 hover:text-gray-900 rounded-lg flex items-center justify-center transition-colors duration-200"
-              title="Toggle Fullscreen"
+              title={isFullscreen ? "Exit Fullscreen (ESC)" : "Enter Fullscreen"}
             >
-              <MdFullscreen className="h-5 w-5 transition-colors duration-200" />
+              {isFullscreen ? (
+                <MdFullscreenExit className="h-5 w-5 transition-colors duration-200 text-blue-600" />
+              ) : (
+                <MdFullscreen className="h-5 w-5 transition-colors duration-200" />
+              )}
             </button>
             
             <div className="w-px h-5 bg-gray-300 mx-1"></div>
             
             <button 
-              className="h-9 w-9 hover:bg-gray-100 hover:text-gray-900 rounded-lg flex items-center justify-center transition-colors duration-200"
-              title="Take Screenshot"
+              onClick={handleTakeScreenshot}
+              disabled={isCapturingScreenshot}
+              className="h-9 w-9 hover:bg-gray-100 hover:text-gray-900 rounded-lg flex items-center justify-center transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              title={isCapturingScreenshot ? "Taking Screenshot..." : "Take Screenshot"}
             >
-              <FaCamera className="h-5 w-5 transition-colors duration-200" />
+              <FaCamera className={`h-5 w-5 transition-colors duration-200 ${isCapturingScreenshot ? 'animate-pulse' : ''}`} />
             </button>
             
             <div className="w-px h-5 bg-gray-300 mx-1"></div>
@@ -326,7 +413,7 @@ export default function ChartsPage() {
           {/* TradingView Chart Area */}
           <div 
             className="flex-1 overflow-hidden"
-            style={{ height: `calc(100vh - 48px - ${footerHeight}px)`, minHeight: '300px' }}
+            style={{ height: `calc(100vh - 48px - ${footerHeight}px)`, minHeight: '1px' }}
           >
             <div className="w-full h-full bg-white">
               <TradingViewChart

@@ -9,7 +9,11 @@ import {
   CandlestickData, 
   LineData,
   CandlestickSeries,
-  LineSeries
+  LineSeries,
+  AreaSeries,
+  BarSeries,
+  BaselineSeries,
+  HistogramSeries
 } from 'lightweight-charts'
 import { calculateIndicator, CandleData } from '@/lib/indicators'
 
@@ -27,6 +31,8 @@ interface AppliedIndicator {
   series: ISeriesApi<'Line'>
   color: string
 }
+
+type ChartSeriesType = ISeriesApi<'Candlestick'> | ISeriesApi<'Line'> | ISeriesApi<'Area'> | ISeriesApi<'Bar'> | ISeriesApi<'Baseline'> | ISeriesApi<'Histogram'>
 
 // Generate colors for indicators
 const getIndicatorColor = (index: number): string => {
@@ -48,13 +54,13 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
 }) => {
   const chartContainerRef = useRef<HTMLDivElement>(null)
   const chartRef = useRef<IChartApi | null>(null)
-  const candlestickSeriesRef = useRef<ISeriesApi<'Candlestick'> | null>(null)
+  const mainSeriesRef = useRef<ChartSeriesType | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [appliedIndicators, setAppliedIndicators] = useState<AppliedIndicator[]>([])
   const [chartData, setChartData] = useState<CandleData[]>([])
 
   // Sample data generator for demonstration
-  const generateSampleData = (): CandleData[] => {
+  const generateSampleData = useCallback((): CandleData[] => {
     const data: CandleData[] = []
     const basePrice = 24750
     let currentPrice = basePrice
@@ -83,10 +89,10 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
     }
     
     return data
-  }
+  }, [])
 
   // Convert CandleData to CandlestickData format for lightweight-charts
-  const convertToLightweightChartsFormat = (data: CandleData[]): CandlestickData[] => {
+  const convertToLightweightChartsFormat = useCallback((data: CandleData[]): CandlestickData[] => {
     return data.map(candle => ({
       time: candle.time as any,
       open: candle.open,
@@ -94,7 +100,89 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
       low: candle.low,
       close: candle.close,
     }))
-  }
+  }, [])
+
+  // Create appropriate series based on chart type
+  const createSeriesForChartType = useCallback((chart: IChartApi, type: string): ChartSeriesType => {
+    switch (type) {
+      case 'candles':
+      case 'hollow-candles':
+      case 'heikin-ashi':
+        return chart.addSeries(CandlestickSeries, {
+          upColor: type === 'hollow-candles' ? 'transparent' : '#26a69a',
+          downColor: type === 'hollow-candles' ? 'transparent' : '#ef5350',
+          borderVisible: type === 'hollow-candles',
+          borderUpColor: '#26a69a',
+          borderDownColor: '#ef5350',
+          wickUpColor: '#26a69a',
+          wickDownColor: '#ef5350',
+        })
+      case 'bars':
+        return chart.addSeries(BarSeries, {
+          upColor: '#26a69a',
+          downColor: '#ef5350',
+        })
+      case 'line':
+        return chart.addSeries(LineSeries, {
+          color: '#2962FF',
+          lineWidth: 2,
+        })
+      case 'area':
+        return chart.addSeries(AreaSeries, {
+          topColor: 'rgba(41, 98, 255, 0.4)',
+          bottomColor: 'rgba(41, 98, 255, 0.0)',
+          lineColor: '#2962FF',
+          lineWidth: 2,
+        })
+      case 'baseline':
+        return chart.addSeries(BaselineSeries, {
+          baseValue: { type: 'price', price: 25000 },
+          topLineColor: '#26a69a',
+          topFillColor1: 'rgba(38, 166, 154, 0.28)',
+          topFillColor2: 'rgba(38, 166, 154, 0.05)',
+          bottomLineColor: '#ef5350',
+          bottomFillColor1: 'rgba(239, 83, 80, 0.28)',
+          bottomFillColor2: 'rgba(239, 83, 80, 0.05)',
+        })
+      case 'hi-lo':
+        return chart.addSeries(LineSeries, {
+          color: '#9C27B0',
+          lineWidth: 1,
+        })
+      default:
+        return chart.addSeries(CandlestickSeries, {
+          upColor: '#26a69a',
+          downColor: '#ef5350',
+          borderVisible: false,
+          wickUpColor: '#26a69a',
+          wickDownColor: '#ef5350',
+        })
+    }
+  }, [])
+
+  // Convert data based on chart type
+  const convertDataForSeries = useCallback((data: CandleData[], type: string) => {
+    switch (type) {
+      case 'line':
+      case 'hi-lo':
+        return data.map(candle => ({
+          time: candle.time as any,
+          value: candle.close
+        }))
+      case 'area':
+      case 'baseline':
+        return data.map(candle => ({
+          time: candle.time as any,
+          value: candle.close
+        }))
+      case 'bars':
+      case 'candles':
+      case 'hollow-candles':
+      case 'heikin-ashi':
+      default:
+        return convertToLightweightChartsFormat(data)
+    }
+  }, [convertToLightweightChartsFormat])
 
   useEffect(() => {
     if (!chartContainerRef.current) return
@@ -139,20 +227,13 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
 
     chartRef.current = chart
 
-    // Add candlestick series using the correct API
-    const candlestickSeries = chart.addSeries(CandlestickSeries, {
-      upColor: '#26a69a',
-      downColor: '#ef5350',
-      borderVisible: false,
-      wickUpColor: '#26a69a',
-      wickDownColor: '#ef5350',
-    })
+    // Add main series based on chart type
+    const mainSeries = createSeriesForChartType(chart, chartType)
+    mainSeriesRef.current = mainSeries
 
-    candlestickSeriesRef.current = candlestickSeries
-
-    // Set sample data (convert to lightweight-charts format)
-    const lightweightChartsData = convertToLightweightChartsFormat(data)
-    candlestickSeries.setData(lightweightChartsData)
+    // Set sample data (convert to appropriate format for series type)
+    const seriesData = convertDataForSeries(data, chartType)
+    mainSeries.setData(seriesData)
 
     // Fit content to show all data
     chart.timeScale().fitContent()
@@ -178,23 +259,44 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
         chart.remove()
       }
     }
-  }, [])
+  }, [chartType, generateSampleData, createSeriesForChartType, convertDataForSeries])
 
   // Update chart when symbol or timeframe changes
   useEffect(() => {
-    if (candlestickSeriesRef.current) {
+    if (mainSeriesRef.current) {
       setIsLoading(true)
       // Simulate data loading
       setTimeout(() => {
         const newData = generateSampleData()
         setChartData(newData)
-        const lightweightChartsData = convertToLightweightChartsFormat(newData)
-        candlestickSeriesRef.current?.setData(lightweightChartsData)
+        const seriesData = convertDataForSeries(newData, chartType)
+        mainSeriesRef.current?.setData(seriesData)
         chartRef.current?.timeScale().fitContent()
         setIsLoading(false)
       }, 500)
     }
-  }, [symbol, timeFrame])
+  }, [symbol, timeFrame, chartType, generateSampleData, convertDataForSeries])
+
+  // Update chart type when chartType changes
+  useEffect(() => {
+    if (!chartRef.current || !chartData.length) return
+
+    // Remove existing main series
+    if (mainSeriesRef.current) {
+      chartRef.current.removeSeries(mainSeriesRef.current)
+    }
+
+    // Create new series with the selected chart type
+    const newSeries = createSeriesForChartType(chartRef.current, chartType)
+    mainSeriesRef.current = newSeries
+
+    // Set data to the new series
+    const seriesData = convertDataForSeries(chartData, chartType)
+    newSeries.setData(seriesData)
+
+    // Fit content
+    chartRef.current.timeScale().fitContent()
+  }, [chartType, chartData, createSeriesForChartType, convertDataForSeries])
 
   // Add indicator to chart
   const addIndicator = useCallback((indicatorName: string) => {

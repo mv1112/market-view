@@ -33,16 +33,17 @@ export default function LayoutWrapper({ children }: LayoutWrapperProps) {
 		'/brand'
 	]
 	
-	// Check for authentication pages, charts page, cart page, and pricing page
+	// Check for authentication pages, charts page, cart page, pricing page, and admin pages
 	const isAuthPage = pathname.startsWith('/auth')
 	const isChartsPage = pathname.startsWith('/charts')
 	const isCartPage = pathname.startsWith('/cart')
 	const isPricingPage = pathname.startsWith('/pricing')
+	const isAdminPage = pathname.startsWith('/admin')
 	const isLegalPage = legalPages.includes(pathname)
 	const isTradingCompanyPage = tradingCompanyPages.includes(pathname)
 	
-	// Return only children for legal pages, auth pages, charts page, cart page, pricing page, and trading/company pages
-	if (isLegalPage || isAuthPage || isChartsPage || isCartPage || isPricingPage || isTradingCompanyPage) {
+	// Return only children for legal pages, auth pages, charts page, cart page, pricing page, admin pages, and trading/company pages
+	if (isLegalPage || isAuthPage || isChartsPage || isCartPage || isPricingPage || isAdminPage || isTradingCompanyPage) {
 		return <>{children}</>
 	}
 	
