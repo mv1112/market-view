@@ -11,7 +11,7 @@ import CandlestickDropdown from "@/components/candlestick-dropdown"
 import IndicatorsPopup from "@/components/indicators-popup"
 import SettingsPopup from "@/components/settings-popup"
 import { LogoutButton } from "@/components/logout-button"
-import { ThemeToggle } from "@/components/theme-toggle"
+// Removed ThemeToggle import as only white theme is supported
 import TradingViewChart from "@/components/trading-view-chart"
 
 import BrokerPage from "@/components/footer-pages/broker-page"
@@ -51,9 +51,9 @@ export default function ChartsPage() {
   
   // Draggable footer state
   const [isDragging, setIsDragging] = useState(false)
-  const [footerHeight, setFooterHeight] = useState(48)
+  const [footerHeight, setFooterHeight] = useState(40)
   const [startY, setStartY] = useState(0)
-  const [startHeight, setStartHeight] = useState(48)
+  const [startHeight, setStartHeight] = useState(40)
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -99,7 +99,7 @@ export default function ChartsPage() {
     // Allow footer to expand to full screen height, can cover header too
     const maxHeight = containerRect.height - 1
     const deltaY = startY - e.clientY
-    const newHeight = Math.min(Math.max(48, startHeight + deltaY), maxHeight)
+    const newHeight = Math.min(Math.max(40, startHeight + deltaY), maxHeight)
     
     setFooterHeight(newHeight)
   }, [isDragging, startY, startHeight])
@@ -113,9 +113,9 @@ export default function ChartsPage() {
     
     const containerRect = containerRef.current.getBoundingClientRect()
     // Calculate 50% of available space (minus header and minimal chart space)
-    const availableHeight = containerRect.height - 48 - 1
-    const targetHeight = Math.floor(availableHeight * 0.5) + 48 // Add back the footer's minimum height
-    setFooterHeight(Math.max(targetHeight, 48))
+    const availableHeight = containerRect.height - 40 - 1
+    const targetHeight = Math.floor(availableHeight * 0.5) + 40 // Add back the footer's minimum height
+    setFooterHeight(Math.max(targetHeight, 40))
     
     if (page) {
       setActiveFooterPage(page)
@@ -123,7 +123,7 @@ export default function ChartsPage() {
   }, [])
 
   const handleFooterPageChange = useCallback((page: FooterPageType) => {
-    if (footerHeight <= 48) {
+    if (footerHeight <= 40) {
       openFooterTo50Percent(page)
     } else {
       setActiveFooterPage(page)
@@ -270,10 +270,10 @@ export default function ChartsPage() {
     <div className="h-screen bg-white text-gray-900 flex flex-col overflow-hidden" ref={containerRef}>
       {/* Header */}
       <header className="border-b-2 border-gray-200 bg-white rounded-b-lg flex-shrink-0">
-        <div className="flex h-12 items-center justify-between pl-2 pr-1">
+        <div className="flex h-10 items-center justify-between pl-2 pr-1">
           <div className="flex items-center gap-4">
-            <div className="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center">
-              <span className="text-white font-semibold text-sm">
+            <div className="w-7 h-7 bg-gray-900 rounded-full flex items-center justify-center">
+              <span className="text-white font-semibold text-xs">
                 {userEmail ? getEmailInitial(userEmail) : "U"}
               </span>
             </div>
@@ -281,24 +281,24 @@ export default function ChartsPage() {
             <div className="flex items-center gap-3">
               <button 
                 onClick={() => setIsSymbolSearchOpen(true)}
-                className="h-11 px-4 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center gap-3 text-base font-medium transition-colors min-w-[140px]"
+                className="h-8 px-4 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center gap-3 text-base font-medium transition-colors min-w-[140px]"
               >
-                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
                 <span className="text-base font-semibold">{selectedSymbol}</span>
               </button>
               
-              <div className="w-px h-8 bg-gray-300 mx-1 self-center"></div>
+              <div className="w-px h-6 bg-gray-300 mx-1 self-center"></div>
               
               <button 
                 onClick={() => setIsTimeFrameDropdownOpen(true)}
-                className="h-10 px-3 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center gap-2 text-base font-medium transition-colors min-w-[65px]"
+                className="h-6 px-1.5 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center gap-1 text-sm font-medium transition-colors min-w-[45px]"
               >
-                <span className="text-base font-semibold">{selectedTimeFrame}</span>
+                <span className="text-sm font-semibold">{selectedTimeFrame}</span>
               </button>
               
-              <div className="w-px h-8 bg-gray-300 mx-1 self-center"></div>
+              <div className="w-px h-6 bg-gray-300 mx-1 self-center"></div>
               
               <CandlestickDropdown 
                 isOpen={isCandlestickDropdownOpen}
@@ -310,23 +310,23 @@ export default function ChartsPage() {
                 }}
               />
               
-              <div className="w-px h-8 bg-gray-300 mx-1 self-center"></div>
+              <div className="w-px h-6 bg-gray-300 mx-1 self-center"></div>
               
               <button 
                 onClick={() => setIsIndicatorsPopupOpen(true)}
-                className="h-10 px-3 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center gap-2 text-base font-medium transition-colors min-w-[110px]"
+                className="h-6 px-1.5 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center gap-1 text-sm font-medium transition-colors min-w-[75px]"
               >
-                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                <span className="text-base font-semibold">Indicators</span>
+                <span className="text-sm font-semibold">Indicators</span>
               </button>
               
-              <div className="w-px h-8 bg-gray-300 mx-1 self-center"></div>
+              <div className="w-px h-6 bg-gray-300 mx-1 self-center"></div>
               
-              <button className="h-10 px-3 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center gap-2 text-base font-medium transition-colors min-w-[90px]">
-                <SquarePlay className="h-6 w-6" />
-                <span className="text-base font-semibold">Replay</span>
+              <button className="h-6 px-1.5 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center gap-1 text-sm font-medium transition-colors min-w-[60px]">
+                <SquarePlay className="h-4 w-4" />
+                <span className="text-sm font-semibold">Replay</span>
               </button>
             </div>
           </div>
@@ -335,23 +335,24 @@ export default function ChartsPage() {
             <div className="relative flex items-center mr-1">
               <Link 
                 href="/pricing"
-                className="bg-transparent hover:bg-gray-100 text-gray-900 font-semibold text-xs px-3 py-1 rounded-full transition-colors duration-300 border border-gray-300 hover:border-gray-500 shadow-sm hover:shadow-md"
+                className="group relative bg-white hover:bg-gray-50 text-black font-semibold text-xs px-3 py-1.5 rounded-lg border border-gray-300 hover:border-black shadow-sm hover:shadow-md transition-all duration-200 flex items-center gap-1.5"
               >
-                Free Plan
+                {/* Logo */}
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" className="text-black">
+                  <path d="M2 2h16v16H2V2zm2 2v12h12V4H4zm2 2h8v8H6V6z"/>
+                </svg>
+                
+                <span className="text-black">
+                  ViewMarket Free
+                </span>
               </Link>
-              <button 
-                className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold rounded-full flex items-center justify-center transition-colors duration-200 shadow-sm"
-                title="Upgrade Plan"
-              >
-                +
-              </button>
             </div>
             
             <div className="w-px h-5 bg-gray-300 mx-1"></div>
             
             <button 
               onClick={handleToggleFullscreen}
-              className="h-9 w-9 hover:bg-gray-100 hover:text-gray-900 rounded-lg flex items-center justify-center transition-colors duration-200"
+              className="h-8 w-8 hover:bg-gray-100 hover:text-gray-900 rounded-lg flex items-center justify-center transition-colors duration-200"
               title={isFullscreen ? "Exit Fullscreen (ESC)" : "Enter Fullscreen"}
             >
               {isFullscreen ? (
@@ -361,46 +362,42 @@ export default function ChartsPage() {
               )}
             </button>
             
-            <div className="w-px h-5 bg-gray-300 mx-1"></div>
+            <div className="w-px h-6 bg-gray-300 mx-1"></div>
             
             <button 
               onClick={handleTakeScreenshot}
               disabled={isCapturingScreenshot}
-              className="h-9 w-9 hover:bg-gray-100 hover:text-gray-900 rounded-lg flex items-center justify-center transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="h-8 w-8 hover:bg-gray-100 hover:text-gray-900 rounded-lg flex items-center justify-center transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               title={isCapturingScreenshot ? "Taking Screenshot..." : "Take Screenshot"}
             >
               <FaCamera className={`h-5 w-5 transition-colors duration-200 ${isCapturingScreenshot ? 'animate-pulse' : ''}`} />
             </button>
             
-            <div className="w-px h-5 bg-gray-300 mx-1"></div>
-            
-            <ThemeToggle className="h-9 w-9 rounded-lg" />
-            
-            <div className="w-px h-5 bg-gray-300 mx-1"></div>
+            <div className="w-px h-6 bg-gray-300 mx-1"></div>
             
             <button 
-              className="h-9 w-9 hover:bg-gray-100 hover:text-gray-900 rounded-lg flex items-center justify-center transition-colors duration-200"
+              className="h-8 w-8 hover:bg-gray-100 hover:text-gray-900 rounded-lg flex items-center justify-center transition-colors duration-200"
               title="Share Screen"
             >
               <LuScreenShare className="h-5 w-5 transition-colors duration-200" />
             </button>
             
-            <div className="w-px h-5 bg-gray-300 mx-1"></div>
+            <div className="w-px h-6 bg-gray-300 mx-1"></div>
             
             <button 
               onClick={() => setIsSettingsPopupOpen(true)}
-              className="h-9 w-9 hover:bg-gray-100 hover:text-gray-900 rounded-lg flex items-center justify-center transition-colors duration-200"
+              className="h-8 w-8 hover:bg-gray-100 hover:text-gray-900 rounded-lg flex items-center justify-center transition-colors duration-200"
               title="Settings"
             >
               <svg className="h-5 w-5 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.50 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
             </button>
             
-            <div className="w-px h-5 bg-gray-300 mx-1"></div>
+            <div className="w-px h-6 bg-gray-300 mx-1"></div>
             
-            <LogoutButton variant="ghost" size="icon" className="h-9 w-9 rounded-lg transition-colors duration-200">
+            <LogoutButton variant="ghost" size="icon" className="h-8 w-8 rounded-lg transition-colors duration-200">
               <LuLogOut className="h-5 w-5 transition-colors duration-200" />
             </LogoutButton>
           </div>
@@ -413,7 +410,7 @@ export default function ChartsPage() {
           {/* TradingView Chart Area */}
           <div 
             className="flex-1 overflow-hidden"
-            style={{ height: `calc(100vh - 48px - ${footerHeight}px)`, minHeight: '1px' }}
+            style={{ height: `calc(100vh - 40px - ${footerHeight}px)`, minHeight: '1px' }}
           >
             <div className="w-full h-full bg-white">
               <TradingViewChart
@@ -441,7 +438,7 @@ export default function ChartsPage() {
               }}
             />
             
-            <div className="flex items-center justify-between h-12 px-2">
+            <div className="flex items-center justify-between h-10 px-2">
               <div className="flex items-center gap-2 pl-4">
                 <button 
                   onClick={handleBrokerClick}
@@ -506,8 +503,8 @@ export default function ChartsPage() {
               </div>
             </div>
             
-            {footerHeight > 48 && (
-              <div className="overflow-y-auto" style={{ height: `${footerHeight - 48}px` }}>
+            {footerHeight > 40 && (
+              <div className="overflow-y-auto" style={{ height: `${footerHeight - 40}px` }}>
                 {renderActiveFooterPage()}
               </div>
             )}

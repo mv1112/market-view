@@ -112,7 +112,7 @@ export default function SymbolSearchPopup({ isOpen, onClose, onSymbolSelect }: S
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogOverlay className="bg-black/50 backdrop-blur-sm" />
-      <DialogContent className="bg-white text-gray-900 border-gray-300 max-w-2xl w-full max-h-[80vh] p-0 gap-0">
+      <DialogContent className="bg-white text-gray-900 border-gray-300 max-w-4xl w-full max-h-[80vh] p-0 gap-0 flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-300">
           <h2 className="text-lg font-semibold">Symbol Search</h2>
@@ -158,7 +158,7 @@ export default function SymbolSearchPopup({ isOpen, onClose, onSymbolSelect }: S
         </div>
 
         {/* Instruments List */}
-        <div className="flex-1 overflow-y-auto max-h-96">
+        <div className="overflow-y-auto pb-0" style={{ height: 'calc(80vh - 200px)' }}>
           {filteredInstruments.map((instrument) => (
             <div
               key={instrument.id}
@@ -187,7 +187,7 @@ export default function SymbolSearchPopup({ isOpen, onClose, onSymbolSelect }: S
           ))}
           
           {filteredInstruments.length === 0 && (
-            <div className="p-8 text-center text-gray-600">
+            <div className="p-4 text-center text-gray-600">
               No instruments found
             </div>
           )}

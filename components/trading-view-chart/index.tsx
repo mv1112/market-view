@@ -59,6 +59,8 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
   const [appliedIndicators, setAppliedIndicators] = useState<AppliedIndicator[]>([])
   const [chartData, setChartData] = useState<CandleData[]>([])
 
+  // Removed theme switching logic - website only supports light theme
+
   // Sample data generator for demonstration
   const generateSampleData = useCallback((): CandleData[] => {
     const data: CandleData[] = []
@@ -191,11 +193,11 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
     const data = generateSampleData()
     setChartData(data)
 
-    // Create the chart
+    // Create the chart with fixed light theme colors
     const chart = createChart(chartContainerRef.current, {
       layout: {
         background: { type: ColorType.Solid, color: '#ffffff' },
-        textColor: '#333',
+        textColor: '#333333',
         attributionLogo: false,
       },
       width: chartContainerRef.current.clientWidth,
@@ -385,7 +387,7 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
     })
   }, [indicators, chartData, appliedIndicators, addIndicator, removeIndicator])
 
-  return (
+      return (
     <div className={`relative w-full h-full ${className}`}>
       {isLoading && (
         <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-10">
@@ -401,6 +403,20 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
         ref={chartContainerRef}
         className="w-full h-full"
       />
+      
+      {/* ViewMarket Logo Overlay - positioned like TradingView logo */}
+      <a 
+        href="https://www.viewmarket.in/" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="absolute bottom-12 left-2 z-20 flex items-center gap-2 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded border border-gray-200 shadow-sm hover:bg-white hover:shadow-md transition-all duration-200 cursor-pointer"
+        title="Visit ViewMarket.in"
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" className="text-black">
+          <path d="M2 2h16v16H2V2zm2 2v12h12V4H4zm2 2h8v8H6V6z"/>
+        </svg>
+        <span className="text-sm font-semibold text-black">ViewMarket</span>
+      </a>
       
       {/* Chart overlay info */}
       <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-2 rounded-lg border border-gray-200 shadow-sm">

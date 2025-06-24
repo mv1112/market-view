@@ -1,5 +1,6 @@
 import { type FC, useState } from 'react'
 import { cn } from '@/lib/utils'
+import { AiFillApi } from "react-icons/ai"
 
 // Enhanced broker data with categories
 const brokers = [
@@ -96,8 +97,7 @@ const BrokerCard: FC<{ broker: { name: string; logo: string; category: string } 
           </>
         ) : (
           <>
-            <span className="group-hover/button:translate-x-0.5 transition-transform">+</span>
-            <span>Add API</span>
+            <AiFillApi className="w-4 h-4 group-hover/button:translate-x-0.5 transition-transform" />
           </>
         )}
       </button>

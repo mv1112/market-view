@@ -47,7 +47,7 @@ export default function IndicatorsPopup({ isOpen, onClose, onApplyIndicator }: I
       />
       
       {/* Modal Content */}
-      <div className="relative bg-white text-gray-900 border border-gray-300 max-w-4xl w-full max-h-[85vh] h-[85vh] rounded-lg overflow-hidden mx-4">
+      <div className="relative bg-white text-gray-900 border border-gray-300 max-w-5xl w-full max-h-[90vh] h-[90vh] rounded-lg overflow-hidden mx-4">
         {/* Header */}
         <div className="flex items-center justify-between p-4">
           <h1 className="text-lg font-medium text-gray-900">Indicators, metrics, and strategies</h1>
@@ -60,7 +60,7 @@ export default function IndicatorsPopup({ isOpen, onClose, onApplyIndicator }: I
         </div>
 
         {/* Search Bar */}
-        <div className="px-6 py-3">
+        <div className="px-6 pb-1">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600 h-5 w-5" />
             <input
@@ -101,7 +101,7 @@ export default function IndicatorsPopup({ isOpen, onClose, onApplyIndicator }: I
           {/* Right Content Area */}
           <div className="flex-1 flex flex-col overflow-hidden">
             {/* Content Tabs */}
-            <div className="px-6 py-3 border-b border-gray-300">
+            <div className="px-6 py-1 border-b border-gray-300">
               <div className="flex gap-1">
                 {contentTabs.map((tab) => (
                   <button
@@ -142,7 +142,7 @@ export default function IndicatorsPopup({ isOpen, onClose, onApplyIndicator }: I
                   background: #9ca3af;
                 }
               `}</style>
-              <div className="p-6">
+              <div className="px-6 pt-2 pb-0">
                 {/* Indicators Content */}
                 <div className={`space-y-0.5 ${selectedContentTab !== 'indicators' ? 'hidden' : ''}`}>
                   {ALL_INDICATORS

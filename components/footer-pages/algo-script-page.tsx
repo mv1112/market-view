@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { CiPlay1, CiSaveUp1 } from 'react-icons/ci';
 import { CodeEditor } from '../ui/code-editor';
 
@@ -60,6 +60,11 @@ const SaveScriptDialog = ({ isOpen, onClose, onSave }: { isOpen: boolean; onClos
 export default function AlgoScriptPage() {
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
   const [scriptName, setScriptName] = useState('Untitled Script');
+  const [rightPanelWidth, setRightPanelWidth] = useState(60);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [startWidth, setStartWidth] = useState(60);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [code, setCode] = useState<string>(
     '// Write your trading algorithm here\n' +
     '// Example moving average crossover strategy\n' +
@@ -91,8 +96,51 @@ export default function AlgoScriptPage() {
     '}'
   );
 
+  // Mouse event handlers for draggable panel
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    setIsDragging(true);
+    setStartX(e.clientX);
+    setStartWidth(rightPanelWidth);
+    e.preventDefault();
+  }, [rightPanelWidth]);
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isDragging || !containerRef.current) return;
+
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const deltaX = startX - e.clientX;
+    const newWidth = Math.min(Math.max(50, startWidth + deltaX), containerRect.width - 300);
+    
+    setRightPanelWidth(newWidth);
+  }, [isDragging, startX, startWidth]);
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      document.body.style.cursor = 'ew-resize';
+      document.body.style.userSelect = 'none';
+    } else {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    };
+  }, [isDragging, handleMouseMove, handleMouseUp]);
+
   return (
-    <div className="h-full w-full flex flex-col">
+    <div className="h-full w-full flex flex-col" ref={containerRef}>
       {/* Top Dividers */}
       <div className="w-full">
         <div className="h-px w-full bg-gray-300"></div>
@@ -128,13 +176,39 @@ export default function AlgoScriptPage() {
       {/* Bottom Divider */}
       <div className="h-px w-full bg-gray-300"></div>
       
-      {/* Code Editor */}
-      <div className="flex-1 overflow-hidden">
-        <CodeEditor 
-          initialValue={code}
-          onChange={setCode}
-          className="h-full w-full"
+      {/* Main Content Area with Panels */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Left Panel - Code Editor */}
+        <div className="flex-1 overflow-hidden" style={{ width: `calc(100% - ${rightPanelWidth}px)` }}>
+          <CodeEditor 
+            initialValue={code}
+            onChange={setCode}
+            className="h-full w-full"
+          />
+        </div>
+        
+        {/* Resizer */}
+        <div 
+          className="w-1 bg-gray-300 hover:bg-gray-400 cursor-ew-resize transition-colors"
+          onMouseDown={handleMouseDown}
+          style={{ cursor: isDragging ? 'ew-resize' : 'ew-resize' }}
         />
+        
+        {/* Right Panel */}
+        <div 
+          className="bg-gray-50 border-l border-gray-200 flex flex-col"
+          style={{ width: `${rightPanelWidth}px` }}
+        >
+          {/* Right Panel Header */}
+          <div className="bg-white border-b border-gray-200 px-3 py-2">
+            <h3 className="text-sm font-medium text-gray-900">Tools</h3>
+          </div>
+          
+          {/* Right Panel Content - Empty */}
+          <div className="flex-1 overflow-y-auto">
+            {/* Empty content area */}
+          </div>
+        </div>
       </div>
       
       <SaveScriptDialog 

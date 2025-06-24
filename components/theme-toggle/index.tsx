@@ -1,38 +1,64 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 
 interface ThemeToggleProps {
   className?: string
+  onThemeChange?: (isDark: boolean) => void
 }
 
-export const ThemeToggle = ({ className = "" }: ThemeToggleProps) => {
-  const [isLightMode, setIsLightMode] = useState(false) // Default to dark mode, so show sun icon
+export const ThemeToggle = ({ className = "", onThemeChange }: ThemeToggleProps) => {
+  const [isDarkMode, setIsDarkMode] = useState(false) // Default to light mode
+
+  const applyTheme = useCallback((isDark: boolean) => {
+    const root = document.documentElement
+    if (isDark) {
+      root.classList.add('dark')
+      root.style.setProperty('--chart-bg-color', '#1e1e1e')
+      root.style.setProperty('--chart-text-color', '#ffffff')
+      root.style.setProperty('--chart-grid-color', '#333333')
+      root.style.setProperty('--chart-border-color', '#555555')
+    } else {
+      root.classList.remove('dark')
+      root.style.setProperty('--chart-bg-color', '#ffffff')
+      root.style.setProperty('--chart-text-color', '#333333')
+      root.style.setProperty('--chart-grid-color', '#f0f0f0')
+      root.style.setProperty('--chart-border-color', '#cccccc')
+    }
+    
+    // Notify parent component about theme change
+    if (onThemeChange) {
+      onThemeChange(isDark)
+    }
+  }, [onThemeChange])
 
   useEffect(() => {
     // Check if there's a saved theme preference
     const savedTheme = localStorage.getItem('theme')
     if (savedTheme) {
-      setIsLightMode(savedTheme === 'light')
+      const darkMode = savedTheme === 'dark'
+      setIsDarkMode(darkMode)
+      applyTheme(darkMode)
+    } else {
+      // Default to light mode
+      applyTheme(false)
     }
-  }, [])
+  }, [applyTheme])
 
   const toggleTheme = () => {
-    const newLightMode = !isLightMode
-    setIsLightMode(newLightMode)
-    localStorage.setItem('theme', newLightMode ? 'light' : 'dark')
-    
-    // You can add theme switching logic here
-    // For now, we'll just toggle the state
+    const newDarkMode = !isDarkMode
+    setIsDarkMode(newDarkMode)
+    localStorage.setItem('theme', newDarkMode ? 'dark' : 'light')
+    applyTheme(newDarkMode)
   }
 
   return (
     <button 
       onClick={toggleTheme}
       className={`hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center transition-all duration-200 text-gray-900 ${className || 'h-8 w-8'}`}
-      title={isLightMode ? "Switch to dark mode" : "Switch to light mode"}
+      title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
     >
-      {!isLightMode ? (
+      {isDarkMode ? (
         // Sun icon for dark mode (clicking will switch to light)
         <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
           <circle cx="12" cy="12" r="5"/>

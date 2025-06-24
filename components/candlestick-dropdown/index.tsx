@@ -244,12 +244,12 @@ const CandlestickDropdown = ({ isOpen, onToggle, selectedType, onCandlestickSele
     <div className="relative" ref={dropdownRef} data-candlestick-dropdown>
       <button
         onClick={onToggle}
-        className="h-10 px-3 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center gap-2 text-base font-medium transition-colors min-w-[65px]"
+        className="h-6 px-1.5 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center gap-1 text-sm font-medium transition-colors min-w-[45px]"
         aria-expanded={isOpen}
         aria-haspopup="true"
         title={currentType.name}
       >
-        <div className="w-[24px] h-[24px] flex items-center justify-center">
+        <div className="w-[18px] h-[18px] flex items-center justify-center">
           {getIconForType(selectedType)}
         </div>
       </button>
