@@ -5,10 +5,8 @@ import BlurPopUpByWord from '@/components/blur-pop-up-by-words'
 import { cn } from '@/lib/utils'
 import BlurPopUp from '@/components/blur-pop-up'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ChevronRight } from 'lucide-react'
-import Inbox from '@/assets/inbox.svg'
-import Sidebar from './components/sidebar'
-import IllustrateAnimate from '@/components/illustrate-animate'
 
 const Hero: FC = () => {
 	return (
@@ -50,20 +48,19 @@ const Hero: FC = () => {
 				</div>
 
 				<div className={styles.hero__img__container}>
-					<div className={styles.hero__illustration__container}>
-						<div className={styles.hero__illustration__perspective}>
-							<div className={styles.hero__illustration__base}>
-								<div className={styles.hero__illustration__sidebar}>
-									<Sidebar />
-								</div>
-								<IllustrateAnimate
-									delay={2}
-									duration={1.4}
-									className={styles.hero__illustration__inbox}>
-									<Inbox />
-								</IllustrateAnimate>
+					<div className={styles.hero__screenshot__container}>
+						<BlurPopUp delay={1.5}>
+							<div className={styles.hero__screenshot__wrapper}>
+								<Image 
+									src="/charts-page-screenshot.png.png" 
+									alt="Charts page showing complete trading interface with header controls, TradingView chart, footer panels, and right sidebar tools"
+									className={styles.hero__screenshot}
+									width={1200}
+									height={800}
+									priority
+								/>
 							</div>
-						</div>
+						</BlurPopUp>
 					</div>
 				</div>
 			</LayoutWrapper>
