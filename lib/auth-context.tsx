@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect, useState, useCallback, use
 import { User, Session, AuthError } from '@supabase/supabase-js'
 import { createClient } from '@/lib/client'
 import { UserProfile, authService } from '@/lib/auth'
+import { Skeleton } from '@/components/ui/skeleton'
 
 // Enterprise-grade type definitions
 export interface AuthState {
@@ -306,7 +307,88 @@ export function withAuth<P extends object>(
     const { isAuthenticated, profile, isLoading } = useAuth()
     
     if (isLoading) {
-      return options?.fallback || <div>Loading...</div>
+      return options?.fallback || (
+        <div className="min-h-screen bg-gray-50">
+          {/* Protected Page Header Skeleton */}
+          <div className="bg-white border-b border-gray-200 p-6">
+            <div className="max-w-6xl mx-auto flex justify-between items-center">
+              <div>
+                <Skeleton className="h-8 w-48 mb-2" />
+                <Skeleton className="h-4 w-64" />
+              </div>
+              <Skeleton className="h-10 w-24" />
+            </div>
+          </div>
+          
+          {/* Protected Page Content Skeleton */}
+          <div className="max-w-6xl mx-auto p-6">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
+              {/* Card Skeletons */}
+              <div className="bg-white rounded-lg border border-gray-200 p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Skeleton className="h-5 w-5" />
+                  <Skeleton className="h-5 w-32" />
+                </div>
+                <div className="space-y-3">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-4 w-1/2" />
+                </div>
+              </div>
+              
+              <div className="bg-white rounded-lg border border-gray-200 p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Skeleton className="h-5 w-5" />
+                  <Skeleton className="h-5 w-28" />
+                </div>
+                <div className="space-y-3">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-2/3" />
+                  <Skeleton className="h-4 w-3/4" />
+                </div>
+              </div>
+              
+              <div className="bg-white rounded-lg border border-gray-200 p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Skeleton className="h-5 w-5" />
+                  <Skeleton className="h-5 w-36" />
+                </div>
+                <div className="space-y-3">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-4/5" />
+                  <Skeleton className="h-4 w-2/3" />
+                </div>
+              </div>
+            </div>
+            
+            {/* Additional Content Skeleton */}
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="bg-white rounded-lg border border-gray-200 p-6">
+                <Skeleton className="h-6 w-40 mb-4" />
+                <div className="space-y-2">
+                  <Skeleton className="h-32 w-full" />
+                  <div className="flex space-x-2">
+                    <Skeleton className="h-6 w-16" />
+                    <Skeleton className="h-6 w-20" />
+                    <Skeleton className="h-6 w-12" />
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-white rounded-lg border border-gray-200 p-6">
+                <Skeleton className="h-6 w-36 mb-4" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-5/6" />
+                  <Skeleton className="h-4 w-4/5" />
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-4 w-2/3" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
     }
     
     if (!isAuthenticated) {

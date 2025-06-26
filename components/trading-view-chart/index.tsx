@@ -16,6 +16,7 @@ import {
   HistogramSeries
 } from 'lightweight-charts'
 import { calculateIndicator, CandleData } from '@/lib/indicators'
+import { Skeleton } from '@/components/ui/skeleton'
 
 interface TradingViewChartProps {
   symbol: string
@@ -390,11 +391,83 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
       return (
     <div className={`relative w-full h-full ${className}`}>
       {isLoading && (
-        <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-10">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <div className="text-lg font-semibold text-gray-700">Loading {symbol}</div>
-            <div className="text-sm text-gray-500">{timeFrame} • {chartType}</div>
+        <div className="absolute inset-0 bg-white/95 backdrop-blur-sm flex flex-col z-10">
+          {/* Chart Header Skeleton */}
+          <div className="p-4 border-b border-gray-200">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <Skeleton className="h-6 w-20" /> {/* Symbol */}
+                <Skeleton className="h-4 w-16" /> {/* Price */}
+                <Skeleton className="h-4 w-12" /> {/* Change */}
+              </div>
+              <div className="flex items-center space-x-2">
+                <Skeleton className="h-8 w-16" /> {/* Timeframe */}
+                <Skeleton className="h-8 w-20" /> {/* Chart type */}
+                <Skeleton className="h-8 w-8" />   {/* Settings */}
+              </div>
+            </div>
+          </div>
+          
+          {/* Chart Content Skeleton */}
+          <div className="flex-1 p-4">
+            <div className="h-full bg-gray-50 rounded-lg border border-gray-200 relative overflow-hidden">
+              {/* Price Scale */}
+              <div className="absolute right-2 top-4 space-y-4">
+                {[...Array(8)].map((_, i) => (
+                  <Skeleton key={i} className="h-3 w-12" />
+                ))}
+              </div>
+              
+              {/* Time Scale */}
+              <div className="absolute bottom-2 left-4 right-16 flex justify-between">
+                {[...Array(6)].map((_, i) => (
+                  <Skeleton key={i} className="h-3 w-16" />
+                ))}
+              </div>
+              
+              {/* Chart Bars/Candles Simulation */}
+              <div className="absolute inset-4 bottom-8 right-16 flex items-end justify-between">
+                {[...Array(30)].map((_, i) => (
+                  <div key={i} className="flex flex-col items-center space-y-1">
+                    <Skeleton 
+                      className="w-2" 
+                      style={{ height: `${Math.random() * 60 + 20}%` }}
+                    />
+                    <Skeleton 
+                      className="w-1" 
+                      style={{ height: `${Math.random() * 20 + 5}%` }}
+                    />
+                  </div>
+                ))}
+              </div>
+              
+              {/* Volume Bars */}
+              <div className="absolute bottom-8 left-4 right-16 h-16 flex items-end justify-between">
+                {[...Array(30)].map((_, i) => (
+                  <Skeleton 
+                    key={i}
+                    className="w-2" 
+                    style={{ height: `${Math.random() * 80 + 20}%` }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          {/* Chart Tools Skeleton */}
+          <div className="p-4 border-t border-gray-200">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <Skeleton className="h-8 w-20" /> {/* Indicators */}
+                <Skeleton className="h-8 w-16" /> {/* Tools */}
+                <Skeleton className="h-8 w-18" /> {/* Alerts */}
+              </div>
+              <div className="flex items-center space-x-2">
+                <Skeleton className="h-8 w-8" />   {/* Screenshot */}
+                <Skeleton className="h-8 w-8" />   {/* Fullscreen */}
+                <Skeleton className="h-8 w-8" />   {/* Share */}
+              </div>
+            </div>
           </div>
         </div>
       )}

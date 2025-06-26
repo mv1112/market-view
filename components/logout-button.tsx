@@ -30,17 +30,17 @@ export function LogoutButton({
       
       if (error) {
         console.error('Logout error:', error instanceof Error ? error.message : 'Unknown error')
-        // Even if there's an error, redirect to login to be safe
+        // Even if there's an error, redirect to home page to be safe
       }
       
-      // Redirect to login page
-      router.push('/auth')
+      // Redirect to landing page instead of auth page
+      router.push('/')
       router.refresh() // Refresh to clear auth state
       
     } catch (error) {
       console.error('Logout failed:', error)
       // Redirect anyway for security
-      router.push('/auth')
+      router.push('/')
       router.refresh()
     } finally {
       setIsLoading(false)
