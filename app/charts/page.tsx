@@ -10,6 +10,13 @@ import TimeFrameDropdown from "@/components/timeframe-dropdown"
 import CandlestickDropdown from "@/components/candlestick-dropdown"
 import IndicatorsPopup from "@/components/indicators-popup"
 import SettingsPopup from "@/components/settings-popup"
+import ToolsPopup from "@/components/tools-popup"
+import AlertsPopup from "@/components/alerts-popup"
+import ResearchPopup from "@/components/research-popup"
+import ChatsPopup from "@/components/chats-popup"
+import CalendarPopup from "@/components/calendar-popup"
+import NotificationPopup from "@/components/notification-popup"
+import HelpPopup from "@/components/help-popup"
 import { LogoutButton } from "@/components/logout-button"
 // Removed ThemeToggle import as only white theme is supported
 import TradingViewChart from "@/components/trading-view-chart"
@@ -42,6 +49,13 @@ export default function ChartsPage() {
   const [selectedCandlestickType, setSelectedCandlestickType] = useState("candles")
   const [isIndicatorsPopupOpen, setIsIndicatorsPopupOpen] = useState(false)
   const [isSettingsPopupOpen, setIsSettingsPopupOpen] = useState(false)
+  const [isToolsPopupOpen, setIsToolsPopupOpen] = useState(false)
+  const [isAlertsPopupOpen, setIsAlertsPopupOpen] = useState(false)
+  const [isResearchPopupOpen, setIsResearchPopupOpen] = useState(false)
+  const [isChatsPopupOpen, setIsChatsPopupOpen] = useState(false)
+  const [isCalendarPopupOpen, setIsCalendarPopupOpen] = useState(false)
+  const [isNotificationPopupOpen, setIsNotificationPopupOpen] = useState(false)
+  const [isHelpPopupOpen, setIsHelpPopupOpen] = useState(false)
   const [appliedIndicators, setAppliedIndicators] = useState<string[]>([])
   const [isCapturingScreenshot, setIsCapturingScreenshot] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -514,31 +528,51 @@ export default function ChartsPage() {
         {/* Right Side Panel */}
         <div className="w-12 bg-white border-l-2 border-gray-200 rounded-l-lg flex flex-col flex-shrink-0">
           <div className="flex flex-col items-center p-2 gap-3">
-            <button className="w-8 h-8 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center transition-colors duration-200">
+            <button 
+              onClick={() => setIsToolsPopupOpen(true)}
+              className="w-8 h-8 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center transition-colors duration-200"
+              title="Tools"
+            >
               <MdModeEditOutline className="w-6 h-6" />
             </button>
             
             <div className="h-px w-5 bg-gray-300 my-1"></div>
             
-            <button className="w-8 h-8 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center transition-colors duration-200">
+            <button 
+              onClick={() => setIsAlertsPopupOpen(true)}
+              className="w-8 h-8 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center transition-colors duration-200"
+              title="Alerts"
+            >
               <LuAlarmClock className="w-6 h-6" />
             </button>
             
             <div className="h-px w-5 bg-gray-300 my-1"></div>
             
-            <button className="w-8 h-8 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center transition-colors duration-200">
+            <button 
+              onClick={() => setIsResearchPopupOpen(true)}
+              className="w-8 h-8 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center transition-colors duration-200"
+              title="Research"
+            >
               <GiArchiveResearch className="w-6 h-6" />
             </button>
             
             <div className="h-px w-5 bg-gray-300 my-1"></div>
             
-            <button className="w-8 h-8 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center transition-colors duration-200">
+            <button 
+              onClick={() => setIsChatsPopupOpen(true)}
+              className="w-8 h-8 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center transition-colors duration-200"
+              title="Chats"
+            >
               <BiChat className="w-6 h-6" />
             </button>
             
             <div className="h-px w-5 bg-gray-300 my-1"></div>
             
-            <button className="w-8 h-8 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center transition-colors duration-200">
+            <button 
+              onClick={() => setIsCalendarPopupOpen(true)}
+              className="w-8 h-8 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center transition-colors duration-200"
+              title="Calendar"
+            >
               <IoCalendarNumberOutline className="w-6 h-6" />
             </button>
           </div>
@@ -546,13 +580,21 @@ export default function ChartsPage() {
           <div className="flex-1"></div>
           
           <div className="flex flex-col items-center gap-3 p-2">
-            <button className="w-8 h-8 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center transition-colors duration-200">
+            <button 
+              onClick={() => setIsNotificationPopupOpen(true)}
+              className="w-8 h-8 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center transition-colors duration-200"
+              title="Notifications"
+            >
               <IoMdNotificationsOutline className="w-6 h-6" />
             </button>
             
             <div className="h-px w-5 bg-gray-300 my-1"></div>
             
-            <button className="w-8 h-8 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center transition-colors duration-200">
+            <button 
+              onClick={() => setIsHelpPopupOpen(true)}
+              className="w-8 h-8 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center transition-colors duration-200"
+              title="Help"
+            >
               <BsQuestionCircle className="w-6 h-6" />
             </button>
           </div>
@@ -582,6 +624,41 @@ export default function ChartsPage() {
       <SettingsPopup 
         isOpen={isSettingsPopupOpen}
         onClose={() => setIsSettingsPopupOpen(false)}
+      />
+
+      <ToolsPopup 
+        isOpen={isToolsPopupOpen}
+        onClose={() => setIsToolsPopupOpen(false)}
+      />
+
+      <AlertsPopup 
+        isOpen={isAlertsPopupOpen}
+        onClose={() => setIsAlertsPopupOpen(false)}
+      />
+
+      <ResearchPopup 
+        isOpen={isResearchPopupOpen}
+        onClose={() => setIsResearchPopupOpen(false)}
+      />
+
+      <ChatsPopup 
+        isOpen={isChatsPopupOpen}
+        onClose={() => setIsChatsPopupOpen(false)}
+      />
+
+      <CalendarPopup 
+        isOpen={isCalendarPopupOpen}
+        onClose={() => setIsCalendarPopupOpen(false)}
+      />
+
+      <NotificationPopup 
+        isOpen={isNotificationPopupOpen}
+        onClose={() => setIsNotificationPopupOpen(false)}
+      />
+
+      <HelpPopup 
+        isOpen={isHelpPopupOpen}
+        onClose={() => setIsHelpPopupOpen(false)}
       />
     </div>
   )

@@ -261,61 +261,65 @@ body::-webkit-scrollbar {
 	* {
 		box-sizing: border-box;
 	}
-	
+
 	html {
 		overflow-x: hidden;
 		overflow-y: auto;
 		scrollbar-gutter: stable;
 	}
-	
+
 	body {
 		overflow-x: hidden;
 		overflow-y: auto;
 		scroll-behavior: smooth;
 	}
-	
+
 	/* Prevent transforms from causing layout shifts */
 	button, a {
 		transform-origin: center;
 		backface-visibility: hidden;
 		perspective: 1000px;
 	}
-	
+
 	/* Optimize animations and transitions */
 	* {
 		will-change: auto;
 	}
-	
+
 	/* Ensure consistent font rendering */
 	* {
 		text-rendering: optimizeLegibility;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 	}
-	
+
 	/* Fix for layout bouncing - prevent overflow causing layout shifts */
 	.h-screen {
 		height: 100vh;
 		height: 100dvh; /* Use dynamic viewport height if supported */
 		overflow: hidden;
 	}
-	
+
 	/* Prevent mouse events from causing layout recalculation */
 	.pointer-events-none {
 		pointer-events: none;
 	}
-	
+
 	/* Ensure stable transforms */
 	.transition-colors {
 		transition-property: color, background-color, border-color;
 		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 		transition-duration: 150ms;
 	}
-	
+
 	/* Prevent hover-induced layout shifts */
 	button:hover, a:hover {
 		transform: translateZ(0);
 	}
+  .theme {
+    --animate-marquee: marquee var(--duration) infinite linear;
+    --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  }
 }
 
 @keyframes enter {
@@ -385,4 +389,23 @@ body::-webkit-scrollbar {
 		--header-max-width: calc(var(--page-max-width) + 16px);
 		--header-max-width: unset;
 	}
+}
+
+@theme inline {
+  @keyframes marquee {
+  from {
+    transform: translateX(0);
+    }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+    }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
 }
