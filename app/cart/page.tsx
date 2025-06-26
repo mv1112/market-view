@@ -1,13 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { useAuth } from '@/lib/hooks/use-auth'
 import { useAuthRedirect } from '@/lib/hooks/use-auth'
 import { useSearchParams } from 'next/navigation'
 
-export default function CartPage() {
+function CartPageContent() {
   const [isAnnual, setIsAnnual] = useState(false)
   const [selectedPayment, setSelectedPayment] = useState('card')
   const [saveInfo, setSaveInfo] = useState(false)
@@ -303,5 +303,17 @@ export default function CartPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function CartPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    }>
+      <CartPageContent />
+    </Suspense>
   )
 } 

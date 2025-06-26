@@ -60,7 +60,7 @@ export function LoginForm({ className, onSwitchToSignUp, onSwitchToForgotPasswor
       if (error) {
         setError(error instanceof Error ? error.message : "An error occurred during login")
       } else if (data && data.user) {
-        // Successful login - immediately redirect based on role
+        // Successful login - redirect based on role with router.push for better loading states
         const { isAdminEmail, getRoleBasedRedirect } = await import('@/lib/auth-redirects')
         
         let targetPage = '/charts' // default
@@ -68,8 +68,8 @@ export function LoginForm({ className, onSwitchToSignUp, onSwitchToForgotPasswor
           targetPage = '/admin'
         }
         
-        // Use immediate redirect for better UX
-        window.location.href = targetPage
+        // Use router.push for better loading states and skeleton display
+        router.push(targetPage)
       }
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred during login")

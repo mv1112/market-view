@@ -30,8 +30,11 @@ export function NavigationLoadingProvider({ children }: NavigationLoadingProvide
 
   // Reset navigation loading when pathname changes
   useEffect(() => {
-    setIsNavigating(false)
-  }, [pathname])
+    if (isNavigating) {
+      // Immediate reset to prevent interference with page loading
+      setIsNavigating(false)
+    }
+  }, [pathname, isNavigating])
 
   const setNavigating = (loading: boolean) => {
     setIsNavigating(loading)

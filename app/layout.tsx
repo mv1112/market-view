@@ -1,16 +1,10 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import dynamic from 'next/dynamic'
 import { AuthProvider } from '@/lib/auth-context'
 import { NavigationLoadingProvider } from '@/lib/navigation-loading'
 import AuthErrorBoundary from '@/components/auth-error-boundary'
 import { NavigationWrapper } from '@/components/navigation-wrapper'
-import { Skeleton, LandingPageSkeleton } from '@/components/ui/skeleton'
-
-const LayoutWrapper = dynamic(() => import('./layout-wrapper'), { 
-	ssr: false,
-	loading: () => <LandingPageSkeleton />
-})
+import LayoutWrapper from './layout-wrapper'
 
 export const metadata: Metadata = {
 	title: 'ViewMarket - AI-Powered Algorithmic Trading Platform',
@@ -45,7 +39,7 @@ export default function RootLayout({
 		<html lang='en'>
 			<body>
 				<AuthErrorBoundary>
-					<AuthProvider fallback={<LandingPageSkeleton />}>
+					<AuthProvider>
 						<NavigationLoadingProvider>
 							<NavigationWrapper>
 								<LayoutWrapper>

@@ -29,6 +29,9 @@ export function LogoutButton({
       setIsLoading(true)
       setNavigating(true) // Show landing page skeleton immediately
       
+      // Add slight delay to ensure skeleton shows
+      await new Promise(resolve => setTimeout(resolve, 100))
+      
       const { error } = await authService.logout()
       
       if (error) {
@@ -36,15 +39,13 @@ export function LogoutButton({
         // Even if there's an error, redirect to home page to be safe
       }
       
-      // Redirect to landing page instead of auth page
-      router.push('/')
-      router.refresh() // Refresh to clear auth state
+      // Redirect to landing page with replace to prevent back navigation
+      router.replace('/')
       
     } catch (error) {
       console.error('Logout failed:', error)
       // Redirect anyway for security
-      router.push('/')
-      router.refresh()
+      router.replace('/')
     } finally {
       setIsLoading(false)
       // setNavigating will be set to false by the navigation loading provider

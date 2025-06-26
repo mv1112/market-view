@@ -71,13 +71,18 @@ export default function ChartsPage() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const getCurrentUser = async () => {
-      const { user } = await authService.getCurrentUser()
-      if (user?.email) {
-        setUserEmail(user.email)
+    const initializePage = async () => {
+      try {
+        const { user } = await authService.getCurrentUser()
+        if (user?.email) {
+          setUserEmail(user.email)
+        }
+      } catch (error) {
+        console.error('Error initializing charts page:', error)
       }
     }
-    getCurrentUser()
+    
+    initializePage()
   }, [])
 
   // Handle clicking outside dropdowns
