@@ -316,10 +316,12 @@ body::-webkit-scrollbar {
 	button:hover, a:hover {
 		transform: translateZ(0);
 	}
-  .theme {
-    --animate-marquee: marquee var(--duration) infinite linear;
-    --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
-  }
+	
+	/* Animation variables for marquee */
+	:root {
+		--animate-marquee: marquee var(--duration) infinite linear;
+		--animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+	}
 }
 
 @keyframes enter {
@@ -391,21 +393,21 @@ body::-webkit-scrollbar {
 	}
 }
 
-@theme inline {
-  @keyframes marquee {
+/* Marquee keyframes for auth page animations */
+@keyframes marquee {
   from {
     transform: translateX(0);
-    }
+  }
   to {
     transform: translateX(calc(-100% - var(--gap)));
-    }
   }
-  @keyframes marquee-vertical {
+}
+
+@keyframes marquee-vertical {
   from {
     transform: translateY(0);
-    }
+  }
   to {
     transform: translateY(calc(-100% - var(--gap)));
-    }
   }
 }
