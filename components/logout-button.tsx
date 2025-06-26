@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { LogOut } from "lucide-react"
+import { useNavigationLoading } from "@/lib/navigation-loading"
 
 interface LogoutButtonProps {
   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"
@@ -21,10 +22,12 @@ export function LogoutButton({
 }: LogoutButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const { setNavigating } = useNavigationLoading()
 
   const handleLogout = async () => {
     try {
       setIsLoading(true)
+      setNavigating(true) // Show landing page skeleton immediately
       
       const { error } = await authService.logout()
       
@@ -44,6 +47,7 @@ export function LogoutButton({
       router.refresh()
     } finally {
       setIsLoading(false)
+      // setNavigating will be set to false by the navigation loading provider
     }
   }
 

@@ -4,7 +4,7 @@ import React, { createContext, useContext, useEffect, useState, useCallback, use
 import { User, Session, AuthError } from '@supabase/supabase-js'
 import { createClient } from '@/lib/client'
 import { UserProfile, authService } from '@/lib/auth'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton, ChartsPageSkeleton } from '@/components/ui/skeleton'
 
 // Enterprise-grade type definitions
 export interface AuthState {
