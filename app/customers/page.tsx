@@ -7,24 +7,23 @@ export const metadata: Metadata = {
 
 export default function CustomersPage() {
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
-			<div className="max-w-6xl mx-auto px-6 py-16">
+		<div className="min-h-screen bg-black text-white">
+			<div className="max-w-4xl mx-auto px-6 py-16">
 				<div className="text-center mb-16">
-					<h1 className="text-5xl md:text-6xl font-light text-gray-900 mb-6">
+					<h1 className="text-5xl md:text-6xl font-light text-white mb-6">
 						Our Trading Community
 					</h1>
-					<div className="w-24 h-0.5 bg-gray-300 mx-auto mb-8"></div>
-					<p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+					<div className="w-24 h-0.5 bg-white mx-auto mb-8"></div>
+					<p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
 						Meet the diverse trading community of over 50,000 retail traders, professional traders, institutional clients, and investment platform users 
 						who trust ViewMarket for their trading and investment needs.
 					</p>
-					<p className="text-sm text-gray-500 mt-6">Serving our global trading community across 40+ countries</p>
 				</div>
 
 				<div className="space-y-16">
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Our Global Trading Community</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Our Global Trading Community</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								ViewMarket serves a diverse and dynamic trading community of traders, investors, and financial professionals who represent the full spectrum of market participants. Our customer base spans individual retail traders seeking to grow their personal wealth, professional traders overseeing institutional portfolios, and everyone in between. This diversity creates a rich ecosystem where different perspectives and strategies contribute to a vibrant trading community environment.
 							</p>
@@ -113,15 +112,15 @@ export default function CustomersPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto text-center">
-						<h2 className="text-3xl font-light text-gray-800 mb-6">Join Our Trading Community</h2>
-						<div className="w-16 h-0.5 bg-gray-300 mx-auto mb-6"></div>
-						<p className="text-lg text-gray-600 mb-6">
+						<h2 className="text-3xl font-light text-white mb-6">Join Our Trading Community</h2>
+						<div className="w-16 h-0.5 bg-white mx-auto mb-6"></div>
+						<p className="text-lg text-gray-300 mb-6">
 							Ready to join thousands of successful retail traders, professional traders, and institutional clients who trust ViewMarket? Discover how our investment platform can help you achieve your trading objectives.
 						</p>
-						<div className="space-y-2 text-gray-700">
-							<p><span className="font-medium">Email:</span> support@viewmarket.in</p>
-							<p><span className="font-medium">Phone:</span> 9241740350</p>
-							<p><span className="font-medium">WhatsApp:</span> +91 9241740350</p>
+						<div className="space-y-2 text-gray-300">
+							<p><span className="font-medium text-white">Email:</span> support@viewmarket.in</p>
+							<p><span className="font-medium text-white">Phone:</span> 9241740350</p>
+							<p><span className="font-medium text-white">WhatsApp:</span> +91 9241740350</p>
 						</div>
 					</section>
 				</div>

@@ -7,18 +7,17 @@ export const metadata: Metadata = {
 
 export default function CareersPage() {
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
-			<div className="max-w-6xl mx-auto px-6 py-16">
+		<div className="min-h-screen bg-black text-white">
+			<div className="max-w-4xl mx-auto px-6 py-16">
 				<div className="text-center mb-16">
-					<h1 className="text-5xl md:text-6xl font-light text-gray-900 mb-6">
+					<h1 className="text-5xl md:text-6xl font-light text-white mb-6">
 						Careers at ViewMarket
 					</h1>
-					<div className="w-24 h-0.5 bg-gray-300 mx-auto mb-8"></div>
-					<p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+					<div className="w-24 h-0.5 bg-white mx-auto mb-8"></div>
+					<p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
 						Join our dynamic team of innovators, technologists, and market experts in exciting fintech careers 
 						who are passionate about revolutionizing the financial technology landscape.
 					</p>
-					<p className="text-sm text-gray-500 mt-6">Build the future of trading technology careers with us</p>
 				</div>
 
 				<div className="space-y-16">

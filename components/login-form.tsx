@@ -80,10 +80,10 @@ export function LoginForm({ className, onSwitchToSignUp, onSwitchToForgotPasswor
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
+      <Card className="border-gray-700" style={{ backgroundColor: "oklch(14.7% 0.004 49.25)" }}>
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
-          <CardDescription>Enter your email and password to access your account</CardDescription>
+          <CardTitle className="text-2xl text-white">Login</CardTitle>
+          <CardDescription className="text-gray-300">Enter your email and password to access your account</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin}>
@@ -122,7 +122,7 @@ export function LoginForm({ className, onSwitchToSignUp, onSwitchToForgotPasswor
                 />
               </div>
               {error && (
-                <div className="text-sm text-red-500 bg-red-50 p-3 rounded-md border border-red-200">
+                <div className="text-sm text-red-400 bg-red-900/20 p-3 rounded-md border border-red-800">
                   {error}
                 </div>
               )}

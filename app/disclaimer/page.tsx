@@ -7,19 +7,19 @@ export const metadata: Metadata = {
 
 export default function DisclaimerPage() {
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
-			<div className="max-w-6xl mx-auto px-6 py-16">
+		<div className="min-h-screen bg-black text-white">
+			<div className="max-w-4xl mx-auto px-6 py-16">
 				{/* Header Section */}
 				<div className="text-center mb-16">
-					<h1 className="text-5xl md:text-6xl font-light text-gray-900 mb-6">
+					<h1 className="text-5xl md:text-6xl font-light text-white mb-6">
 						Disclaimer
 					</h1>
-					<div className="w-24 h-0.5 bg-gray-300 mx-auto mb-8"></div>
-					<p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+					<div className="w-24 h-0.5 bg-white mx-auto mb-8"></div>
+					<p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
 						Empowering informed trading decisions through transparent risk disclosure 
 						and comprehensive legal protection for all market participants.
 					</p>
-					<p className="text-sm text-gray-500 mt-6">Last updated: {new Date().toLocaleDateString()}</p>
+					<p className="text-sm text-gray-400 mt-6">Last updated: {new Date().toLocaleDateString()}</p>
 				</div>
 
 				{/* Content Sections */}

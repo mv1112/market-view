@@ -7,24 +7,23 @@ export const metadata: Metadata = {
 
 export default function BrandPage() {
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
-			<div className="max-w-6xl mx-auto px-6 py-16">
+		<div className="min-h-screen bg-black text-white">
+			<div className="max-w-4xl mx-auto px-6 py-16">
 				<div className="text-center mb-16">
-					<h1 className="text-5xl md:text-6xl font-light text-gray-900 mb-6">
+					<h1 className="text-5xl md:text-6xl font-light text-white mb-6">
 						ViewMarket Trading Brand
 					</h1>
-					<div className="w-24 h-0.5 bg-gray-300 mx-auto mb-8"></div>
-					<p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+					<div className="w-24 h-0.5 bg-white mx-auto mb-8"></div>
+					<p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
 						Discover the ViewMarket financial technology brand identity, comprehensive brand guidelines, and explore 
 						brand partnerships opportunities that align with our mission to democratize trading.
 					</p>
-					<p className="text-sm text-gray-500 mt-6">Building trust through consistent trading brand excellence</p>
 				</div>
 
 				<div className="space-y-16">
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Trading Platform Brand Identity & Philosophy</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Trading Platform Brand Identity & Philosophy</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								The ViewMarket trading brand represents innovation, reliability, and accessibility in financial technology. Our financial technology brand identity is built on the core principle that advanced trading tools and market insights should be available to everyone, not just large financial institutions. This democratization of financial technology is reflected in every aspect of our trading platform brand, from our clean, intuitive visual design to our clear, jargon-free communication style.
 							</p>
@@ -128,16 +127,16 @@ export default function BrandPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto text-center">
-						<h2 className="text-3xl font-light text-gray-800 mb-6">Brand Partnerships & Inquiries</h2>
-						<div className="w-16 h-0.5 bg-gray-300 mx-auto mb-6"></div>
-						<p className="text-lg text-gray-600 mb-6">
+						<h2 className="text-3xl font-light text-white mb-6">Brand Partnerships & Inquiries</h2>
+						<div className="w-16 h-0.5 bg-white mx-auto mb-6"></div>
+						<p className="text-lg text-gray-300 mb-6">
 							Interested in brand partnerships with ViewMarket or need access to our trading platform brand assets? Contact our financial technology brand and partnerships team to explore opportunities.
 						</p>
-						<div className="space-y-2 text-gray-700">
-							<p><span className="font-medium">Partnerships Email:</span> partnerships@viewmarket.in</p>
-							<p><span className="font-medium">Media Email:</span> media@viewmarket.in</p>
-							<p><span className="font-medium">General Email:</span> support@viewmarket.in</p>
-							<p><span className="font-medium">Phone:</span> 9241740350</p>
+						<div className="space-y-2 text-gray-300">
+							<p><span className="font-medium text-white">Partnerships Email:</span> partnerships@viewmarket.in</p>
+							<p><span className="font-medium text-white">Media Email:</span> media@viewmarket.in</p>
+							<p><span className="font-medium text-white">General Email:</span> support@viewmarket.in</p>
+							<p><span className="font-medium text-white">Phone:</span> 9241740350</p>
 						</div>
 					</section>
 				</div>

@@ -1,7 +1,6 @@
 'use client'
 
 import React, { type FC, useState } from 'react'
-import { Check, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/lib/hooks/use-auth'
 
@@ -17,7 +16,7 @@ const PricingPage: FC = () => {
 				price: plan.monthlyPrice.toString(),
 				yearly: plan.yearlyPrice.toString()
 			})
-			      router.push(`/auth?redirectTo=/cart?${planParams.toString()}`)
+			router.push(`/auth?redirectTo=/cart?${planParams.toString()}`)
 			return
 		}
 
@@ -31,26 +30,6 @@ const PricingPage: FC = () => {
 			return
 		}
 	}
-
-	const features = [
-		{ name: "Charts per tab", values: [1, 2, 8, 16, "Unlimited"] },
-		{ name: "Indicators per chart", values: [3, 10, 25, 50, "Unlimited"] },
-		{ name: "Historical bars", values: ["5K", "10K", "20K", "40K", "Unlimited"] },
-		{ name: "Real-time data", values: [false, true, true, true, true] },
-		{ name: "Price alerts", values: [10, 100, 400, 1000, "Unlimited"] },
-		{ name: "Technical alerts", values: [10, 100, 400, 1000, "Unlimited"] },
-		{ name: "Watchlist alerts", values: [0, 0, 10, 25, "Unlimited"] },
-		{ name: "No ads", values: [true, true, true, true, true] },
-		{ name: "Volume profile", values: [false, true, true, true, true] },
-		{ name: "Custom timeframes", values: [false, true, true, true, true] },
-		{ name: "Custom Range Bars", values: [false, true, true, true, true] },
-		{ name: "Multiple watchlists", values: [false, true, true, true, true] },
-		{ name: "Mobile app access", values: [true, true, true, true, true] },
-		{ name: "Desktop application", values: [false, false, true, true, true] },
-		{ name: "API Access", values: [false, false, false, true, true] },
-		{ name: "Priority Support", values: [false, false, true, true, true] },
-		{ name: "Advanced Backtesting", values: [false, false, false, true, true] }
-	]
 
 	const plans = [
 		{ name: 'Free', monthlyPrice: 0, yearlyPrice: 0, buttonText: 'Get Started' },
@@ -71,123 +50,97 @@ const PricingPage: FC = () => {
 		return Math.round((savings / monthlyTotal) * 100)
 	}
 
-	const renderFeatureValue = (value: any) => {
-		if (typeof value === 'boolean') {
-			return value ? (
-				<Check className="w-5 h-5 text-green-600 mx-auto" />
-			) : (
-				<X className="w-5 h-5 text-red-500 mx-auto" />
-			)
-		}
-		
-		if (value === 0) {
-			return <X className="w-5 h-5 text-red-500 mx-auto" />
-		}
-		
-		return <Check className="w-5 h-5 text-green-600 mx-auto" />
-	}
-
 	return (
-		<div className="min-h-screen bg-white">
-			{/* Header */}
-			<div className="bg-gradient-to-b from-gray-50 to-white py-16">
-				<div className="max-w-7xl mx-auto px-4 text-center">
-					<h1 className="text-5xl font-bold text-gray-900 mb-4">Pricing Plans</h1>
-					<p className="text-xl text-gray-600 mb-8">
+		<div className="min-h-screen bg-black text-white">
+			<div className="max-w-4xl mx-auto px-6 py-16">
+				<div className="text-center mb-16">
+					<h1 className="text-5xl font-bold text-white mb-6">Pricing Plans</h1>
+					<div className="w-24 h-0.5 bg-white mx-auto mb-8"></div>
+					<p className="text-xl text-gray-300 mb-8">
 						Compare our plans and choose the one that fits your needs.
 					</p>
 					
-					{/* Billing Toggle */}
-					<div className="flex justify-center items-center mb-12">
-						<div className="bg-gray-100 rounded-full p-1">
-							<button
-								onClick={() => setIsYearly(false)}
-								className={`px-6 py-2 rounded-full font-medium transition-all duration-200 ${
-									!isYearly ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600'
-								}`}
-							>
-								Monthly
-							</button>
-							<button
-								onClick={() => setIsYearly(true)}
-								className={`px-6 py-2 rounded-full font-medium transition-all duration-200 relative ${
-									isYearly ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600'
-								}`}
-							>
-								Annual
-								<span className="absolute -top-1 -right-1 bg-green-500 text-white text-xs px-1.5 py-0.5 rounded-full">
-									Save 20%
-								</span>
-							</button>
-						</div>
+					<div className="mb-12">
+						<button
+							onClick={() => setIsYearly(false)}
+							className={`px-6 py-2 mr-4 rounded font-medium transition-all duration-200 ${
+								!isYearly ? 'bg-white text-black' : 'text-gray-300 border border-gray-600'
+							}`}
+						>
+							Monthly
+						</button>
+						<button
+							onClick={() => setIsYearly(true)}
+							className={`px-6 py-2 rounded font-medium transition-all duration-200 ${
+								isYearly ? 'bg-white text-black' : 'text-gray-300 border border-gray-600'
+							}`}
+						>
+							Annual (Save 20%)
+						</button>
 					</div>
 				</div>
-			</div>
 
-			{/* Pricing Table */}
-			<div className="max-w-7xl mx-auto px-4 pb-16">
-				<div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
-					{/* Table Header */}
-					<div className="bg-gray-50 border-b border-gray-200">
-						<div className="grid grid-cols-6 gap-4 p-6">
-							<div className="col-span-1">
-								<h3 className="text-lg font-semibold text-gray-900">Features</h3>
+				<div className="space-y-16">
+					{plans.map((plan) => (
+						<section key={plan.name} className="text-center">
+							<h2 className="text-3xl font-bold text-white mb-4">{plan.name}</h2>
+							<div className="text-4xl font-bold text-white mb-4">
+								{plan.monthlyPrice === 'Custom' ? 'Custom' : formatPrice(
+									isYearly && typeof plan.yearlyPrice === 'number' 
+										? Math.round(plan.yearlyPrice / 12)
+										: typeof plan.monthlyPrice === 'number' ? plan.monthlyPrice : 0
+								)}
 							</div>
-							{plans.map((plan) => (
-								<div key={plan.name} className="text-center">
-									<h3 className="text-xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-									<div className="text-3xl font-bold text-gray-900 mb-2">
-										{plan.monthlyPrice === 'Custom' ? 'Custom' : formatPrice(
-											isYearly && typeof plan.yearlyPrice === 'number' 
-												? Math.round(plan.yearlyPrice / 12)
-												: typeof plan.monthlyPrice === 'number' ? plan.monthlyPrice : 0
-										)}
-									</div>
-									
-									{/* Reserved space for savings - always present to prevent layout shift */}
-									<div className="h-6 mb-4 flex items-center justify-center">
-										{isYearly && plan.monthlyPrice !== 'Custom' && typeof plan.monthlyPrice === 'number' && plan.monthlyPrice > 0 ? (
-											<div className="text-xs text-green-600 font-medium bg-green-100 px-2 py-1 rounded-full">
-												Save {calculateSavingsPercentage(plan.monthlyPrice, typeof plan.yearlyPrice === 'number' ? plan.yearlyPrice : 0)}%
-											</div>
-										) : (
-											<div className="text-xs text-gray-500">
-												{plan.monthlyPrice !== 'Custom' ? (isYearly ? 'billed annually' : 'billed monthly') : 'custom pricing'}
-											</div>
-										)}
-									</div>
-
-									<button
-										onClick={() => handlePlanClick(plan.name, plan)}
-										className="w-full py-2 px-4 bg-gray-900 hover:bg-gray-800 text-white rounded-lg font-semibold transition-all duration-200"
-									>
-										{plan.buttonText}
-									</button>
+							
+							{isYearly && plan.monthlyPrice !== 'Custom' && typeof plan.monthlyPrice === 'number' && plan.monthlyPrice > 0 ? (
+								<div className="text-sm text-green-400 mb-6">
+									Save {calculateSavingsPercentage(plan.monthlyPrice, typeof plan.yearlyPrice === 'number' ? plan.yearlyPrice : 0)}% annually
 								</div>
-							))}
-						</div>
-					</div>
-
-					{/* Features Table */}
-					<div className="divide-y divide-gray-200">
-						{features.map((feature, index) => (
-							<div key={feature.name} className={`grid grid-cols-6 gap-4 p-4 items-center ${
-								index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-							}`}>
-								<div className="col-span-1">
-									<div className="text-sm font-medium text-gray-900">
-										{feature.name}
-									</div>
+							) : (
+								<div className="text-sm text-gray-400 mb-6">
+									{plan.monthlyPrice !== 'Custom' ? (isYearly ? 'billed annually' : 'billed monthly') : 'custom pricing'}
 								</div>
-								{feature.values.map((value, planIndex) => (
-									<div key={planIndex} className="flex items-center justify-center py-2">
-										{renderFeatureValue(value)}
-									</div>
-								))}
+							)}
+
+							<button
+								onClick={() => handlePlanClick(plan.name, plan)}
+								className="px-8 py-3 bg-white text-black rounded font-semibold transition-all duration-200 hover:bg-gray-200 mb-8"
+							>
+								{plan.buttonText}
+							</button>
+
+							<div className="text-left space-y-4 text-gray-300 max-w-2xl mx-auto">
+								<h3 className="text-xl font-semibold text-white mb-4">Features:</h3>
+								<p>• Charts per tab: {plan.name === 'Free' ? '1' : plan.name === 'Essential' ? '2' : plan.name === 'Pro' ? '8' : plan.name === 'Premium' ? '16' : 'Unlimited'}</p>
+								<p>• Indicators per chart: {plan.name === 'Free' ? '3' : plan.name === 'Essential' ? '10' : plan.name === 'Pro' ? '25' : plan.name === 'Premium' ? '50' : 'Unlimited'}</p>
+								<p>• Historical bars: {plan.name === 'Free' ? '5K' : plan.name === 'Essential' ? '10K' : plan.name === 'Pro' ? '20K' : plan.name === 'Premium' ? '40K' : 'Unlimited'}</p>
+								<p>• Real-time data: {plan.name === 'Free' ? 'No' : 'Yes'}</p>
+								<p>• Price alerts: {plan.name === 'Free' ? '10' : plan.name === 'Essential' ? '100' : plan.name === 'Pro' ? '400' : plan.name === 'Premium' ? '1000' : 'Unlimited'}</p>
+								<p>• No ads: Yes</p>
+								<p>• Volume profile: {plan.name === 'Free' ? 'No' : 'Yes'}</p>
+								<p>• Custom timeframes: {plan.name === 'Free' ? 'No' : 'Yes'}</p>
+								<p>• Mobile app access: Yes</p>
+								<p>• Desktop application: {plan.name === 'Free' || plan.name === 'Essential' ? 'No' : 'Yes'}</p>
+								<p>• API Access: {plan.name === 'Free' || plan.name === 'Essential' || plan.name === 'Pro' ? 'No' : 'Yes'}</p>
+								<p>• Priority Support: {plan.name === 'Free' || plan.name === 'Essential' ? 'No' : 'Yes'}</p>
+								<p>• Advanced Backtesting: {plan.name === 'Free' || plan.name === 'Essential' || plan.name === 'Pro' ? 'No' : 'Yes'}</p>
 							</div>
-						))}
-					</div>
+						</section>
+					))}
 				</div>
+
+				<section className="text-center mt-16">
+					<h2 className="text-3xl font-light text-white mb-6">Need Help Choosing?</h2>
+					<div className="w-16 h-0.5 bg-white mx-auto mb-6"></div>
+					<p className="text-lg text-gray-300 mb-6">
+						Contact our team to find the perfect plan for your trading needs.
+					</p>
+					<div className="space-y-2 text-gray-300">
+						<p><span className="font-medium text-white">Email:</span> support@viewmarket.in</p>
+						<p><span className="font-medium text-white">Phone:</span> 9241740350</p>
+						<p><span className="font-medium text-white">WhatsApp:</span> +91 9241740350</p>
+					</div>
+				</section>
 			</div>
 		</div>
 	)

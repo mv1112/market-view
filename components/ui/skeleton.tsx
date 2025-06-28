@@ -15,9 +15,9 @@ function Skeleton({
 // Charts Page Skeleton - matches the exact layout of the charts page
 function ChartsPageSkeleton() {
   return (
-    <div className="h-screen bg-white text-gray-900 flex flex-col overflow-hidden">
+    <div className="h-screen bg-black text-white flex flex-col overflow-hidden">
       {/* Header Skeleton - matches exact header layout */}
-      <header className="border-b-2 border-gray-200 bg-white rounded-b-lg flex-shrink-0">
+      <header className="border-b-2 border-gray-700 bg-black rounded-b-lg flex-shrink-0">
         <div className="flex h-10 items-center justify-between pl-2 pr-1">
           {/* Left side - Logo and controls */}
           <div className="flex items-center gap-4">
@@ -27,13 +27,13 @@ function ChartsPageSkeleton() {
             {/* Header controls */}
             <div className="flex items-center gap-3">
               <Skeleton className="h-8 w-36 rounded" />
-              <div className="w-px h-6 bg-gray-300 mx-1"></div>
+              <div className="w-px h-6 bg-gray-600 mx-1"></div>
               <Skeleton className="h-6 w-12 rounded" />
-              <div className="w-px h-6 bg-gray-300 mx-1"></div>
+              <div className="w-px h-6 bg-gray-600 mx-1"></div>
               <Skeleton className="h-6 w-16 rounded" />
-              <div className="w-px h-6 bg-gray-300 mx-1"></div>
+              <div className="w-px h-6 bg-gray-600 mx-1"></div>
               <Skeleton className="h-6 w-20 rounded" />
-              <div className="w-px h-6 bg-gray-300 mx-1"></div>
+              <div className="w-px h-6 bg-gray-600 mx-1"></div>
               <Skeleton className="h-6 w-16 rounded" />
             </div>
           </div>
@@ -41,15 +41,15 @@ function ChartsPageSkeleton() {
           {/* Right side - Tools and user */}
           <div className="flex items-center gap-3 pr-4">
             <Skeleton className="h-8 w-32 rounded-lg" />
-            <div className="w-px h-5 bg-gray-300 mx-1"></div>
+            <div className="w-px h-5 bg-gray-600 mx-1"></div>
             <Skeleton className="h-8 w-8 rounded-lg" />
-            <div className="w-px h-6 bg-gray-300 mx-1"></div>
+            <div className="w-px h-6 bg-gray-600 mx-1"></div>
             <Skeleton className="h-8 w-8 rounded-lg" />
-            <div className="w-px h-6 bg-gray-300 mx-1"></div>
+            <div className="w-px h-6 bg-gray-600 mx-1"></div>
             <Skeleton className="h-8 w-8 rounded-lg" />
-            <div className="w-px h-6 bg-gray-300 mx-1"></div>
+            <div className="w-px h-6 bg-gray-600 mx-1"></div>
             <Skeleton className="h-8 w-8 rounded-lg" />
-            <div className="w-px h-6 bg-gray-300 mx-1"></div>
+            <div className="w-px h-6 bg-gray-600 mx-1"></div>
             <Skeleton className="h-8 w-8 rounded-lg" />
           </div>
         </div>
@@ -59,10 +59,10 @@ function ChartsPageSkeleton() {
       <div className="flex flex-1 overflow-hidden">
         <div className="flex flex-col flex-1 overflow-hidden">
           {/* Chart Area Skeleton - main content */}
-          <div className="flex-1 overflow-hidden bg-white p-4">
+          <div className="flex-1 overflow-hidden bg-black p-4">
             <div className="w-full h-full flex flex-col">
               {/* Chart placeholder */}
-              <div className="flex-1 bg-gray-50 rounded-lg border-2 border-gray-200 flex items-center justify-center">
+              <div className="flex-1 bg-gray-900 rounded-lg border-2 border-gray-700 flex items-center justify-center">
                 <div className="text-center space-y-4">
                   <Skeleton className="h-8 w-48 mx-auto" />
                   <Skeleton className="h-4 w-32 mx-auto" />
@@ -87,7 +87,7 @@ function ChartsPageSkeleton() {
           </div>
 
           {/* Footer Skeleton - draggable footer */}
-          <footer className="bg-white border-t-2 border-gray-200 rounded-t-lg flex-shrink-0 h-10">
+          <footer className="bg-black border-t-2 border-gray-700 rounded-t-lg flex-shrink-0 h-10">
             <div className="flex items-center justify-between h-10 px-2">
               <div className="flex items-center gap-2 pl-4">
                 <Skeleton className="h-6 w-16 rounded" />
@@ -103,17 +103,17 @@ function ChartsPageSkeleton() {
         </div>
         
         {/* Right Side Panel Skeleton - vertical toolbar */}
-        <div className="w-12 bg-white border-l-2 border-gray-200 rounded-l-lg flex flex-col flex-shrink-0">
+        <div className="w-12 bg-black border-l-2 border-gray-700 rounded-l-lg flex flex-col flex-shrink-0">
           {/* Top tools */}
           <div className="flex flex-col items-center p-2 gap-3">
             <Skeleton className="w-8 h-8 rounded" />
-            <div className="h-px w-5 bg-gray-300 my-1"></div>
+            <div className="h-px w-5 bg-gray-600 my-1"></div>
             <Skeleton className="w-8 h-8 rounded" />
-            <div className="h-px w-5 bg-gray-300 my-1"></div>
+            <div className="h-px w-5 bg-gray-600 my-1"></div>
             <Skeleton className="w-8 h-8 rounded" />
-            <div className="h-px w-5 bg-gray-300 my-1"></div>
+            <div className="h-px w-5 bg-gray-600 my-1"></div>
             <Skeleton className="w-8 h-8 rounded" />
-            <div className="h-px w-5 bg-gray-300 my-1"></div>
+            <div className="h-px w-5 bg-gray-600 my-1"></div>
             <Skeleton className="w-8 h-8 rounded" />
           </div>
           
@@ -123,7 +123,7 @@ function ChartsPageSkeleton() {
           {/* Bottom tools */}
           <div className="flex flex-col items-center gap-3 p-2">
             <Skeleton className="w-8 h-8 rounded" />
-            <div className="h-px w-5 bg-gray-300 my-1"></div>
+            <div className="h-px w-5 bg-gray-600 my-1"></div>
             <Skeleton className="w-8 h-8 rounded" />
           </div>
         </div>
@@ -135,10 +135,10 @@ function ChartsPageSkeleton() {
 // Landing Page Skeleton - matches the exact layout of the home page
 function LandingPageSkeleton() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-black">
       {/* Header Skeleton - matches the actual header container width */}
       <div className="w-full h-16 px-3 py-2">
-        <div className="max-w-[1200px] mx-auto h-full flex items-center justify-between bg-white/20 backdrop-blur-xl backdrop-saturate-[140%] rounded-xl px-4 border border-gray-200/50">
+        <div className="max-w-[1200px] mx-auto h-full flex items-center justify-between bg-black/20 backdrop-blur-xl backdrop-saturate-[140%] rounded-xl px-4 border border-gray-800/50">
           <div className="flex items-center space-x-3">
             <Skeleton className="h-5 w-5 rounded" />
             <Skeleton className="h-4 w-28" />
@@ -209,7 +209,7 @@ function LandingPageSkeleton() {
       </div>
       
       {/* Footer Skeleton */}
-      <div className="bg-gray-50 border-t border-gray-200">
+      <div className="bg-gray-900 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-6 py-16">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <Skeleton className="h-32 w-full" />

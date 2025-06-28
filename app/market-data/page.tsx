@@ -7,24 +7,23 @@ export const metadata: Metadata = {
 
 export default function MarketDataPage() {
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
-			<div className="max-w-6xl mx-auto px-6 py-16">
+		<div className="min-h-screen bg-black text-white">
+			<div className="max-w-4xl mx-auto px-6 py-16">
 				<div className="text-center mb-16">
-					<h1 className="text-5xl md:text-6xl font-light text-gray-900 mb-6">
+					<h1 className="text-5xl md:text-6xl font-light text-white mb-6">
 						Market Data
 					</h1>
-					<div className="w-24 h-0.5 bg-gray-300 mx-auto mb-8"></div>
-					<p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+					<div className="w-24 h-0.5 bg-white mx-auto mb-8"></div>
+					<p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
 						Access comprehensive real-time market data and historical stock market data from global exchanges 
 						to power your trading decisions with accurate, reliable information through our market data platform.
 					</p>
-					<p className="text-sm text-gray-500 mt-6">Premium trading data feeds from 100+ global exchanges</p>
 				</div>
 
 				<div className="space-y-16">
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Comprehensive Market Data Platform Solutions</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Comprehensive Market Data Platform Solutions</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								ViewMarket provides institutional-grade market data API delivering real-time quotes, trades, and market depth information with ultra-low latency. Our financial data providers infrastructure ensures you receive the most accurate and timely market information to make informed trading decisions across all major asset classes and global markets through our advanced market data platform.
 							</p>
@@ -38,8 +37,8 @@ export default function MarketDataPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Real-time Market Data Feeds</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Real-time Market Data Feeds</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Our real-time market data feeds provide instantaneous access to live market information with sub-millisecond latency through our high-performance market data API. The trading data feeds include tick-by-tick price data, volume information, bid-ask spreads, and market depth for all supported instruments. This level of detail enables sophisticated trading strategies that rely on market microstructure analysis and high-frequency trading techniques.
 							</p>
@@ -53,8 +52,8 @@ export default function MarketDataPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Global Stock Market Data Coverage</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Global Stock Market Data Coverage</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Our stock market data coverage includes real-time stock prices, volumes, and market depth from NYSE, NASDAQ, London Stock Exchange, Tokyo Stock Exchange, and over 50 other international exchanges through our comprehensive market data platform. The trading data feeds encompass all major indices, individual stocks, ETFs, and other equity-based instruments traded on these exchanges, accessible via our market data API.
 							</p>
@@ -68,8 +67,8 @@ export default function MarketDataPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Foreign Exchange Markets</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Foreign Exchange Markets</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								The foreign exchange real-time market data includes major, minor, and exotic currency pairs with interbank rates and spreads from top-tier liquidity providers and financial data providers. Our FX trading data feeds cover spot rates, forward points, and swap rates for all major currency pairs, as well as emerging market currencies and cryptocurrency pairs through our market data platform.
 							</p>
@@ -83,8 +82,8 @@ export default function MarketDataPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Commodities and Energy Markets</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Commodities and Energy Markets</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Our commodities real-time market data coverage includes precious metals, energy products, agricultural commodities, and industrial metals from major exchanges including CME, ICE, LME, and CBOT. The trading data feeds encompass futures contracts, spot prices, and physical market information for all major commodity groups accessible through our market data API and financial data providers network.
 							</p>
@@ -98,8 +97,8 @@ export default function MarketDataPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Cryptocurrency Markets</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Cryptocurrency Markets</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Real-time cryptocurrency market data from over 20 major exchanges including Binance, Coinbase, Kraken, and Bitfinex covers Bitcoin, Ethereum, and over 500 altcoins with complete order book depth and trade data through our market data platform. Our crypto trading data feeds provide comprehensive coverage of both spot and derivatives markets for digital assets via our market data API.
 							</p>
@@ -113,8 +112,8 @@ export default function MarketDataPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Market Analytics and Insights</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Market Analytics and Insights</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Our analytics suite transforms raw stock market data into actionable trading insights through advanced statistical analysis, machine learning algorithms, and quantitative modeling. The analytics within our market data platform provide technical indicators, sentiment analysis, correlation studies, and predictive models that help identify trading opportunities and manage risk through our market data API.
 							</p>
@@ -128,15 +127,15 @@ export default function MarketDataPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto text-center">
-						<h2 className="text-3xl font-light text-gray-800 mb-6">Get Access to Market Data API</h2>
-						<div className="w-16 h-0.5 bg-gray-300 mx-auto mb-6"></div>
-						<p className="text-lg text-gray-600 mb-6">
+						<h2 className="text-3xl font-light text-white mb-6">Get Access to Market Data API</h2>
+						<div className="w-16 h-0.5 bg-white mx-auto mb-6"></div>
+						<p className="text-lg text-gray-300 mb-6">
 							Contact our market data specialists to discuss your real-time market data requirements and find the perfect trading data feeds plan for your needs.
 						</p>
-						<div className="space-y-2 text-gray-700">
-							<p><span className="font-medium">Email:</span> support@viewmarket.in</p>
-							<p><span className="font-medium">Phone:</span> 9241740350</p>
-							<p><span className="font-medium">WhatsApp:</span> +91 9241740350</p>
+						<div className="space-y-2 text-gray-300">
+							<p><span className="font-medium text-white">Email:</span> support@viewmarket.in</p>
+							<p><span className="font-medium text-white">Phone:</span> 9241740350</p>
+							<p><span className="font-medium text-white">WhatsApp:</span> +91 9241740350</p>
 						</div>
 					</section>
 				</div>

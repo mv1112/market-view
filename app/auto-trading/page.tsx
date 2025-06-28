@@ -7,24 +7,23 @@ export const metadata: Metadata = {
 
 export default function AutoTradingPage() {
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
-			<div className="max-w-6xl mx-auto px-6 py-16">
+		<div className="min-h-screen bg-black text-white">
+			<div className="max-w-4xl mx-auto px-6 py-16">
 				<div className="text-center mb-16">
-					<h1 className="text-5xl md:text-6xl font-light text-gray-900 mb-6">
+					<h1 className="text-5xl md:text-6xl font-light text-white mb-6">
 						Auto Trading
 					</h1>
-					<div className="w-24 h-0.5 bg-gray-300 mx-auto mb-8"></div>
-					<p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+					<div className="w-24 h-0.5 bg-white mx-auto mb-8"></div>
+					<p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
 						Harness the power of algorithmic trading with our advanced automated trading systems 
 						designed for professional traders and institutional investors seeking precision and speed.
 					</p>
-					<p className="text-sm text-gray-500 mt-6">Experience algorithmic trading excellence at lightning speed</p>
 				</div>
 
 				<div className="space-y-16">
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">What is Algorithmic Trading?</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">What is Algorithmic Trading?</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Algorithmic trading, also known as algo trading platform technology, is a method of executing trades using pre-programmed instructions that account for variables such as price, volume, and time. ViewMarket&apos;s automated trading systems represent the pinnacle of trading technology, combining cutting-edge algorithms with institutional-grade infrastructure to deliver superior trading performance across global markets.
 							</p>
@@ -38,8 +37,8 @@ export default function AutoTradingPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Advanced Trading Bots Engine</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Advanced Trading Bots Engine</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Our proprietary trading bots utilize machine learning and artificial intelligence to process vast amounts of market data in real-time. These sophisticated algorithmic trading systems can identify trading opportunities, execute trades, and manage risk automatically, all while learning from market behavior to improve performance over time through advanced quantitative trading methods.
 							</p>
@@ -50,8 +49,8 @@ export default function AutoTradingPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Multi-Asset Class Support</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Multi-Asset Class Support</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Trade across stocks, forex, commodities, cryptocurrencies, and derivatives from a single unified algo trading platform. Our automated trading systems support cross-asset arbitrage strategies and can execute complex multi-leg trades across different markets simultaneously, maximizing opportunities for profit while minimizing execution risks.
 							</p>
@@ -62,8 +61,8 @@ export default function AutoTradingPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Risk Management Systems</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Risk Management Systems</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Built-in risk controls include position sizing, stop-loss orders, maximum drawdown limits, and correlation-based risk assessment. Our automated trading systems continuously monitor portfolio exposure and can automatically adjust positions to maintain your desired risk profile, while our trading bots implement sophisticated risk management protocols.
 							</p>
@@ -74,33 +73,33 @@ export default function AutoTradingPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">High Frequency Trading Strategy Categories</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">High Frequency Trading Strategy Categories</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
-								<strong>Trend Following Strategies:</strong> These algorithmic trading strategies identify and capitalize on sustained price movements in financial markets. Our trend following automated trading systems use multiple timeframe analysis, moving averages, and momentum indicators to identify trend direction and strength. The trading bots can automatically enter positions when trends are confirmed and exit when trend reversal signals are detected.
+								<strong className="text-white">Trend Following Strategies:</strong> These algorithmic trading strategies identify and capitalize on sustained price movements in financial markets. Our trend following automated trading systems use multiple timeframe analysis, moving averages, and momentum indicators to identify trend direction and strength. The trading bots can automatically enter positions when trends are confirmed and exit when trend reversal signals are detected.
 							</p>
 							<p>
-								<strong>Mean Reversion Strategies:</strong> Based on statistical principles that prices tend to revert to their historical average, these quantitative trading strategies identify overbought and oversold conditions. Our mean reversion algorithms analyze price deviations from statistical norms and execute trades when prices are expected to return to their mean values, perfect for high frequency trading environments.
+								<strong className="text-white">Mean Reversion Strategies:</strong> Based on statistical principles that prices tend to revert to their historical average, these quantitative trading strategies identify overbought and oversold conditions. Our mean reversion algorithms analyze price deviations from statistical norms and execute trades when prices are expected to return to their mean values, perfect for high frequency trading environments.
 							</p>
 							<p>
-								<strong>Arbitrage Strategies:</strong> These risk-free profit strategies exploit price differences between related instruments or markets. Our arbitrage trading bots can identify and execute statistical arbitrage, pairs trading, and cross-market arbitrage opportunities with microsecond precision, taking advantage of temporary market inefficiencies through our algo trading platform.
+								<strong className="text-white">Arbitrage Strategies:</strong> These risk-free profit strategies exploit price differences between related instruments or markets. Our arbitrage trading bots can identify and execute statistical arbitrage, pairs trading, and cross-market arbitrage opportunities with microsecond precision, taking advantage of temporary market inefficiencies through our algo trading platform.
 							</p>
 							<p>
-								<strong>Market Making Strategies:</strong> These automated trading systems provide liquidity to the market by continuously placing buy and sell orders around the current market price. Our market making algorithms dynamically adjust spreads based on market volatility and inventory levels while managing adverse selection risk through sophisticated quantitative trading models.
+								<strong className="text-white">Market Making Strategies:</strong> These automated trading systems provide liquidity to the market by continuously placing buy and sell orders around the current market price. Our market making algorithms dynamically adjust spreads based on market volatility and inventory levels while managing adverse selection risk through sophisticated quantitative trading models.
 							</p>
 						</div>
 					</section>
 
 					<section className="max-w-4xl mx-auto text-center">
-						<h2 className="text-3xl font-light text-gray-800 mb-6">Ready to Start Algorithmic Trading?</h2>
-						<div className="w-16 h-0.5 bg-gray-300 mx-auto mb-6"></div>
-						<p className="text-lg text-gray-600 mb-6">
+						<h2 className="text-3xl font-light text-white mb-6">Ready to Start Algorithmic Trading?</h2>
+						<div className="w-16 h-0.5 bg-white mx-auto mb-6"></div>
+						<p className="text-lg text-gray-300 mb-6">
 							Contact our algorithmic trading specialists to learn how you can start profiting from automated trading systems and advanced trading bots.
 						</p>
-						<div className="space-y-2 text-gray-700">
-							<p><span className="font-medium">Email:</span> support@viewmarket.in</p>
-							<p><span className="font-medium">Phone:</span> 9241740350</p>
-							<p><span className="font-medium">WhatsApp:</span> +91 9241740350</p>
+						<div className="space-y-2 text-gray-300">
+							<p><span className="font-medium text-white">Email:</span> support@viewmarket.in</p>
+							<p><span className="font-medium text-white">Phone:</span> 9241740350</p>
+							<p><span className="font-medium text-white">WhatsApp:</span> +91 9241740350</p>
 						</div>
 					</section>
 				</div>

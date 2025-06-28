@@ -240,36 +240,36 @@ const ScreenerPage = () => {
   return (
     <div className="h-full w-full flex flex-col">
       {/* Top Divider */}
-      <div className="h-px w-full bg-gray-300"></div>
+      <div className="h-px w-full bg-gray-700"></div>
       
-      <div className="h-full flex flex-col bg-white text-gray-900">
+      <div className="h-full flex flex-col bg-black text-white">
         {/* Header */}
-        <div className="flex items-center justify-between p-2 border-b border-gray-300">
+        <div className="flex items-center justify-between p-2 border-b border-gray-700">
           <div className="flex items-center space-x-2">
             <div className="relative">
-              <button className="flex items-center px-3 py-1 text-sm bg-gray-100 rounded hover:bg-gray-200">
+              <button className="flex items-center px-3 py-1 text-sm bg-gray-800 rounded hover:bg-gray-700 text-white">
                 <span>Stock Screener</span>
                 <ChevronDown className="w-4 h-4 ml-1" />
               </button>
             </div>
-            <button className="p-1 text-gray-600 hover:text-gray-900">
+            <button className="p-1 text-gray-400 hover:text-white">
               <Settings className="w-4 h-4" />
             </button>
           </div>
         </div>
 
         {/* Filter Bar */}
-        <div className="flex items-center p-2 border-b border-gray-300 overflow-x-auto">
+        <div className="flex items-center p-2 border-b border-gray-700 overflow-x-auto">
           <div className="flex space-x-2">
             {filterOptions.map((option) => (
               <button
                 key={option.id}
-                className="px-3 py-1 text-xs bg-gray-100 rounded hover:bg-gray-200 whitespace-nowrap"
+                className="px-3 py-1 text-xs bg-gray-800 rounded hover:bg-gray-700 whitespace-nowrap text-white"
               >
                 {option.label}
               </button>
             ))}
-            <button className="flex items-center px-2 py-1 text-xs text-gray-600 hover:text-gray-900">
+            <button className="flex items-center px-2 py-1 text-xs text-gray-400 hover:text-white">
               <MoreHorizontal className="w-4 h-4" />
             </button>
           </div>
@@ -298,7 +298,7 @@ const ScreenerPage = () => {
             </div>
             <input
               type="text"
-              className="w-full pl-10 pr-4 py-1.5 text-sm bg-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full pl-10 pr-4 py-1.5 text-sm bg-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-white placeholder-gray-400"
               placeholder="Search for stocks, indices, forex, etc."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -372,20 +372,20 @@ const ScreenerPage = () => {
             <tbody>
               {currentItems.map((stock) => (
                 <tr key={stock.id} className="border-b border-gray-800 hover:bg-gray-900">
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3 text-white">
                     <div className="flex items-center">
                       <span className="font-medium">{stock.symbol}</span>
                       <span className="ml-2 text-xs text-gray-400">{stock.name}</span>
                     </div>
                   </td>
-                  <td className="px-4 py-3">${stock.price.toFixed(2)}</td>
+                  <td className="px-4 py-3 text-white">${stock.price.toFixed(2)}</td>
                   <td className={`px-4 py-3 ${stock.change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                     {stock.change >= 0 ? '+' : ''}{stock.change.toFixed(2)} ({stock.change >= 0 ? '+' : ''}{stock.changePercent.toFixed(2)}%)
                   </td>
-                  <td className="px-4 py-3">{stock.volume}</td>
-                  <td className="px-4 py-3">${stock.marketCap}</td>
-                  <td className="px-4 py-3">{stock.pe.toFixed(2)}</td>
-                  <td className="px-4 py-3">${stock.eps.toFixed(2)}</td>
+                  <td className="px-4 py-3 text-white">{stock.volume}</td>
+                  <td className="px-4 py-3 text-white">${stock.marketCap}</td>
+                  <td className="px-4 py-3 text-white">{stock.pe.toFixed(2)}</td>
+                  <td className="px-4 py-3 text-white">${stock.eps.toFixed(2)}</td>
                   <td className="px-4 py-3 text-gray-400">{stock.sector}</td>
                 </tr>
               ))}

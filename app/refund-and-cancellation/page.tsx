@@ -7,26 +7,26 @@ export const metadata: Metadata = {
 
 export default function RefundAndCancellationPage() {
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
-			<div className="max-w-6xl mx-auto px-6 py-16">
+		<div className="min-h-screen bg-black text-white">
+			<div className="max-w-4xl mx-auto px-6 py-16">
 				{/* Header Section */}
 				<div className="text-center mb-16">
-					<h1 className="text-5xl md:text-6xl font-light text-gray-900 mb-6">
+					<h1 className="text-5xl md:text-6xl font-light text-white mb-6">
 						Refund and Cancellation Policy
 					</h1>
-					<div className="w-24 h-0.5 bg-gray-300 mx-auto mb-8"></div>
-					<p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+					<div className="w-24 h-0.5 bg-white mx-auto mb-8"></div>
+					<p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
 						Providing transparent and fair policies for refunds and cancellations 
 						while maintaining regulatory compliance and professional standards.
 					</p>
-					<p className="text-sm text-gray-500 mt-6">Last updated: {new Date().toLocaleDateString()}</p>
+					<p className="text-sm text-gray-400 mt-6">Last updated: {new Date().toLocaleDateString()}</p>
 				</div>
 
 				{/* Content Sections */}
 				<div className="space-y-16">
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Overview</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Overview</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								This Refund and Cancellation Policy explains the terms and conditions under which ViewMarket provides refunds and handles cancellations for various services and transactions. Due to the nature of financial trading and regulatory requirements, different rules apply to different types of transactions and services.
 							</p>
@@ -144,17 +144,17 @@ export default function RefundAndCancellationPage() {
 					</section>
 
 					{/* Contact Information */}
-					<section className="max-w-4xl mx-auto text-center bg-gray-50 p-8 rounded-lg">
-						<h2 className="text-3xl font-light text-gray-800 mb-6">Refund Support</h2>
-						<div className="w-16 h-0.5 bg-gray-300 mx-auto mb-6"></div>
-						<p className="text-lg text-gray-600 mb-6">
+					<section className="max-w-4xl mx-auto text-center">
+						<h2 className="text-3xl font-light text-white mb-6">Refund Support</h2>
+						<div className="w-16 h-0.5 bg-white mx-auto mb-6"></div>
+						<p className="text-lg text-gray-300 mb-6">
 							For questions about refunds, cancellations, or to submit a refund request:
 						</p>
-						<div className="space-y-2 text-gray-700">
-							<p><span className="font-medium">Email:</span> support@viewmarket.in</p>
-							<p><span className="font-medium">Phone:</span> 9241740350</p>
-							<p><span className="font-medium">Address:</span> opp an clg boring rd patna, bihar, india</p>
-							<p><span className="font-medium">Live Chat:</span> Available 24/7 through our trading platform</p>
+						<div className="space-y-2 text-gray-300">
+							<p><span className="font-medium text-white">Email:</span> support@viewmarket.in</p>
+							<p><span className="font-medium text-white">Phone:</span> 9241740350</p>
+							<p><span className="font-medium text-white">Address:</span> opp an clg boring rd patna, bihar, india</p>
+							<p><span className="font-medium text-white">Live Chat:</span> Available 24/7 through our trading platform</p>
 						</div>
 					</section>
 				</div>

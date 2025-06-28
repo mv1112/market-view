@@ -26,7 +26,7 @@ const testimonials = [
   {
     name: "Elena Rodriguez",
     username: "@elena_forex",
-    body: "Automated trading strategies work flawlessly. Best ROI platform we've used.",
+    body: "Automated trading strategies work flawlessly. Best ROI platform we&apos;ve used.",
     img: "/user-3.jpg",
   },
   {
@@ -51,7 +51,7 @@ const testimonials = [
 
 const ReviewCard = ({ img, name, username, body }: { img: string; name: string; username: string; body: string }) => {
   return (
-    <Card className="relative w-56 overflow-hidden p-4 bg-white border border-gray-300 shadow-lg">
+    <Card className="relative w-56 overflow-hidden p-4 border border-gray-700 shadow-lg" style={{ backgroundColor: "oklch(14.7% 0.004 49.25)" }}>
       <div className="flex flex-row items-center gap-2">
         <Image 
           className="rounded-full w-6 h-6 object-cover" 
@@ -61,13 +61,13 @@ const ReviewCard = ({ img, name, username, body }: { img: string; name: string; 
           height={24}
         />
         <div className="flex flex-col">
-          <figcaption className="text-xs font-medium text-black">
+          <figcaption className="text-xs font-medium text-white">
             {name}
           </figcaption>
-          <p className="text-xs font-medium text-gray-600">{username}</p>
+          <p className="text-xs font-medium text-gray-400">{username}</p>
         </div>
       </div>
-      <blockquote className="mt-2 text-xs text-black line-clamp-3">{body}</blockquote>
+      <blockquote className="mt-2 text-xs text-white line-clamp-3">{body}</blockquote>
     </Card>
   )
 }
@@ -85,21 +85,21 @@ function AuthPageContent() {
   return (
     <div className="flex min-h-screen w-full">
       {/* Left Side - Marquee Content */}
-      <div className="hidden lg:flex lg:w-1/2 bg-white relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 bg-black relative overflow-hidden">
         <div className="flex flex-col justify-center items-center w-full px-6 py-8 relative z-10 h-full">
           {/* Header */}
           <div className="text-center mb-4 max-w-lg">
-            <h1 className="text-2xl lg:text-3xl font-bold text-black mb-2">
+            <h1 className="text-2xl lg:text-3xl font-bold text-white mb-2">
               Professional Trading Platform
             </h1>
-            <p className="text-sm lg:text-base text-gray-700">
+            <p className="text-sm lg:text-base text-gray-300">
               Join thousands of traders who trust our enterprise-grade platform.
             </p>
           </div>
 
           {/* Testimonials Marquee */}
           <div className="relative w-full mb-4">
-            <h2 className="text-center text-lg font-semibold text-black mb-3">
+            <h2 className="text-center text-lg font-semibold text-white mb-3">
               Trusted by Industry Leaders
             </h2>
             <Marquee pauseOnHover className="[--duration:20s]">
@@ -117,13 +117,13 @@ function AuthPageContent() {
 
         {/* Background decoration */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-20 -right-20 w-60 h-60 bg-blue-100/30 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-indigo-100/30 rounded-full blur-3xl"></div>
+          <div className="absolute -top-20 -right-20 w-60 h-60 bg-gray-800/30 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-gray-700/30 rounded-full blur-3xl"></div>
         </div>
       </div>
 
       {/* Right Side - Authentication Forms */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-8 bg-white dark:bg-gray-900 min-h-screen lg:min-h-full">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-8 bg-black min-h-screen lg:min-h-full">
         <div className="w-full max-w-md">
           {mode === "login" && (
             <LoginForm
@@ -146,8 +146,8 @@ function AuthPageContent() {
 export default function AuthPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
-        <div className="text-black dark:text-white">Loading...</div>
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-white">Loading...</div>
       </div>
     }>
       <AuthPageContent />

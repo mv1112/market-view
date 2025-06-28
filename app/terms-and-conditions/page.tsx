@@ -7,26 +7,26 @@ export const metadata: Metadata = {
 
 export default function TermsAndConditionsPage() {
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
-			<div className="max-w-6xl mx-auto px-6 py-16">
+		<div className="min-h-screen bg-black text-white">
+			<div className="max-w-4xl mx-auto px-6 py-16">
 				{/* Header Section */}
 				<div className="text-center mb-16">
-					<h1 className="text-5xl md:text-6xl font-light text-gray-900 mb-6">
+					<h1 className="text-5xl md:text-6xl font-light text-white mb-6">
 						Terms and Conditions
 					</h1>
-					<div className="w-24 h-0.5 bg-gray-300 mx-auto mb-8"></div>
-					<p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+					<div className="w-24 h-0.5 bg-white mx-auto mb-8"></div>
+					<p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
 						Establishing clear guidelines and mutual understanding to ensure a secure, 
 						compliant, and professional trading environment for all users.
 					</p>
-					<p className="text-sm text-gray-500 mt-6">Last updated: {new Date().toLocaleDateString()}</p>
+					<p className="text-sm text-gray-400 mt-6">Last updated: {new Date().toLocaleDateString()}</p>
 				</div>
 
 				{/* Content Sections */}
 				<div className="space-y-16">
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Acceptance of Terms</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Acceptance of Terms</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Welcome to ViewMarket. These Terms and Conditions constitute a legally binding agreement between you and ViewMarket regarding your access to and use of our trading platform, website, and related services.
 							</p>
@@ -184,16 +184,16 @@ export default function TermsAndConditionsPage() {
 					</section>
 
 					{/* Contact Information */}
-					<section className="max-w-4xl mx-auto text-center bg-gray-50 p-8 rounded-lg">
-						<h2 className="text-3xl font-light text-gray-800 mb-6">Legal Questions</h2>
-						<div className="w-16 h-0.5 bg-gray-300 mx-auto mb-6"></div>
-						<p className="text-lg text-gray-600 mb-6">
+					<section className="max-w-4xl mx-auto text-center">
+						<h2 className="text-3xl font-light text-white mb-6">Legal Questions</h2>
+						<div className="w-16 h-0.5 bg-white mx-auto mb-6"></div>
+						<p className="text-lg text-gray-300 mb-6">
 							If you have any questions about these Terms and Conditions, please contact us:
 						</p>
-						<div className="space-y-2 text-gray-700">
-							<p><span className="font-medium">Email:</span> support@viewmarket.in</p>
-							<p><span className="font-medium">Address:</span> opp an clg boring rd patna, bihar, india</p>
-							<p><span className="font-medium">Phone:</span> 9241740350</p>
+						<div className="space-y-2 text-gray-300">
+							<p><span className="font-medium text-white">Email:</span> support@viewmarket.in</p>
+							<p><span className="font-medium text-white">Address:</span> opp an clg boring rd patna, bihar, india</p>
+							<p><span className="font-medium text-white">Phone:</span> 9241740350</p>
 						</div>
 					</section>
 				</div>

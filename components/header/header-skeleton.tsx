@@ -30,19 +30,19 @@ const HeaderSkeleton: FC<HeaderSkeletonProps> = ({ className }) => {
               {/* Navigation Links */}
               <li className={cn(styles.hide__mobile, styles.header__item)}>
                 <div className={styles.header__link}>
-                  <div className="h-4 w-16 bg-white/20 rounded animate-pulse"></div>
+                  <div className="h-4 w-16 bg-gray-700 rounded animate-pulse"></div>
                 </div>
               </li>
 
               <li className={cn(styles.hide__mobile, styles.header__trigger)}>
                 <div className={styles.header__link}>
-                  <div className="h-4 w-20 bg-white/20 rounded animate-pulse"></div>
+                  <div className="h-4 w-20 bg-gray-700 rounded animate-pulse"></div>
                 </div>
               </li>
 
               <li className={cn(styles.hide__tablet, styles.header__item)}>
                 <div className={styles.header__link}>
-                  <div className="h-4 w-16 bg-white/20 rounded animate-pulse"></div>
+                  <div className="h-4 w-16 bg-gray-700 rounded animate-pulse"></div>
                 </div>
               </li>
 
@@ -54,7 +54,7 @@ const HeaderSkeleton: FC<HeaderSkeletonProps> = ({ className }) => {
                   styles.header__get__started,
                 )}>
                 <div className={cn(styles.header__link, styles.button__get__started)}>
-                  <div className="h-4 w-20 bg-black/20 rounded animate-pulse"></div>
+                  <div className="h-4 w-20 bg-gray-600 rounded animate-pulse"></div>
                 </div>
               </li>
             </ul>

@@ -107,10 +107,10 @@ export function SignUpForm({ className, onSwitchToLogin, ...props }: SignUpFormP
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
+      <Card className="border-gray-700" style={{ backgroundColor: "oklch(14.7% 0.004 49.25)" }}>
         <CardHeader>
-          <CardTitle className="text-2xl">Sign up</CardTitle>
-          <CardDescription>Create a new account</CardDescription>
+          <CardTitle className="text-2xl text-white">Sign up</CardTitle>
+          <CardDescription className="text-gray-300">Create a new account</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSignUp}>
@@ -169,12 +169,12 @@ export function SignUpForm({ className, onSwitchToLogin, ...props }: SignUpFormP
                 />
               </div>
               {error && (
-                <div className="text-sm text-red-500 bg-red-50 p-3 rounded-md border border-red-200">
+                <div className="text-sm text-red-400 bg-red-900/20 p-3 rounded-md border border-red-800">
                   {error}
                 </div>
               )}
               {success && (
-                <div className="text-sm text-green-500 bg-green-50 p-3 rounded-md border border-green-200">
+                <div className="text-sm text-green-400 bg-green-900/20 p-3 rounded-md border border-green-800">
                   {success}
                 </div>
               )}

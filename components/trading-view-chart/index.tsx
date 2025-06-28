@@ -194,35 +194,35 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
     const data = generateSampleData()
     setChartData(data)
 
-    // Create the chart with fixed light theme colors
+    // Create the chart with dark theme colors
     const chart = createChart(chartContainerRef.current, {
       layout: {
-        background: { type: ColorType.Solid, color: '#ffffff' },
-        textColor: '#333333',
+        background: { type: ColorType.Solid, color: '#000000' },
+        textColor: '#ffffff',
         attributionLogo: false,
       },
       width: chartContainerRef.current.clientWidth,
       height: chartContainerRef.current.clientHeight,
       grid: {
         vertLines: {
-          color: '#f0f0f0',
+          color: '#2a2a2a',
         },
         horzLines: {
-          color: '#f0f0f0',
+          color: '#2a2a2a',
         },
       },
       crosshair: {
         mode: 1, // Normal crosshair
       },
       rightPriceScale: {
-        borderColor: '#cccccc',
+        borderColor: '#484848',
         scaleMargins: {
           top: 0.1,
           bottom: 0.1,
         },
       },
       timeScale: {
-        borderColor: '#cccccc',
+        borderColor: '#484848',
         timeVisible: true,
         secondsVisible: false,
       },
@@ -391,9 +391,9 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
       return (
     <div className={`relative w-full h-full ${className}`}>
       {isLoading && (
-        <div className="absolute inset-0 bg-white/95 backdrop-blur-sm flex flex-col z-10">
+        <div className="absolute inset-0 bg-black/95 backdrop-blur-sm flex flex-col z-10">
           {/* Chart Header Skeleton */}
-          <div className="p-4 border-b border-gray-200">
+          <div className="p-4 border-b border-gray-700">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <Skeleton className="h-6 w-20" /> {/* Symbol */}
@@ -410,7 +410,7 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
           
           {/* Chart Content Skeleton */}
           <div className="flex-1 p-4">
-            <div className="h-full bg-gray-50 rounded-lg border border-gray-200 relative overflow-hidden">
+            <div className="h-full bg-gray-900 rounded-lg border border-gray-700 relative overflow-hidden">
               {/* Price Scale */}
               <div className="absolute right-2 top-4 space-y-4">
                 {[...Array(8)].map((_, i) => (
@@ -455,7 +455,7 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
           </div>
           
           {/* Chart Tools Skeleton */}
-          <div className="p-4 border-t border-gray-200">
+          <div className="p-4 border-t border-gray-700">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Skeleton className="h-8 w-20" /> {/* Indicators */}
@@ -482,21 +482,21 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
         href="https://www.viewmarket.in/" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="absolute bottom-12 left-2 z-20 flex items-center gap-2 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded border border-gray-200 shadow-sm hover:bg-white hover:shadow-md transition-all duration-200 cursor-pointer"
+        className="absolute bottom-12 left-2 z-20 flex items-center gap-2 bg-black/95 backdrop-blur-sm px-3 py-1.5 rounded border border-gray-800 shadow-sm hover:bg-gray-900 hover:shadow-md transition-all duration-200 cursor-pointer"
         title="Visit ViewMarket.in"
       >
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" className="text-black">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" className="text-white">
           <path d="M2 2h16v16H2V2zm2 2v12h12V4H4zm2 2h8v8H6V6z"/>
         </svg>
-        <span className="text-sm font-semibold text-black">ViewMarket</span>
+        <span className="text-sm font-semibold text-white">ViewMarket</span>
       </a>
       
       {/* Chart overlay info */}
-      <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-2 rounded-lg border border-gray-200 shadow-sm">
-        <div className="text-sm font-semibold text-gray-800">{symbol}</div>
-        <div className="text-xs text-gray-600">{timeFrame} • {chartType}</div>
+      <div className="absolute top-4 right-4 bg-gray-800/90 backdrop-blur-sm px-3 py-2 rounded-lg border border-gray-600 shadow-sm">
+        <div className="text-sm font-semibold text-white">{symbol}</div>
+        <div className="text-xs text-gray-400">{timeFrame} • {chartType}</div>
         {indicators.length > 0 && (
-          <div className="text-xs text-blue-600 mt-1">
+          <div className="text-xs text-gray-300 mt-1">
             {indicators.length} indicator{indicators.length > 1 ? 's' : ''} applied
           </div>
         )}

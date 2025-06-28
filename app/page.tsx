@@ -8,7 +8,7 @@ import LongTermPlanning from './sections/long-term-planning'
 import IssueTracking from './sections/issue-tracking'
 import Collaborate from './sections/collaborate'
 import Foundation from './sections/foundation'
-import PreFooter from './sections/prefooter'
+
 import AmbientLighting from '@/components/ambient-lighting'
 import { LandingPageSkeleton } from '@/components/ui/skeleton'
 
@@ -39,7 +39,6 @@ const Home: FC = () => {
 			<IssueTracking />
 			<Collaborate />
 			<Foundation />
-			<PreFooter />
 		</main>
 	)
 }

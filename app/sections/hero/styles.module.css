@@ -17,7 +17,7 @@
 }
 
 .hero .sub__heading {
-	@apply text-gray-600 text-center mb-10 sm:text-left text-balance text-[21px] leading-[28px] tracking-[-0.37px] font-medium max-w-none md:max-w-[70%];
+	@apply text-gray-300 text-center mb-10 sm:text-left text-balance text-[21px] leading-[28px] tracking-[-0.37px] font-medium max-w-none md:max-w-[70%];
 }
 
 .hero .button__container {
@@ -33,7 +33,7 @@
 	@apply text-[15px] font-medium leading-[40px] h-10 px-4 rounded-[10px] flex gap-[6px] items-center justify-center cursor-pointer bg-transparent hover:bg-[var(--color-bg-quaternary)] transition-all duration-300;
 }
 .hero .intoducing__link span {
-	@apply bg-[linear-gradient(#333,#666666)];
+	@apply bg-[linear-gradient(#e5e5e5,#cccccc)];
 	background-clip: text;
 	-webkit-text-fill-color: transparent;
 }

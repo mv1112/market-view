@@ -4,18 +4,18 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ e
   const params = await searchParams
 
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10 bg-black">
       <div className="w-full max-w-sm">
         <div className="flex flex-col gap-6">
-          <Card>
+          <Card className="border-gray-700" style={{ backgroundColor: "oklch(14.7% 0.004 49.25)" }}>
             <CardHeader>
-              <CardTitle className="text-2xl">Sorry, something went wrong.</CardTitle>
+              <CardTitle className="text-2xl text-white">Sorry, something went wrong.</CardTitle>
             </CardHeader>
             <CardContent>
               {params?.error ? (
-                <p className="text-sm text-gray-500 dark:text-gray-400">Code error: {params.error}</p>
+                <p className="text-sm text-gray-400">Code error: {params.error}</p>
               ) : (
-                <p className="text-sm text-gray-500 dark:text-gray-400">An unspecified error occurred.</p>
+                <p className="text-sm text-gray-400">An unspecified error occurred.</p>
               )}
             </CardContent>
           </Card>

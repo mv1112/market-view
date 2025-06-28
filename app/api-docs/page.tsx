@@ -7,24 +7,23 @@ export const metadata: Metadata = {
 
 export default function ApiDocsPage() {
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
-			<div className="max-w-6xl mx-auto px-6 py-16">
+		<div className="min-h-screen bg-black text-white">
+			<div className="max-w-4xl mx-auto px-6 py-16">
 				<div className="text-center mb-16">
-					<h1 className="text-5xl md:text-6xl font-light text-gray-900 mb-6">
+					<h1 className="text-5xl md:text-6xl font-light text-white mb-6">
 						API Documentation
 					</h1>
-					<div className="w-24 h-0.5 bg-gray-300 mx-auto mb-8"></div>
-					<p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+					<div className="w-24 h-0.5 bg-white mx-auto mb-8"></div>
+					<p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
 						Comprehensive API documentation for integrating with ViewMarket&apos;s trading API platform. 
 						Build powerful trading applications with our robust and secure REST API and WebSocket API infrastructure.
 					</p>
-					<p className="text-sm text-gray-500 mt-6">Version 2.0 - Updated with latest financial API endpoints and features</p>
 				</div>
 
 				<div className="space-y-16">
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Introduction to ViewMarket Trading API</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Introduction to ViewMarket Trading API</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								ViewMarket trading API provides programmatic access to our comprehensive trading platform, allowing developers, quantitative traders, and institutions to build custom trading applications, automate strategies, and integrate with third-party systems. Our REST API follows industry standards and provides extensive endpoints for all trading operations, market data access, and account management features through our powerful financial API.
 							</p>
@@ -38,8 +37,8 @@ export default function ApiDocsPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Authentication and Security</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Authentication and Security</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Security is paramount in financial API design, and ViewMarket implements multiple layers of authentication and authorization to protect user accounts and trading activities. Our primary authentication mechanism uses API keys with configurable permissions, allowing users to create separate keys for different applications with specific access rights through our secure trading API infrastructure.
 							</p>
@@ -56,8 +55,8 @@ export default function ApiDocsPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Trading Operations REST API</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Trading Operations REST API</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								The trading operations REST API provides comprehensive order management capabilities supporting all major order types including market orders, limit orders, stop orders, stop-limit orders, and advanced order types such as iceberg orders and time-weighted average price orders. Each order type includes configurable parameters for fine-tuning execution behavior through our financial API endpoints.
 							</p>
@@ -74,8 +73,8 @@ export default function ApiDocsPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Market Data API Endpoints</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Market Data API Endpoints</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Our market data financial API provides access to real-time and historical market information across all supported asset classes. Real-time endpoints deliver live quotes, trade data, market depth, and order book information with sub-millisecond latency through our trading API. The data is available through both REST API endpoints for point-in-time queries and WebSocket API streams for continuous updates.
 							</p>
@@ -92,8 +91,8 @@ export default function ApiDocsPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">WebSocket API Streaming Protocol</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">WebSocket API Streaming Protocol</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Real-time data streaming is provided through WebSocket API connections that support multiple subscription channels with flexible filtering and aggregation options. Clients can subscribe to specific instruments, market segments, or create custom filters based on price movements, volume thresholds, or technical indicators through our trading API infrastructure.
 							</p>
@@ -110,8 +109,8 @@ export default function ApiDocsPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Rate Limiting and Performance</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Rate Limiting and Performance</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Trading API rate limiting is implemented using a token bucket algorithm with different limits for different endpoint categories and user subscription levels. Market data endpoints have higher rate limits than trading operations to support high-frequency data analysis while ensuring fair access to trading functionality through our REST API and financial API infrastructure.
 							</p>
@@ -125,8 +124,8 @@ export default function ApiDocsPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Software Development Kits</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Software Development Kits</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Native software development kits are available for Python, JavaScript, Java, C#, and Go, providing idiomatic interfaces for each language while abstracting away the complexity of direct trading API communication. Each SDK includes comprehensive API documentation, code examples, and API integration guides for seamless implementation.
 							</p>
@@ -143,15 +142,15 @@ export default function ApiDocsPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto text-center">
-						<h2 className="text-3xl font-light text-gray-800 mb-6">Trading API Support & Documentation</h2>
-						<div className="w-16 h-0.5 bg-gray-300 mx-auto mb-6"></div>
-						<p className="text-lg text-gray-600 mb-6">
+						<h2 className="text-3xl font-light text-white mb-6">Trading API Support & Documentation</h2>
+						<div className="w-16 h-0.5 bg-white mx-auto mb-6"></div>
+						<p className="text-lg text-gray-300 mb-6">
 							Need help with API integration or have technical questions? Our developer support team provides comprehensive assistance for all trading API and financial API-related inquiries.
 						</p>
-						<div className="space-y-2 text-gray-700">
-							<p><span className="font-medium">Developer Email:</span> api@viewmarket.in</p>
-							<p><span className="font-medium">Support Email:</span> support@viewmarket.in</p>
-							<p><span className="font-medium">Phone:</span> 9241740350</p>
+						<div className="space-y-2 text-gray-300">
+							<p><span className="font-medium text-white">Developer Email:</span> api@viewmarket.in</p>
+							<p><span className="font-medium text-white">Support Email:</span> support@viewmarket.in</p>
+							<p><span className="font-medium text-white">Phone:</span> 9241740350</p>
 						</div>
 					</section>
 				</div>
