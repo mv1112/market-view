@@ -208,6 +208,31 @@ body::-webkit-scrollbar {
 		0px 0px 1px 0px rgba(0, 0, 0, 0.08);
 	--icon-grayscale-image-filter: grayscale(100%) brightness(400%);
 	--bento-border: hsla(0, 0%, 100%, 0.03);
+	--popup-backdrop-background: rgba(0, 0, 0, 0.8);
+	--popup-content-background: #000000;
+	--popup-content-text-color: #FFFFFF;
+	--popup-content-border-color: rgba(255, 255, 255, 0.2);
+	--popup-header-border-color: rgba(255, 255, 255, 0.2);
+	--popup-title-text-color: #FFFFFF;
+	--close-button-text-color: #FFFFFF;
+	--close-button-hover-text-color: rgba(255, 255, 255, 0.8);
+	--search-bar-container-border-color: rgba(255, 255, 255, 0.2);
+	--search-icon-color: rgba(255, 255, 255, 0.6);
+	--search-input-border-color: #FFFFFF;
+	--search-input-text-color: #FFFFFF;
+	--search-input-placeholder-color: rgba(255, 255, 255, 0.6);
+	--result-item-hover-background: rgba(255, 255, 255, 0.15);
+	--symbol-description-text-color: rgba(255, 255, 255, 0.6);
+	--symbol-type-text-color: rgba(255, 255, 255, 0.6);
+	--symbol-exchange-background: rgba(255, 255, 255, 0.2);
+	--symbol-exchange-text-color: #FFFFFF;
+	--no-results-text-color: rgba(255, 255, 255, 0.6);
+	--filter-container-border-color: rgba(255, 255, 255, 0.2);
+	--filter-button-active-background: rgba(255, 255, 255, 0.3);
+	--filter-button-active-text-color: #FFFFFF;
+	--filter-button-inactive-text-color: rgba(255, 255, 255, 0.6);
+	--filter-button-hover-background: rgba(255, 255, 255, 0.15);
+	--filter-button-hover-text-color: #FFFFFF;
 }
 
 @media (max-width: 768px) {

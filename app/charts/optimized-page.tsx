@@ -56,7 +56,6 @@ export default function OptimizedChartsPage() {
 
   // Popup states
   const [activePopups, setActivePopups] = useState({
-    symbolSearch: false,
     timeFrameDropdown: false,
     candlestickDropdown: false,
     indicators: false,
@@ -108,7 +107,6 @@ export default function OptimizedChartsPage() {
   const handleSymbolSelect = useCallback((symbol: string) => {
     const trackSymbolChange = trackInteraction('symbol-change', 'symbol-search')
     setChartState(prev => ({ ...prev, symbol }))
-    setActivePopups(prev => ({ ...prev, symbolSearch: false }))
     trackSymbolChange()
   }, [trackInteraction])
 
@@ -275,7 +273,6 @@ export default function OptimizedChartsPage() {
               userEmail={userEmail}
               chartState={chartState}
               activePopups={activePopups}
-              onSymbolSearch={() => togglePopup('symbolSearch')}
               onTimeFrameToggle={() => togglePopup('timeFrameDropdown')}
               onCandlestickToggle={() => togglePopup('candlestickDropdown')}
               onIndicatorsToggle={() => togglePopup('indicators')}

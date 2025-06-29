@@ -5,7 +5,6 @@ import { MdFullscreen, MdFullscreenExit } from "react-icons/md"
 import { FaCamera } from "react-icons/fa"
 import { LuScreenShare, LuLogOut } from "react-icons/lu"
 import html2canvas from "html2canvas"
-import SymbolSearchPopup from "@/components/symbol-search-popup"
 import TimeFrameDropdown from "@/components/timeframe-dropdown"
 import CandlestickDropdown from "@/components/candlestick-dropdown"
 import IndicatorsPopup from "@/components/indicators-popup"
@@ -20,6 +19,7 @@ import HelpPopup from "@/components/help-popup"
 import { LogoutButton } from "@/components/logout-button"
 // Removed ThemeToggle import as only white theme is supported
 import TradingViewChart from "@/components/trading-view-chart"
+import HeaderSymbolSearchBtn from '@/components/charts/header-symbol-search-btn'
 
 import BrokerPage from "@/components/footer-pages/broker-page"
 import AlgoScriptPage from "@/components/footer-pages/algo-script-page"
@@ -41,7 +41,6 @@ type FooterPageType = 'broker' | 'algo-script' | 'screener' | 'strategy-tester' 
 
 export default function ChartsPage() {
   const [userEmail, setUserEmail] = useState<string>("")
-  const [isSymbolSearchOpen, setIsSymbolSearchOpen] = useState(false)
   const [selectedSymbol, setSelectedSymbol] = useState("NIFTY")
   const [isTimeFrameDropdownOpen, setIsTimeFrameDropdownOpen] = useState(false)
   const [selectedTimeFrame, setSelectedTimeFrame] = useState("1m")
@@ -298,18 +297,9 @@ export default function ChartsPage() {
             </div>
             
             <div className="flex items-center gap-3">
-              <button 
-                onClick={() => setIsSymbolSearchOpen(true)}
-                className="h-8 px-4 hover:bg-gray-800 hover:text-white rounded flex items-center gap-3 text-base font-medium transition-colors min-w-[140px] text-white"
-              >
-                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-                <span className="text-base font-semibold">{selectedSymbol}</span>
-              </button>
-              
+              {/* Symbol Search Button (replaces old symbol button) */}
+              <HeaderSymbolSearchBtn />
               <div className="w-px h-6 bg-gray-600 mx-1 self-center"></div>
-              
               <button 
                 onClick={() => setIsTimeFrameDropdownOpen(true)}
                 className="h-6 px-1.5 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center gap-1 text-sm font-medium transition-colors min-w-[45px] text-white"
@@ -607,13 +597,10 @@ export default function ChartsPage() {
       </div>
 
       {/* Popups */}
-      <SymbolSearchPopup 
-        isOpen={isSymbolSearchOpen}
-        onClose={() => setIsSymbolSearchOpen(false)}
-        onSymbolSelect={handleSymbolSelect}
-      />
+      <div className="dark">
+      </div>
       
-      <TimeFrameDropdown 
+      <TimeFrameDropdown
         isOpen={isTimeFrameDropdownOpen}
         onClose={() => setIsTimeFrameDropdownOpen(false)}
         selectedTimeFrame={selectedTimeFrame}

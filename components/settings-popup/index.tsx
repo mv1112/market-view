@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { X } from 'lucide-react'
+import styles from './styles.module.css'
 
 interface SettingsPopupProps {
   isOpen: boolean
@@ -10,8 +11,8 @@ interface SettingsPopupProps {
 
 // Navigation items for left sidebar (matching TradingView exactly)
 const navigationItems = [
-  { 
-    id: 'symbol', 
+  {
+    id: 'symbol',
     label: 'Symbol',
     icon: (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -20,8 +21,8 @@ const navigationItems = [
       </svg>
     )
   },
-  { 
-    id: 'status-line', 
+  {
+    id: 'status-line',
     label: 'Status line',
     icon: (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -31,8 +32,8 @@ const navigationItems = [
       </svg>
     )
   },
-  { 
-    id: 'scales-lines', 
+  {
+    id: 'scales-lines',
     label: 'Scales and lines',
     icon: (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -40,8 +41,8 @@ const navigationItems = [
       </svg>
     )
   },
-  { 
-    id: 'canvas', 
+  {
+    id: 'canvas',
     label: 'Canvas',
     icon: (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -49,8 +50,8 @@ const navigationItems = [
       </svg>
     )
   },
-  { 
-    id: 'trading', 
+  {
+    id: 'trading',
     label: 'Trading',
     icon: (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -59,8 +60,8 @@ const navigationItems = [
       </svg>
     )
   },
-  { 
-    id: 'alerts', 
+  {
+    id: 'alerts',
     label: 'Alerts',
     icon: (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -69,8 +70,8 @@ const navigationItems = [
       </svg>
     )
   },
-  { 
-    id: 'events', 
+  {
+    id: 'events',
     label: 'Events',
     icon: (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -108,11 +109,11 @@ export default function SettingsPopup({ isOpen, onClose }: SettingsPopupProps) {
   const renderSymbolSettings = () => (
     <div className="p-6 space-y-6">
       <div>
-        <h3 className="text-sm font-medium text-gray-600 mb-4 uppercase tracking-wide">CANDLES</h3>
+        <h3 className="text-sm font-medium text-white/60 mb-4 uppercase tracking-wide">CANDLES</h3>
         
         {/* Color bars based on previous close */}
         <div className="flex items-center justify-between mb-6">
-          <label className="text-sm text-gray-700">Color bars based on previous close</label>
+          <label className="text-sm text-white">Color bars based on previous close</label>
           <label className="relative inline-flex items-center cursor-pointer">
             <input
               type="checkbox"
@@ -121,7 +122,7 @@ export default function SettingsPopup({ isOpen, onClose }: SettingsPopupProps) {
               className="sr-only"
             />
             <div className={`w-11 h-6 rounded-full transition-colors ${
-              colorBarsOnPreviousClose ? 'bg-blue-600' : 'bg-gray-600'
+              colorBarsOnPreviousClose ? 'bg-white/30' : 'bg-white/10'
             }`}>
               <div className={`w-5 h-5 bg-white rounded-full transition-transform transform ${
                 colorBarsOnPreviousClose ? 'translate-x-6' : 'translate-x-0.5'
@@ -141,7 +142,7 @@ export default function SettingsPopup({ isOpen, onClose }: SettingsPopupProps) {
                 className="sr-only"
               />
               <div className={`w-5 h-5 rounded border-2 transition-colors ${
-                bodyEnabled ? 'bg-blue-600 border-blue-600' : 'border-gray-500'
+                bodyEnabled ? 'bg-white/30 border-white/30' : 'border-white'
               }`}>
                 {bodyEnabled && (
                   <svg className="w-3 h-3 text-white m-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -150,11 +151,11 @@ export default function SettingsPopup({ isOpen, onClose }: SettingsPopupProps) {
                 )}
               </div>
             </label>
-            <span className="text-sm text-gray-700">Body</span>
+            <span className="text-sm text-white">Body</span>
           </div>
           <div className="flex space-x-2">
-            <div className="w-8 h-6 bg-green-500 rounded cursor-pointer border border-gray-600"></div>
-            <div className="w-8 h-6 bg-red-500 rounded cursor-pointer border border-gray-600"></div>
+            <div className="w-8 h-6 bg-green-500 rounded cursor-pointer border border-white/20"></div>
+            <div className="w-8 h-6 bg-red-500 rounded cursor-pointer border border-white/20"></div>
           </div>
         </div>
 
@@ -169,7 +170,7 @@ export default function SettingsPopup({ isOpen, onClose }: SettingsPopupProps) {
                 className="sr-only"
               />
               <div className={`w-5 h-5 rounded border-2 transition-colors ${
-                bordersEnabled ? 'bg-blue-600 border-blue-600' : 'border-gray-500'
+                bordersEnabled ? 'bg-white/30 border-white/30' : 'border-white'
               }`}>
                 {bordersEnabled && (
                   <svg className="w-3 h-3 text-white m-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -178,11 +179,11 @@ export default function SettingsPopup({ isOpen, onClose }: SettingsPopupProps) {
                 )}
               </div>
             </label>
-            <span className="text-sm text-gray-700">Borders</span>
+            <span className="text-sm text-white">Borders</span>
           </div>
           <div className="flex space-x-2">
-            <div className="w-8 h-6 bg-green-500 rounded cursor-pointer border border-gray-300"></div>
-            <div className="w-8 h-6 bg-red-500 rounded cursor-pointer border border-gray-300"></div>
+            <div className="w-8 h-6 bg-green-500 rounded cursor-pointer border border-white/20"></div>
+            <div className="w-8 h-6 bg-red-500 rounded cursor-pointer border border-white/20"></div>
           </div>
         </div>
 
@@ -197,7 +198,7 @@ export default function SettingsPopup({ isOpen, onClose }: SettingsPopupProps) {
                 className="sr-only"
               />
               <div className={`w-5 h-5 rounded border-2 transition-colors ${
-                wickEnabled ? 'bg-blue-600 border-blue-600' : 'border-gray-400'
+                wickEnabled ? 'bg-white/30 border-white/30' : 'border-white'
               }`}>
                 {wickEnabled && (
                   <svg className="w-3 h-3 text-white m-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -206,25 +207,25 @@ export default function SettingsPopup({ isOpen, onClose }: SettingsPopupProps) {
                 )}
               </div>
             </label>
-            <span className="text-sm text-gray-700">Wick</span>
+            <span className="text-sm text-white">Wick</span>
           </div>
           <div className="flex space-x-2">
-            <div className="w-8 h-6 bg-green-500 rounded cursor-pointer border border-gray-300"></div>
-            <div className="w-8 h-6 bg-red-500 rounded cursor-pointer border border-gray-300"></div>
+            <div className="w-8 h-6 bg-green-500 rounded cursor-pointer border border-white/20"></div>
+            <div className="w-8 h-6 bg-red-500 rounded cursor-pointer border border-white/20"></div>
           </div>
         </div>
       </div>
 
       <div>
-        <h3 className="text-sm font-medium text-gray-600 mb-4 uppercase tracking-wide">DATA MODIFICATION</h3>
+        <h3 className="text-sm font-medium text-white/60 mb-4 uppercase tracking-wide">DATA MODIFICATION</h3>
         
         {/* Session */}
         <div className="flex items-center justify-between mb-4">
-          <span className="text-sm text-gray-700">Session</span>
-          <select 
+          <span className="text-sm text-white">Session</span>
+          <select
             value={selectedSession}
             onChange={(e) => setSelectedSession(e.target.value)}
-            className="bg-gray-100 border border-gray-300 rounded px-3 py-1 text-sm text-gray-900 focus:outline-none focus:border-gray-900"
+            className="bg-transparent border border-white rounded px-3 py-1 text-sm text-white focus:outline-none focus:border-white/80"
           >
             <option>Regular trading hours</option>
             <option>Extended trading hours</option>
@@ -234,11 +235,11 @@ export default function SettingsPopup({ isOpen, onClose }: SettingsPopupProps) {
 
         {/* Precision */}
         <div className="flex items-center justify-between mb-4">
-          <span className="text-sm text-gray-700">Precision</span>
-          <select 
+          <span className="text-sm text-white">Precision</span>
+          <select
             value={selectedPrecision}
             onChange={(e) => setSelectedPrecision(e.target.value)}
-            className="bg-gray-100 border border-gray-300 rounded px-3 py-1 text-sm text-gray-900 focus:outline-none focus:border-gray-900"
+            className="bg-transparent border border-white rounded px-3 py-1 text-sm text-white focus:outline-none focus:border-white/80"
           >
             <option>Default</option>
             <option>1</option>
@@ -250,11 +251,11 @@ export default function SettingsPopup({ isOpen, onClose }: SettingsPopupProps) {
 
         {/* Timezone */}
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-700">Timezone</span>
-          <select 
+          <span className="text-sm text-white">Timezone</span>
+          <select
             value={selectedTimezone}
             onChange={(e) => setSelectedTimezone(e.target.value)}
-            className="bg-gray-100 border border-gray-300 rounded px-3 py-1 text-sm text-gray-900 focus:outline-none focus:border-gray-900 max-w-xs"
+            className="bg-transparent border border-white rounded px-3 py-1 text-sm text-white focus:outline-none focus:border-white/80 max-w-xs"
           >
             <option>(UTC+5:30) Kolkata, Chennai, Mumbai, New Delhi</option>
             <option>(UTC+0:00) London</option>
@@ -268,7 +269,7 @@ export default function SettingsPopup({ isOpen, onClose }: SettingsPopupProps) {
 
   const renderOtherSettings = () => (
     <div className="p-6 flex items-center justify-center h-full">
-      <div className="text-center text-gray-600">
+      <div className="text-center text-white/60">
         <div className="text-4xl mb-4">⚙️</div>
         <p className="text-lg mb-2">{navigationItems.find(item => item.id === selectedCategory)?.label} Settings</p>
         <p className="text-sm">Configuration options coming soon...</p>
@@ -279,25 +280,15 @@ export default function SettingsPopup({ isOpen, onClose }: SettingsPopupProps) {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      
-      {/* Modal Content */}
-      <div className="relative bg-white text-gray-900 border border-gray-300 max-w-4xl w-full max-h-[90vh] h-[90vh] rounded-lg overflow-hidden mx-4 flex">
+    <div className={styles.popupBackdrop} onClick={onClose}>
+      <div className={styles.popupContent} onClick={(e) => e.stopPropagation()}>
         
         {/* Left Sidebar */}
-        <div className="w-64 bg-gray-50 border-r border-gray-300 flex flex-col">
+        <div className={styles.sidebar}>
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-300">
-            <h1 className="text-lg font-medium text-gray-900">Settings</h1>
-            <button 
-              onClick={onClose}
-              className="text-gray-600 hover:text-gray-900 transition-colors p-1"
-            >
+          <div className={styles.popupHeader}>
+            <h1 className={styles.popupTitle}>Settings</h1>
+            <button onClick={onClose} className={styles.closeButton}>
               <X className="h-5 w-5" />
             </button>
           </div>
@@ -308,13 +299,9 @@ export default function SettingsPopup({ isOpen, onClose }: SettingsPopupProps) {
               <button
                 key={item.id}
                 onClick={() => setSelectedCategory(item.id)}
-                className={`w-full flex items-center space-x-3 px-4 py-3 text-sm transition-colors ${
-                  selectedCategory === item.id
-                    ? 'bg-gray-900 text-white border-r-2 border-blue-500'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'
-                }`}
+                className={`${styles.sidebarButton} ${selectedCategory === item.id ? styles.active : ''}`}
               >
-                <span className={selectedCategory === item.id ? 'text-blue-500' : 'text-gray-600'}>
+                <span className={selectedCategory === item.id ? 'text-white' : 'text-white/60'}>
                   {item.icon}
                 </span>
                 <span>{item.label}</span>
@@ -331,12 +318,12 @@ export default function SettingsPopup({ isOpen, onClose }: SettingsPopupProps) {
           </div>
 
           {/* Bottom Actions */}
-          <div className="border-t border-gray-300 p-4 flex items-center justify-between bg-white">
+          <div className="border-t border-white/20 p-4 flex items-center justify-between bg-black">
             {/* Template Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setIsTemplateDropdownOpen(!isTemplateDropdownOpen)}
-                className="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded px-4 py-2 text-sm text-gray-900 flex items-center space-x-2 transition-colors"
+                className="bg-transparent hover:bg-white/15 border border-white rounded px-4 py-2 text-sm text-white flex items-center space-x-2 transition-colors"
               >
                 <span>{selectedTemplate}</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -345,7 +332,7 @@ export default function SettingsPopup({ isOpen, onClose }: SettingsPopupProps) {
               </button>
               
               {isTemplateDropdownOpen && (
-                <div className="absolute bottom-full left-0 mb-1 bg-white border border-gray-300 rounded shadow-lg min-w-full z-10">
+                <div className="absolute bottom-full left-0 mb-1 bg-black border border-white/20 rounded shadow-lg min-w-full z-10">
                   {templateOptions.map((option) => (
                     <button
                       key={option}
@@ -353,7 +340,7 @@ export default function SettingsPopup({ isOpen, onClose }: SettingsPopupProps) {
                         setSelectedTemplate(option)
                         setIsTemplateDropdownOpen(false)
                       }}
-                      className="w-full text-left px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 transition-colors"
+                      className="w-full text-left px-4 py-2 text-sm text-white hover:bg-white/15 transition-colors"
                     >
                       {option}
                     </button>
@@ -366,13 +353,13 @@ export default function SettingsPopup({ isOpen, onClose }: SettingsPopupProps) {
             <div className="flex space-x-3">
               <button
                 onClick={onClose}
-                className="px-6 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                className="px-6 py-2 text-sm text-white/60 hover:text-white transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={onClose}
-                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm transition-colors"
+                className="px-6 py-2 bg-white/30 hover:bg-white/40 text-white rounded text-sm transition-colors"
               >
                 Ok
               </button>

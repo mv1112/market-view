@@ -21,14 +21,6 @@ const PopupSkeleton = () => (
 )
 
 // Dynamic imports with loading states
-export const SymbolSearchPopup = dynamic(
-  () => import('@/components/symbol-search-popup'),
-  {
-    loading: () => <PopupSkeleton />,
-    ssr: false
-  }
-)
-
 export const TimeFrameDropdown = dynamic(
   () => import('@/components/timeframe-dropdown'),
   {

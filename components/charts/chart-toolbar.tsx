@@ -22,7 +22,6 @@ interface ChartState {
 }
 
 interface ActivePopups {
-  symbolSearch: boolean
   timeFrameDropdown: boolean
   candlestickDropdown: boolean
   indicators: boolean
@@ -40,7 +39,6 @@ interface ChartToolbarProps {
   userEmail: string
   chartState: ChartState
   activePopups: ActivePopups
-  onSymbolSearch: () => void
   onTimeFrameToggle: () => void
   onCandlestickToggle: () => void
   onIndicatorsToggle: () => void
@@ -60,7 +58,6 @@ export default function ChartToolbar({
   userEmail,
   chartState,
   activePopups,
-  onSymbolSearch,
   onTimeFrameToggle,
   onCandlestickToggle,
   onIndicatorsToggle,
@@ -91,18 +88,6 @@ export default function ChartToolbar({
           </div>
           <span className="font-semibold text-lg">MarketView</span>
         </Link>
-
-        {/* Symbol Search */}
-        <button
-          onClick={onSymbolSearch}
-          className={`px-3 py-1.5 rounded border transition-colors ${
-            activePopups.symbolSearch
-              ? 'bg-blue-600 border-blue-600 text-white'
-              : 'border-gray-600 hover:border-gray-500 hover:bg-gray-800'
-          }`}
-        >
-          {chartState.symbol}
-        </button>
 
         {/* Time Frame */}
         <button

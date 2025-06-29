@@ -1,0 +1,280 @@
+.popupBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+.popupContent {
+  position: relative;
+  background-color: #000000;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-width: 50rem;
+  width: 100%;
+  max-height: 90vh;
+  height: 85vh;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.popupHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0.5rem;
+}
+
+.popupTitle {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+
+.closeButton {
+  color: #FFFFFF;
+  transition: color 0.2s;
+  padding: 0.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.closeButton:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.searchBarContainer {
+  padding: 0 0.5rem 0.25rem;
+}
+
+.searchBar {
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.6);
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.5rem 1rem 0.5rem 3rem;
+  background-color: transparent;
+  border: 1px solid #FFFFFF;
+  border-radius: 0.5rem;
+  color: #FFFFFF;
+}
+
+.searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-width: 2px;
+}
+
+.mainContentArea {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  height: calc(100% - 140px);
+}
+
+.sidebar {
+  width: 14rem;
+  background-color: #000000;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+  padding: 0.75rem;
+}
+
+.sidebarButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  text-align: left;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s, color 0.2s;
+  margin-bottom: 0.25rem;
+  background-color: transparent;
+  border: 1px solid transparent;
+  color: #FFFFFF;
+}
+.sidebarButton:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+.sidebarButton.active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.sidebarButton:focus {
+  outline: none;
+  border: 2px solid #FFFFFF;
+}
+.sidebarButton.disabled {
+  background-color: transparent;
+  border-color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.4);
+}
+.sidebarButton .icon {
+  height: 1rem;
+  width: 1rem;
+}
+.sidebarButton .label {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.contentArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.contentAreaFull {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.contentTabsContainer {
+  padding: 0.25rem 0.5rem;
+}
+
+.contentTabs {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-start;
+}
+
+.tabButton {
+  padding: 0.375rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s, color 0.2s;
+  background-color: transparent;
+  border: 1px solid #FFFFFF;
+  color: #FFFFFF;
+  white-space: nowrap;
+  text-align: center;
+  flex: 1;
+}
+
+.tabButton:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.tabButton.active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.tabButton:focus {
+  outline: none;
+  border-width: 2px;
+}
+
+.tabButton.disabled {
+  background-color: transparent;
+  border-color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.contentList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem 0.5rem 0;
+}
+
+.listItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s, color 0.2s;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid transparent;
+  color: #FFFFFF;
+}
+.listItem:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+.listItem .text {
+  font-size: 0.875rem;
+  text-align: left;
+}
+.listItem .action {
+  position: relative;
+}
+.listItem .actionIcon {
+  color: rgba(255, 255, 255, 0.6);
+  font-family: monospace;
+  font-size: 0.75rem;
+}
+.listItem:hover .actionIcon {
+  color: #FFFFFF;
+}
+.symbolIcon {
+  font-size: 1.3rem;
+  width: 32px;
+  text-align: center;
+}
+.symbolMain {
+  color: #fff;
+  font-weight: 600;
+  width: 90px;
+}
+.symbolDesc {
+  color: #bbb;
+  font-size: 1rem;
+  flex: 1 1 0;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.symbolType {
+  color: #888;
+  font-size: 0.95rem;
+  width: 120px;
+  text-align: right;
+}
+.symbolExchange {
+  color: #aaa;
+  font-size: 0.95rem;
+  width: 60px;
+  text-align: right;
+}
+.symbolLogo {
+  font-size: 1.2rem;
+  width: 32px;
+  text-align: right;
+}
+
+.footerHint {
+  padding: 12px 0 12px 0;
+  text-align: center;
+  color: #888;
+  font-size: 0.95rem;
+  background: #181A20;
+  border-top: 1px solid #23262F;
+} 
