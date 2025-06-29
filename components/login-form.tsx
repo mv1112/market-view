@@ -3,13 +3,6 @@
 import { cn } from "@/lib/utils"
 import { authService, getDeviceFingerprint } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { SocialLoginButton } from "@/components/ui/social-login-button"
@@ -79,77 +72,101 @@ export function LoginForm({ className, onSwitchToSignUp, onSwitchToForgotPasswor
   }
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="border-gray-700" style={{ backgroundColor: "oklch(14.7% 0.004 49.25)" }}>
-        <CardHeader>
-          <CardTitle className="text-2xl text-white">Login</CardTitle>
-          <CardDescription className="text-gray-300">Enter your email and password to access your account</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin}>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={isLoading}
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                  <button
-                    type="button"
-                    onClick={onSwitchToForgotPassword}
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                    disabled={isLoading}
-                  >
-                    Forgot your password?
-                  </button>
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  disabled={isLoading}
-                />
-              </div>
-              {error && (
-                <div className="text-sm text-red-400 bg-red-900/20 p-3 rounded-md border border-red-800">
-                  {error}
-                </div>
-              )}
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Signing in..." : "Sign in"}
-              </Button>
-              
-              {/* Social Login Buttons */}
-              <div className="grid grid-cols-2 gap-3">
-                <SocialLoginButton provider="google" disabled={isLoading} />
-                <SocialLoginButton provider="github" disabled={isLoading} />
-              </div>
-            </div>
-            <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <button
-                type="button"
-                onClick={onSwitchToSignUp}
-                className="underline underline-offset-4 hover:text-primary"
-                disabled={isLoading}
-              >
-                Sign up
-              </button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
+    <div className={cn("flex flex-col gap-6 max-w-sm mx-auto w-full", className)} {...props}>
+      {/* Header */}
+      <div className="text-center">
+        <h1 className="text-2xl font-semibold text-white mb-2">
+          Welcome back
+        </h1>
+      </div>
+
+      {/* Login Form */}
+      <form onSubmit={handleLogin} className="space-y-4">
+        <div>
+          <Label htmlFor="email" className="text-sm text-gray-300 mb-2 block">
+            Email address
+          </Label>
+          <Input
+            id="email"
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={isLoading}
+            className="h-12 rounded-full"
+          />
+        </div>
+        
+        <div>
+          <Label htmlFor="password" className="text-sm text-gray-300 mb-2 block">
+            Password
+          </Label>
+          <Input
+            id="password"
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={isLoading}
+            className="h-12 rounded-full"
+          />
+        </div>
+
+        {/* Forgot Password Link */}
+        <div className="text-right">
+          <button
+            type="button"
+            onClick={onSwitchToForgotPassword}
+            className="text-sm text-blue-400 hover:text-blue-300 hover:underline"
+            disabled={isLoading}
+          >
+            Forgot your password?
+          </button>
+        </div>
+
+        {error && (
+          <div className="text-sm text-red-400 bg-red-900/20 p-3 rounded-md border border-red-800">
+            {error}
+          </div>
+        )}
+
+        <Button 
+          type="submit" 
+          className="w-full h-12 bg-white text-black hover:bg-gray-100 rounded-full font-medium"
+          disabled={isLoading}
+        >
+          {isLoading ? "Signing in..." : "Continue"}
+        </Button>
+      </form>
+
+      {/* Sign Up Link */}
+      <div className="text-center text-sm text-gray-400">
+        Don&apos;t have an account?{" "}
+        <button
+          type="button"
+          onClick={onSwitchToSignUp}
+          className="text-blue-400 hover:text-blue-300 hover:underline"
+          disabled={isLoading}
+        >
+          Sign up
+        </button>
+      </div>
+
+      {/* Divider */}
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t border-gray-600" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-black px-2 text-gray-400">OR</span>
+        </div>
+      </div>
+
+      {/* Social Login Buttons */}
+      <div className="space-y-3">
+        <SocialLoginButton provider="google" disabled={isLoading} />
+        <SocialLoginButton provider="github" disabled={isLoading} />
+      </div>
     </div>
   )
 }

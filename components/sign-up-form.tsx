@@ -3,13 +3,6 @@
 import { cn } from "@/lib/utils"
 import { authService } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { SocialLoginButton } from "@/components/ui/social-login-button"
@@ -106,101 +99,131 @@ export function SignUpForm({ className, onSwitchToLogin, ...props }: SignUpFormP
   }
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="border-gray-700" style={{ backgroundColor: "oklch(14.7% 0.004 49.25)" }}>
-        <CardHeader>
-          <CardTitle className="text-2xl text-white">Sign up</CardTitle>
-          <CardDescription className="text-gray-300">Create a new account</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSignUp}>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="fullName">Full Name</Label>
-                <Input
-                  id="fullName"
-                  name="fullName"
-                  type="text"
-                  placeholder="John Doe"
-                  required
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  disabled={isLoading}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  disabled={isLoading}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  disabled={isLoading}
-                />
-                <p className="text-xs text-muted-foreground">
-                  Password must be at least 8 characters with uppercase, lowercase, and number
-                </p>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
-                <Input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  required
-                  value={formData.confirmPassword}
-                  onChange={handleInputChange}
-                  disabled={isLoading}
-                />
-              </div>
-              {error && (
-                <div className="text-sm text-red-400 bg-red-900/20 p-3 rounded-md border border-red-800">
-                  {error}
-                </div>
-              )}
-              {success && (
-                <div className="text-sm text-green-400 bg-green-900/20 p-3 rounded-md border border-green-800">
-                  {success}
-                </div>
-              )}
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Creating account..." : "Create account"}
-              </Button>
-              
-              {/* Social Login Buttons */}
-              <div className="grid grid-cols-2 gap-3">
-                <SocialLoginButton provider="google" disabled={isLoading} />
-                <SocialLoginButton provider="github" disabled={isLoading} />
-              </div>
-            </div>
-            <div className="mt-4 text-center text-sm">
-              Already have an account?{" "}
-              <button
-                type="button"
-                onClick={onSwitchToLogin}
-                className="underline underline-offset-4 hover:text-primary"
-              >
-                Login
-              </button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
+    <div className={cn("flex flex-col gap-6 max-w-sm mx-auto w-full", className)} {...props}>
+      {/* Header */}
+      <div className="text-center">
+        <h1 className="text-2xl font-semibold text-white mb-2">
+          Create your account
+        </h1>
+      </div>
+
+      {/* Sign Up Form */}
+      <form onSubmit={handleSignUp} className="space-y-4">
+        <div>
+          <Label htmlFor="fullName" className="text-sm text-gray-300 mb-2 block">
+            Full Name
+          </Label>
+          <Input
+            id="fullName"
+            name="fullName"
+            type="text"
+            required
+            value={formData.fullName}
+            onChange={handleInputChange}
+            disabled={isLoading}
+            className="h-12 rounded-full"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="email" className="text-sm text-gray-300 mb-2 block">
+            Email address
+          </Label>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            required
+            value={formData.email}
+            onChange={handleInputChange}
+            disabled={isLoading}
+            className="h-12 rounded-full"
+          />
+        </div>
+        
+        <div>
+          <Label htmlFor="password" className="text-sm text-gray-300 mb-2 block">
+            Password
+          </Label>
+          <Input
+            id="password"
+            name="password"
+            type="password"
+            required
+            value={formData.password}
+            onChange={handleInputChange}
+            disabled={isLoading}
+            className="h-12 rounded-full"
+          />
+          <p className="text-xs text-gray-400 mt-1">
+            Password must be at least 8 characters with uppercase, lowercase, and number
+          </p>
+        </div>
+
+        <div>
+          <Label htmlFor="confirmPassword" className="text-sm text-gray-300 mb-2 block">
+            Confirm Password
+          </Label>
+          <Input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            required
+            value={formData.confirmPassword}
+            onChange={handleInputChange}
+            disabled={isLoading}
+            className="h-12 rounded-full"
+          />
+        </div>
+
+        {error && (
+          <div className="text-sm text-red-400 bg-red-900/20 p-3 rounded-md border border-red-800">
+            {error}
+          </div>
+        )}
+        
+        {success && (
+          <div className="text-sm text-green-400 bg-green-900/20 p-3 rounded-md border border-green-800">
+            {success}
+          </div>
+        )}
+
+        <Button 
+          type="submit" 
+          className="w-full h-12 bg-white text-black hover:bg-gray-100 rounded-full font-medium"
+          disabled={isLoading}
+        >
+          {isLoading ? "Creating account..." : "Create account"}
+        </Button>
+      </form>
+
+      {/* Login Link */}
+      <div className="text-center text-sm text-gray-400">
+        Already have an account?{" "}
+        <button
+          type="button"
+          onClick={onSwitchToLogin}
+          className="text-blue-400 hover:text-blue-300 hover:underline"
+        >
+          Login
+        </button>
+      </div>
+
+      {/* Divider */}
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t border-gray-600" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-black px-2 text-gray-400">OR</span>
+        </div>
+      </div>
+
+      {/* Social Login Buttons */}
+      <div className="space-y-3">
+        <SocialLoginButton provider="google" disabled={isLoading} />
+        <SocialLoginButton provider="github" disabled={isLoading} />
+      </div>
     </div>
   )
 }
