@@ -25,8 +25,8 @@ export default function DisclaimerPage() {
 				{/* Content Sections */}
 				<div className="space-y-16">
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">General Disclaimer</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">General Disclaimer</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								The information provided on ViewMarket and through our trading platform is for general informational and educational purposes only. It should not be considered as personalized investment advice, financial advice, or a recommendation to buy or sell any particular security, commodity, or investment product.
 							</p>
@@ -40,35 +40,35 @@ export default function DisclaimerPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Investment Risk Disclaimer</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Investment Risk Disclaimer</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Trading and investing in financial markets involves substantial risk of loss and is not suitable for all investors. The value of investments can go down as well as up, and you may lose some or all of your invested capital.
 							</p>
-							<div className="grid md:grid-cols-2 gap-8 mt-8">
-								<div className="bg-white/50 p-6 rounded-lg border border-gray-100">
-									<h3 className="font-semibold text-gray-800 mb-3">Market Risk</h3>
-									<p className="text-gray-600">Financial markets are volatile and unpredictable. Prices of securities, commodities, currencies, and other financial instruments can fluctuate rapidly due to various factors including economic conditions, political events, market sentiment, and regulatory changes.</p>
+							<div className="space-y-8 mt-8">
+								<div>
+									<h3 className="font-semibold text-white mb-3">Market Risk</h3>
+									<p className="text-gray-300">Financial markets are volatile and unpredictable. Prices of securities, commodities, currencies, and other financial instruments can fluctuate rapidly due to various factors including economic conditions, political events, market sentiment, and regulatory changes.</p>
 								</div>
-								<div className="bg-white/50 p-6 rounded-lg border border-gray-100">
-									<h3 className="font-semibold text-gray-800 mb-3">Liquidity Risk</h3>
-									<p className="text-gray-600">Some investments may be difficult to sell or may only be sellable at a significant discount to their perceived value. During volatile market conditions, liquidity may be reduced, making it challenging to execute trades at desired prices.</p>
+								<div>
+									<h3 className="font-semibold text-white mb-3">Liquidity Risk</h3>
+									<p className="text-gray-300">Some investments may be difficult to sell or may only be sellable at a significant discount to their perceived value. During volatile market conditions, liquidity may be reduced, making it challenging to execute trades at desired prices.</p>
 								</div>
-								<div className="bg-white/50 p-6 rounded-lg border border-gray-100">
-									<h3 className="font-semibold text-gray-800 mb-3">Leverage Risk</h3>
-									<p className="text-gray-600">If you use leverage or margin trading, your potential losses may exceed your initial investment. Leveraged trading amplifies both potential gains and losses, and you could lose more money than you initially deposited.</p>
+								<div>
+									<h3 className="font-semibold text-white mb-3">Leverage Risk</h3>
+									<p className="text-gray-300">If you use leverage or margin trading, your potential losses may exceed your initial investment. Leveraged trading amplifies both potential gains and losses, and you could lose more money than you initially deposited.</p>
 								</div>
-								<div className="bg-white/50 p-6 rounded-lg border border-gray-100">
-									<h3 className="font-semibold text-gray-800 mb-3">Currency Risk</h3>
-									<p className="text-gray-600">If you trade in instruments denominated in currencies other than your base currency, you are exposed to currency exchange rate fluctuations that may affect the value of your investments.</p>
+								<div>
+									<h3 className="font-semibold text-white mb-3">Currency Risk</h3>
+									<p className="text-gray-300">If you trade in instruments denominated in currencies other than your base currency, you are exposed to currency exchange rate fluctuations that may affect the value of your investments.</p>
 								</div>
 							</div>
 						</div>
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">No Guarantee of Performance</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">No Guarantee of Performance</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								ViewMarket makes no representations or warranties regarding the performance of any investment strategy, trading system, or market analysis provided through our platform. We do not guarantee any specific investment results or returns.
 							</p>
@@ -82,8 +82,8 @@ export default function DisclaimerPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Third-Party Information</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Third-Party Information</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								ViewMarket may provide access to third-party research, analysis, news, data, and other information. We do not endorse or verify the accuracy, completeness, or reliability of any third-party information.
 							</p>
@@ -97,38 +97,36 @@ export default function DisclaimerPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Technology Risks</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Technology Risks</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Our trading platform relies on complex technology systems, and there are inherent risks associated with electronic trading platforms, including but not limited to system failures, internet connectivity issues, and cybersecurity threats.
 							</p>
-							<div className="bg-white/50 p-8 rounded-lg border border-gray-100 mt-6">
-								<div className="grid md:grid-cols-3 gap-6">
-									<div className="text-center">
-										<h3 className="font-semibold text-gray-800 mb-3">System Downtime</h3>
-										<p className="text-gray-600 text-sm">Platform may experience temporary outages or maintenance periods</p>
-									</div>
-									<div className="text-center">
-										<h3 className="font-semibold text-gray-800 mb-3">Execution Delays</h3>
-										<p className="text-gray-600 text-sm">Order execution may be delayed during high volatility periods</p>
-									</div>
-									<div className="text-center">
-										<h3 className="font-semibold text-gray-800 mb-3">Data Security</h3>
-										<p className="text-gray-600 text-sm">Robust security measures implemented with user precautions advised</p>
-									</div>
+							<div className="space-y-6 mt-6">
+								<div>
+									<h3 className="font-semibold text-white mb-3">System Downtime</h3>
+									<p className="text-gray-300">Platform may experience temporary outages or maintenance periods</p>
+								</div>
+								<div>
+									<h3 className="font-semibold text-white mb-3">Execution Delays</h3>
+									<p className="text-gray-300">Order execution may be delayed during high volatility periods</p>
+								</div>
+								<div>
+									<h3 className="font-semibold text-white mb-3">Data Security</h3>
+									<p className="text-gray-300">Robust security measures implemented with user precautions advised</p>
 								</div>
 							</div>
 						</div>
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Professional Advice</h2>
-						<div className="bg-blue-50 p-8 rounded-lg border border-blue-100">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Professional Advice</h2>
+						<div className="space-y-6">
 							<div className="text-center mb-6">
-								<div className="w-16 h-0.5 bg-blue-300 mx-auto mb-4"></div>
-								<h3 className="text-xl font-medium text-gray-800 mb-4">Seek Expert Guidance</h3>
+								<div className="w-16 h-0.5 bg-white mx-auto mb-4"></div>
+								<h3 className="text-xl font-medium text-white mb-4">Seek Expert Guidance</h3>
 							</div>
-							<div className="space-y-4 text-lg leading-relaxed text-gray-600">
+							<div className="space-y-4 text-lg leading-relaxed text-gray-300">
 								<p>
 									Before making any investment decisions, you should seek advice from qualified financial advisors, accountants, and legal professionals who can provide personalized guidance based on your specific circumstances.
 								</p>
@@ -140,16 +138,16 @@ export default function DisclaimerPage() {
 					</section>
 
 					{/* Contact Information */}
-					<section className="max-w-4xl mx-auto text-center bg-gray-50 p-8 rounded-lg">
-						<h2 className="text-3xl font-light text-gray-800 mb-6">Contact Information</h2>
-						<div className="w-16 h-0.5 bg-gray-300 mx-auto mb-6"></div>
-						<p className="text-lg text-gray-600 mb-6">
+					<section className="max-w-4xl mx-auto text-center">
+						<h2 className="text-3xl font-light text-white mb-6">Contact Information</h2>
+						<div className="w-16 h-0.5 bg-white mx-auto mb-6"></div>
+						<p className="text-lg text-gray-300 mb-6">
 							If you have any questions about this disclaimer or need clarification on any aspect of our services, please contact our legal team:
 						</p>
-						<div className="space-y-2 text-gray-700">
-							<p><span className="font-medium">Email:</span> support@viewmarket.in</p>
-							<p><span className="font-medium">Address:</span> opp an clg boring rd patna, bihar, india</p>
-							<p><span className="font-medium">Phone:</span> 9241740350</p>
+						<div className="space-y-2 text-gray-300">
+							<p><span className="font-medium text-white">Email:</span> support@viewmarket.in</p>
+							<p><span className="font-medium text-white">Address:</span> opp an clg boring rd patna, bihar, india</p>
+							<p><span className="font-medium text-white">Phone:</span> 9241740350</p>
 						</div>
 					</section>
 				</div>

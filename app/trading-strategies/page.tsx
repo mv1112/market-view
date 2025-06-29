@@ -7,24 +7,23 @@ export const metadata: Metadata = {
 
 export default function TradingStrategiesPage() {
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
-			<div className="max-w-6xl mx-auto px-6 py-16">
+		<div className="min-h-screen bg-black text-white">
+			<div className="max-w-4xl mx-auto px-6 py-16">
 				<div className="text-center mb-16">
-					<h1 className="text-5xl md:text-6xl font-light text-gray-900 mb-6">
+					<h1 className="text-5xl md:text-6xl font-light text-white mb-6">
 						Trading Strategies
 					</h1>
-					<div className="w-24 h-0.5 bg-gray-300 mx-auto mb-8"></div>
-					<p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+					<div className="w-24 h-0.5 bg-white mx-auto mb-8"></div>
+					<p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
 						Discover professional trading strategies and methodologies including day trading strategies, swing trading, 
 						scalping strategy, and position trading designed to help you navigate different market conditions.
 					</p>
-					<p className="text-sm text-gray-500 mt-6">Time-tested trading strategies for modern markets</p>
 				</div>
 
 				<div className="space-y-16">
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Understanding Professional Trading Strategies</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Understanding Professional Trading Strategies</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Trading strategies are systematic approaches to buying and selling financial instruments based on predefined rules and criteria. These professional trading strategies help traders make consistent decisions by removing emotional bias and providing clear entry and exit points. ViewMarket&apos;s comprehensive strategy library includes both traditional and modern day trading strategies that have been proven effective across different market conditions and time frames.
 							</p>
@@ -38,8 +37,8 @@ export default function TradingStrategiesPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Momentum Day Trading Strategies</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Momentum Day Trading Strategies</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Momentum day trading strategies capitalize on the tendency of strongly moving stocks to continue moving in the same direction within a single trading session. These trading strategies identify securities that are experiencing significant price movements accompanied by high volume, indicating strong interest from market participants. Day trading strategies typically involve holding positions for minutes to hours, making them ideal for active traders who can monitor markets continuously.
 							</p>
@@ -56,8 +55,8 @@ export default function TradingStrategiesPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Mean Reversion Trading Strategies</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Mean Reversion Trading Strategies</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Mean reversion trading strategies are based on the statistical principle that asset prices tend to return to their historical average over time. These trading strategies identify securities that have moved significantly away from their mean value and position for a return to that average using advanced technical analysis software. Mean reversion approaches are particularly effective in range-bound markets and during periods of high volatility when prices frequently overshoot their fundamental values.
 							</p>
@@ -74,8 +73,8 @@ export default function TradingStrategiesPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Swing Trading Methodologies</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Swing Trading Methodologies</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Swing trading strategies aim to capture short to medium-term price movements by holding positions for several days to several weeks. This approach seeks to profit from price swings within larger trends, making swing trading suitable for traders who cannot monitor markets continuously throughout the day but want to participate in significant price movements. Swing trading bridges the gap between day trading strategies and position trading approaches.
 							</p>
@@ -92,8 +91,8 @@ export default function TradingStrategiesPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Scalping Strategy Techniques</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Scalping Strategy Techniques</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Scalping strategy is a high-frequency approach within day trading strategies that involves making numerous small profits from minor price changes throughout the trading day. Scalping strategy practitioners typically hold positions for seconds to minutes, aiming to capture small price movements that occur due to bid-ask spreads, temporary supply and demand imbalances, and market inefficiencies using sophisticated technical analysis software.
 							</p>
@@ -110,8 +109,8 @@ export default function TradingStrategiesPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Position Trading Approaches</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Position Trading Approaches</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Position trading is a long-term strategy that involves holding positions for weeks, months, or even years based on fundamental analysis and long-term market trends. Position trading focuses on major market movements and is less concerned with short-term price fluctuations, making this approach suitable for investors who prefer a more passive trading style compared to day trading strategies or swing trading approaches.
 							</p>
@@ -128,15 +127,15 @@ export default function TradingStrategiesPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto text-center">
-						<h2 className="text-3xl font-light text-gray-800 mb-6">Start Your Trading Strategies Journey</h2>
-						<div className="w-16 h-0.5 bg-gray-300 mx-auto mb-6"></div>
-						<p className="text-lg text-gray-600 mb-6">
+						<h2 className="text-3xl font-light text-white mb-6">Start Your Trading Strategies Journey</h2>
+						<div className="w-16 h-0.5 bg-white mx-auto mb-6"></div>
+						<p className="text-lg text-gray-300 mb-6">
 							Ready to implement professional trading strategies? Our team can help you select and customize day trading strategies, swing trading, scalping strategy, or position trading approaches that match your goals.
 						</p>
-						<div className="space-y-2 text-gray-700">
-							<p><span className="font-medium">Email:</span> support@viewmarket.in</p>
-							<p><span className="font-medium">Phone:</span> 9241740350</p>
-							<p><span className="font-medium">WhatsApp:</span> +91 9241740350</p>
+						<div className="space-y-2 text-gray-300">
+							<p><span className="font-medium text-white">Email:</span> support@viewmarket.in</p>
+							<p><span className="font-medium text-white">Phone:</span> 9241740350</p>
+							<p><span className="font-medium text-white">WhatsApp:</span> +91 9241740350</p>
 						</div>
 					</section>
 				</div>

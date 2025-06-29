@@ -22,8 +22,8 @@ export default function CareersPage() {
 
 				<div className="space-y-16">
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Why Choose Fintech Careers at ViewMarket?</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Why Choose Fintech Careers at ViewMarket?</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								ViewMarket offers unique fintech careers opportunities to work at the intersection of finance and technology, where innovation meets practical application in real-world trading scenarios. Our team members in financial technology jobs are passionate about creating solutions that make a tangible difference in how people interact with financial markets, and we&apos;re looking for individuals who share this vision and want to contribute to our mission through exciting trading technology careers.
 							</p>
@@ -40,8 +40,8 @@ export default function CareersPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Software Engineer Opportunities</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Software Engineer Opportunities</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Our software engineer team is responsible for building and maintaining the core platform that powers ViewMarket&apos;s trading infrastructure through exciting fintech careers. We&apos;re looking for talented software engineer professionals who are passionate about creating high-performance, scalable systems that can handle the demanding requirements of financial markets. Our technology stack includes modern frameworks and tools, and we&apos;re always exploring new technologies that can improve our platform&apos;s capabilities in financial technology jobs.
 							</p>
@@ -61,8 +61,8 @@ export default function CareersPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Quantitative Analyst Positions</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Quantitative Analyst Positions</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Our quantitative analyst team develops the mathematical models and algorithms that power our trading strategies, risk management systems, and market analysis tools through exciting fintech careers. We&apos;re seeking quantitative analyst professionals with strong backgrounds in mathematics, statistics, and programming who are passionate about applying quantitative methods to financial markets through specialized financial technology jobs.
 							</p>
@@ -82,8 +82,8 @@ export default function CareersPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Product & Design Roles</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Product & Design Roles</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Our product team is responsible for defining the vision and roadmap for ViewMarket&apos;s platform through strategic fintech careers, working closely with users to understand their needs and translating those needs into product features and improvements. We&apos;re looking for product managers who understand both technology and financial markets, and who can balance user needs with technical constraints and business objectives in our financial technology jobs environment.
 							</p>
@@ -103,8 +103,8 @@ export default function CareersPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Business & Operations Teams</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Business & Operations Teams</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Our business development team identifies and develops strategic partnerships that expand our platform&apos;s capabilities and reach through dynamic fintech careers. This includes relationships with data providers, technology vendors, broker-dealers, and other financial services companies that can enhance our users&apos; trading experience within our financial technology jobs framework.
 							</p>
@@ -124,8 +124,8 @@ export default function CareersPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Company Culture & Benefits</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Company Culture & Benefits</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								ViewMarket&apos;s culture is built on the principles of innovation, collaboration, and excellence in our fintech careers environment. We believe that the best results come from diverse teams working together toward common goals, and we actively foster an environment where different perspectives are valued and respected. Our team members come from various backgrounds and bring unique experiences that enrich our collective problem-solving capabilities in financial technology jobs.
 							</p>
@@ -142,15 +142,15 @@ export default function CareersPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto text-center">
-						<h2 className="text-3xl font-light text-gray-800 mb-6">Ready to Join Our Fintech Careers Team?</h2>
-						<div className="w-16 h-0.5 bg-gray-300 mx-auto mb-6"></div>
-						<p className="text-lg text-gray-600 mb-6">
+						<h2 className="text-3xl font-light text-white mb-6">Ready to Join Our Fintech Careers Team?</h2>
+						<div className="w-16 h-0.5 bg-white mx-auto mb-6"></div>
+						<p className="text-lg text-gray-300 mb-6">
 							Interested in exciting financial technology jobs and helping shape the future of trading technology careers? We&apos;d love to hear from you and discuss how your skills can contribute to our fintech jobs mission.
 						</p>
-						<div className="space-y-2 text-gray-700">
-							<p><span className="font-medium">Careers Email:</span> careers@viewmarket.in</p>
-							<p><span className="font-medium">General Email:</span> support@viewmarket.in</p>
-							<p><span className="font-medium">Phone:</span> 9241740350</p>
+						<div className="space-y-2 text-gray-300">
+							<p><span className="font-medium text-white">Careers Email:</span> careers@viewmarket.in</p>
+							<p><span className="font-medium text-white">General Email:</span> support@viewmarket.in</p>
+							<p><span className="font-medium text-white">Phone:</span> 9241740350</p>
 						</div>
 					</section>
 				</div>

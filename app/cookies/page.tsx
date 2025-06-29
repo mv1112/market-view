@@ -30,9 +30,9 @@ export default function CookiesPage() {
 							<p>
 								Cookies are small text files stored on your device when you visit our website or use our trading platform. These files contain information that helps us improve your user experience, remember your preferences, and provide personalized services.
 							</p>
-							<div className="bg-blue-50 p-6 rounded-lg border border-blue-100">
-								<p className="font-medium text-gray-800 mb-3">Cookies serve various purposes:</p>
-								<ul className="space-y-2 text-gray-600">
+							<div className="mt-6">
+								<p className="font-medium text-white mb-3">Cookies serve various purposes:</p>
+								<ul className="space-y-2 text-gray-300">
 									<li>• Essential functionality enabling platform operation</li>
 									<li>• Analytics helping us understand user interactions</li>
 									<li>• Personalization based on your preferences</li>
@@ -43,68 +43,68 @@ export default function CookiesPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Types of Cookies We Use</h2>
-						<div className="grid md:grid-cols-2 gap-8 mb-8">
-							<div className="bg-white/50 p-6 rounded-lg border border-gray-100">
-								<h3 className="font-semibold text-gray-800 mb-3">Strictly Necessary Cookies</h3>
-								<p className="text-gray-600">Essential for platform operation including security, authentication, and accessibility. Cannot be disabled.</p>
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Types of Cookies We Use</h2>
+						<div className="space-y-8 mb-8">
+							<div>
+								<h3 className="font-semibold text-white mb-3">Strictly Necessary Cookies</h3>
+								<p className="text-gray-300">Essential for platform operation including security, authentication, and accessibility. Cannot be disabled.</p>
 							</div>
-							<div className="bg-white/50 p-6 rounded-lg border border-gray-100">
-								<h3 className="font-semibold text-gray-800 mb-3">Functional Cookies</h3>
-								<p className="text-gray-600">Enable enhanced features and personalization like language settings and dashboard customizations.</p>
+							<div>
+								<h3 className="font-semibold text-white mb-3">Functional Cookies</h3>
+								<p className="text-gray-300">Enable enhanced features and personalization like language settings and dashboard customizations.</p>
 							</div>
-							<div className="bg-white/50 p-6 rounded-lg border border-gray-100">
-								<h3 className="font-semibold text-gray-800 mb-3">Analytics Cookies</h3>
-								<p className="text-gray-600">Help us understand user interactions, popular pages, and platform performance for improvements.</p>
+							<div>
+								<h3 className="font-semibold text-white mb-3">Analytics Cookies</h3>
+								<p className="text-gray-300">Help us understand user interactions, popular pages, and platform performance for improvements.</p>
 							</div>
-							<div className="bg-white/50 p-6 rounded-lg border border-gray-100">
-								<h3 className="font-semibold text-gray-800 mb-3">Security Cookies</h3>
-								<p className="text-gray-600">Identify suspicious activities, prevent fraud, and protect against unauthorized access.</p>
+							<div>
+								<h3 className="font-semibold text-white mb-3">Security Cookies</h3>
+								<p className="text-gray-300">Identify suspicious activities, prevent fraud, and protect against unauthorized access.</p>
 							</div>
 						</div>
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">How We Use Cookies</h2>
-						<div className="bg-green-50 p-8 rounded-lg border border-green-100">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">How We Use Cookies</h2>
+						<div>
 							<div className="text-center mb-6">
-								<div className="w-16 h-0.5 bg-green-300 mx-auto mb-4"></div>
-								<h3 className="text-xl font-medium text-gray-800 mb-4">Platform Enhancement</h3>
+								<div className="w-16 h-0.5 bg-white mx-auto mb-4"></div>
+								<h3 className="text-xl font-medium text-white mb-4">Platform Enhancement</h3>
 							</div>
-							<div className="grid md:grid-cols-2 gap-8">
+							<div className="space-y-8">
 								<div>
-									<h4 className="font-semibold text-gray-800 mb-3">Authentication & Sessions</h4>
-									<p className="text-gray-600 mb-4">Maintain login status and secure session management across platform features.</p>
-									<h4 className="font-semibold text-gray-800 mb-3">Security & Fraud Prevention</h4>
-									<p className="text-gray-600">Detect unusual patterns and protect against unauthorized access and fraudulent activities.</p>
+									<h4 className="font-semibold text-white mb-3">Authentication & Sessions</h4>
+									<p className="text-gray-300 mb-4">Maintain login status and secure session management across platform features.</p>
+									<h4 className="font-semibold text-white mb-3">Security & Fraud Prevention</h4>
+									<p className="text-gray-300">Detect unusual patterns and protect against unauthorized access and fraudulent activities.</p>
 								</div>
 								<div>
-									<h4 className="font-semibold text-gray-800 mb-3">Personalization</h4>
-									<p className="text-gray-600 mb-4">Remember preferences like language, currency, and dashboard configurations.</p>
-									<h4 className="font-semibold text-gray-800 mb-3">Platform Analytics</h4>
-									<p className="text-gray-600">Gather insights for continuous improvement and feature development.</p>
+									<h4 className="font-semibold text-white mb-3">Personalization</h4>
+									<p className="text-gray-300 mb-4">Remember preferences like language, currency, and dashboard configurations.</p>
+									<h4 className="font-semibold text-white mb-3">Platform Analytics</h4>
+									<p className="text-gray-300">Gather insights for continuous improvement and feature development.</p>
 								</div>
 							</div>
 						</div>
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Third-Party Cookies</h2>
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Third-Party Cookies</h2>
 						<div className="space-y-6">
-							<div className="bg-white/80 p-6 rounded-lg border border-gray-100">
-								<h3 className="font-semibold text-gray-800 mb-4 text-center">Trusted Partners</h3>
-								<div className="grid md:grid-cols-2 gap-6">
+							<div>
+								<h3 className="font-semibold text-white mb-4 text-center">Trusted Partners</h3>
+								<div className="space-y-6">
 									<div>
-										<h4 className="font-medium text-gray-800 mb-2">Analytics Providers</h4>
-										<p className="text-sm text-gray-600 mb-3">Google Analytics for platform usage insights and performance metrics</p>
-										<h4 className="font-medium text-gray-800 mb-2">Customer Support</h4>
-										<p className="text-sm text-gray-600">Live chat and help desk services for customer communication</p>
+										<h4 className="font-medium text-white mb-2">Analytics Providers</h4>
+										<p className="text-gray-300 mb-3">Google Analytics for platform usage insights and performance metrics</p>
+										<h4 className="font-medium text-white mb-2">Customer Support</h4>
+										<p className="text-gray-300">Live chat and help desk services for customer communication</p>
 									</div>
 									<div>
-										<h4 className="font-medium text-gray-800 mb-2">Market Data Providers</h4>
-										<p className="text-sm text-gray-600 mb-3">Real-time financial information and market analysis tools</p>
-										<h4 className="font-medium text-gray-800 mb-2">Payment Processors</h4>
-										<p className="text-sm text-gray-600">Secure transaction processing and fraud prevention services</p>
+										<h4 className="font-medium text-white mb-2">Market Data Providers</h4>
+										<p className="text-gray-300 mb-3">Real-time financial information and market analysis tools</p>
+										<h4 className="font-medium text-white mb-2">Payment Processors</h4>
+										<p className="text-gray-300">Secure transaction processing and fraud prevention services</p>
 									</div>
 								</div>
 							</div>
@@ -112,47 +112,47 @@ export default function CookiesPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Managing Cookie Preferences</h2>
-						<div className="bg-purple-50 p-8 rounded-lg border border-purple-100">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Managing Cookie Preferences</h2>
+						<div>
 							<div className="text-center mb-6">
-								<div className="w-16 h-0.5 bg-purple-300 mx-auto mb-4"></div>
-								<h3 className="text-xl font-medium text-gray-800 mb-4">Your Control Options</h3>
+								<div className="w-16 h-0.5 bg-white mx-auto mb-4"></div>
+								<h3 className="text-xl font-medium text-white mb-4">Your Control Options</h3>
 							</div>
-							<div className="grid md:grid-cols-2 gap-8">
+							<div className="space-y-8">
 								<div>
-									<h4 className="font-semibold text-gray-800 mb-3">Platform Settings</h4>
-									<p className="text-gray-600 mb-4">Cookie banner on first visit allows acceptance, rejection, or customization of preferences.</p>
-									<h4 className="font-semibold text-gray-800 mb-3">Mobile Device Settings</h4>
-									<p className="text-gray-600">Manage tracking through iOS and Android privacy settings and app permissions.</p>
+									<h4 className="font-semibold text-white mb-3">Platform Settings</h4>
+									<p className="text-gray-300 mb-4">Cookie banner on first visit allows acceptance, rejection, or customization of preferences.</p>
+									<h4 className="font-semibold text-white mb-3">Mobile Device Settings</h4>
+									<p className="text-gray-300">Manage tracking through iOS and Android privacy settings and app permissions.</p>
 								</div>
 								<div>
-									<h4 className="font-semibold text-gray-800 mb-3">Browser Settings</h4>
-									<p className="text-gray-600 mb-4">Control cookies through browser settings - accept, reject, or notification preferences.</p>
-									<h4 className="font-semibold text-gray-800 mb-3">Industry Opt-Out Tools</h4>
-									<p className="text-gray-600">Digital Advertising Alliance WebChoices and Network Advertising Initiative tools.</p>
+									<h4 className="font-semibold text-white mb-3">Browser Settings</h4>
+									<p className="text-gray-300 mb-4">Control cookies through browser settings - accept, reject, or notification preferences.</p>
+									<h4 className="font-semibold text-white mb-3">Industry Opt-Out Tools</h4>
+									<p className="text-gray-300">Digital Advertising Alliance WebChoices and Network Advertising Initiative tools.</p>
 								</div>
 							</div>
 						</div>
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Impact of Disabling Cookies</h2>
-						<div className="grid md:grid-cols-2 gap-6">
-							<div className="bg-red-50 p-6 rounded-lg border border-red-100">
-								<h3 className="font-semibold text-gray-800 mb-3">Essential Cookies</h3>
-								<p className="text-gray-600">Disabling may prevent access to platform areas and core trading features.</p>
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Impact of Disabling Cookies</h2>
+						<div className="space-y-6">
+							<div>
+								<h3 className="font-semibold text-white mb-3">Essential Cookies</h3>
+								<p className="text-gray-300">Disabling may prevent access to platform areas and core trading features.</p>
 							</div>
-							<div className="bg-yellow-50 p-6 rounded-lg border border-yellow-100">
-								<h3 className="font-semibold text-gray-800 mb-3">Functional Cookies</h3>
-								<p className="text-gray-600">Platform won&apos;t remember preferences; reconfiguration needed each visit.</p>
+							<div>
+								<h3 className="font-semibold text-white mb-3">Functional Cookies</h3>
+								<p className="text-gray-300">Platform won&apos;t remember preferences; reconfiguration needed each visit.</p>
 							</div>
-							<div className="bg-blue-50 p-6 rounded-lg border border-blue-100">
-								<h3 className="font-semibold text-gray-800 mb-3">Analytics Cookies</h3>
-								<p className="text-gray-600">Limits our ability to improve platform and identify potential issues.</p>
+							<div>
+								<h3 className="font-semibold text-white mb-3">Analytics Cookies</h3>
+								<p className="text-gray-300">Limits our ability to improve platform and identify potential issues.</p>
 							</div>
-							<div className="bg-green-50 p-6 rounded-lg border border-green-100">
-								<h3 className="font-semibold text-gray-800 mb-3">Marketing Cookies</h3>
-								<p className="text-gray-600">Less relevant advertising but no effect on core platform functionality.</p>
+							<div>
+								<h3 className="font-semibold text-white mb-3">Marketing Cookies</h3>
+								<p className="text-gray-300">Less relevant advertising but no effect on core platform functionality.</p>
 							</div>
 						</div>
 					</section>

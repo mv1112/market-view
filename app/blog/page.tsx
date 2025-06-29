@@ -40,8 +40,8 @@ export default function BlogPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Comprehensive Trading Education & Tutorials</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Comprehensive Trading Education & Tutorials</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Our comprehensive trading education library covers everything from basic market mechanics to advanced trading strategies and risk management techniques through our extensive trading blog resources. Whether you&apos;re a complete beginner looking to understand the fundamentals of trading or an experienced trader seeking to refine your approach, our trading education content provides valuable trading insights and practical guidance.
 							</p>
@@ -58,8 +58,8 @@ export default function BlogPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Platform Updates & Feature Highlights</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Platform Updates & Feature Highlights</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Stay informed about the latest improvements and new features added to the ViewMarket platform through our regular update announcements and feature spotlights in our trading blog. Our development team is constantly working to enhance the platform&apos;s capabilities, and we believe in keeping our users informed about how these improvements can benefit their trading activities through detailed market commentary and trading insights.
 							</p>
@@ -76,8 +76,8 @@ export default function BlogPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Financial News & Industry Trends</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Financial News & Industry Trends</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Our comprehensive financial news coverage keeps traders informed about regulatory developments, technological innovations, and market structure changes that could impact their trading activities through expert market analysis. Understanding the broader context of market evolution helps traders adapt their strategies and stay ahead of industry trends with our detailed trading insights and market commentary.
 							</p>
@@ -94,8 +94,8 @@ export default function BlogPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Guest Expert Contributions</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Guest Expert Contributions</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								We regularly feature contributions from leading traders, analysts, and financial industry experts who share their trading insights and experiences with our community through our trading blog platform. These guest articles provide diverse perspectives on market analysis, trading strategies, and industry developments from professionals with extensive real-world experience, offering valuable market commentary and trading education content.
 							</p>
@@ -112,8 +112,8 @@ export default function BlogPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Economic Calendar & Market Commentary</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Economic Calendar & Market Commentary</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Our economic calendar coverage provides detailed market analysis of upcoming economic events, earnings announcements, and policy decisions that could impact financial markets through comprehensive market commentary. Understanding the potential market impact of scheduled events helps traders prepare for volatility and identify trading opportunities around major announcements via our expert trading insights and financial news coverage.
 							</p>

@@ -30,9 +30,9 @@ export default function TermsAndConditionsPage() {
 							<p>
 								Welcome to ViewMarket. These Terms and Conditions constitute a legally binding agreement between you and ViewMarket regarding your access to and use of our trading platform, website, and related services.
 							</p>
-							<div className="bg-blue-50 p-6 rounded-lg border border-blue-100">
-								<p className="font-medium text-gray-800 mb-3">By accessing or using ViewMarket, you acknowledge that you have:</p>
-								<ul className="space-y-2 text-gray-600">
+							<div className="mt-6">
+								<p className="font-medium text-white mb-3">By accessing or using ViewMarket, you acknowledge that you have:</p>
+								<ul className="space-y-2 text-gray-300">
 									<li>• Read and understood these Terms and all applicable laws</li>
 									<li>• Agreed to be bound by these Terms and regulations</li>
 									<li>• Confirmed your legal capacity to enter binding agreements</li>
@@ -42,47 +42,47 @@ export default function TermsAndConditionsPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Eligibility and Account Registration</h2>
-						<div className="grid md:grid-cols-2 gap-8 mb-8">
-							<div className="bg-white/50 p-6 rounded-lg border border-gray-100">
-								<h3 className="font-semibold text-gray-800 mb-3">Age Requirement</h3>
-								<p className="text-gray-600">Must be at least 18 years of age with legal capacity to enter binding agreements.</p>
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Eligibility and Account Registration</h2>
+						<div className="space-y-8 mb-8">
+							<div>
+								<h3 className="font-semibold text-white mb-3">Age Requirement</h3>
+								<p className="text-gray-300">Must be at least 18 years of age with legal capacity to enter binding agreements.</p>
 							</div>
-							<div className="bg-white/50 p-6 rounded-lg border border-gray-100">
-								<h3 className="font-semibold text-gray-800 mb-3">Account Creation</h3>
-								<p className="text-gray-600">Provide accurate, complete information and maintain confidentiality of credentials.</p>
+							<div>
+								<h3 className="font-semibold text-white mb-3">Account Creation</h3>
+								<p className="text-gray-300">Provide accurate, complete information and maintain confidentiality of credentials.</p>
 							</div>
-							<div className="bg-white/50 p-6 rounded-lg border border-gray-100">
-								<h3 className="font-semibold text-gray-800 mb-3">Identity Verification</h3>
-								<p className="text-gray-600">Additional documentation may be required for regulatory compliance and KYC procedures.</p>
+							<div>
+								<h3 className="font-semibold text-white mb-3">Identity Verification</h3>
+								<p className="text-gray-300">Additional documentation may be required for regulatory compliance and KYC procedures.</p>
 							</div>
-							<div className="bg-white/50 p-6 rounded-lg border border-gray-100">
-								<h3 className="font-semibold text-gray-800 mb-3">One Account Policy</h3>
-								<p className="text-gray-600">Each user permitted only one account. Multiple accounts may result in suspension.</p>
+							<div>
+								<h3 className="font-semibold text-white mb-3">One Account Policy</h3>
+								<p className="text-gray-300">Each user permitted only one account. Multiple accounts may result in suspension.</p>
 							</div>
 						</div>
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Trading Services</h2>
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Trading Services</h2>
 						<div className="space-y-8">
-							<div className="bg-green-50 p-8 rounded-lg border border-green-100">
+							<div>
 								<div className="text-center mb-6">
-									<div className="w-16 h-0.5 bg-green-300 mx-auto mb-4"></div>
-									<h3 className="text-xl font-medium text-gray-800 mb-4">Professional Trading Platform</h3>
+									<div className="w-16 h-0.5 bg-white mx-auto mb-4"></div>
+									<h3 className="text-xl font-medium text-white mb-4">Professional Trading Platform</h3>
 								</div>
-								<div className="grid md:grid-cols-2 gap-8">
+								<div className="space-y-8">
 									<div>
-										<h4 className="font-semibold text-gray-800 mb-3">Order Execution</h4>
-										<p className="text-gray-600 mb-4">Reasonable efforts for prompt execution, subject to market conditions and liquidity factors.</p>
-										<h4 className="font-semibold text-gray-800 mb-3">Trading Hours</h4>
-										<p className="text-gray-600">Available during market hours with possible suspensions for maintenance or operational requirements.</p>
+										<h4 className="font-semibold text-white mb-3">Order Execution</h4>
+										<p className="text-gray-300 mb-4">Reasonable efforts for prompt execution, subject to market conditions and liquidity factors.</p>
+										<h4 className="font-semibold text-white mb-3">Trading Hours</h4>
+										<p className="text-gray-300">Available during market hours with possible suspensions for maintenance or operational requirements.</p>
 									</div>
 									<div>
-										<h4 className="font-semibold text-gray-800 mb-3">Fees & Commissions</h4>
-										<p className="text-gray-600 mb-4">Transparent fee structure available on website, subject to periodic updates.</p>
-										<h4 className="font-semibold text-gray-800 mb-3">Risk Management</h4>
-										<p className="text-gray-600">Position limits, margin requirements, and protective measures for user and platform security.</p>
+										<h4 className="font-semibold text-white mb-3">Fees & Commissions</h4>
+										<p className="text-gray-300 mb-4">Transparent fee structure available on website, subject to periodic updates.</p>
+										<h4 className="font-semibold text-white mb-3">Risk Management</h4>
+										<p className="text-gray-300">Position limits, margin requirements, and protective measures for user and platform security.</p>
 									</div>
 								</div>
 							</div>
@@ -90,28 +90,28 @@ export default function TermsAndConditionsPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">User Responsibilities</h2>
+						<h2 className="text-3xl font-light text-white mb-8 text-center">User Responsibilities</h2>
 						<div className="space-y-6">
-							<div className="bg-white/80 p-6 rounded-lg border border-gray-100">
-								<h3 className="font-semibold text-gray-800 mb-4 text-center">Compliance Requirements</h3>
-								<div className="grid md:grid-cols-3 gap-6">
-									<div className="text-center">
-										<h4 className="font-medium text-gray-800 mb-2">Legal Compliance</h4>
-										<p className="text-sm text-gray-600">Follow all applicable laws and regulatory requirements</p>
+							<div>
+								<h3 className="font-semibold text-white mb-4 text-center">Compliance Requirements</h3>
+								<div className="space-y-6">
+									<div>
+										<h4 className="font-medium text-white mb-2">Legal Compliance</h4>
+										<p className="text-gray-300">Follow all applicable laws and regulatory requirements</p>
 									</div>
-									<div className="text-center">
-										<h4 className="font-medium text-gray-800 mb-2">System Integrity</h4>
-										<p className="text-sm text-gray-600">No hacking, viruses, or disruptive activities</p>
+									<div>
+										<h4 className="font-medium text-white mb-2">System Integrity</h4>
+										<p className="text-gray-300">No hacking, viruses, or disruptive activities</p>
 									</div>
-									<div className="text-center">
-										<h4 className="font-medium text-gray-800 mb-2">Accurate Information</h4>
-										<p className="text-sm text-gray-600">Provide truthful information and prompt updates</p>
+									<div>
+										<h4 className="font-medium text-white mb-2">Accurate Information</h4>
+										<p className="text-gray-300">Provide truthful information and prompt updates</p>
 									</div>
 								</div>
 							</div>
-							<div className="bg-red-50 p-6 rounded-lg border border-red-100">
-								<h3 className="font-semibold text-gray-800 mb-3 text-center">Prohibited Activities</h3>
-								<div className="grid md:grid-cols-2 gap-4 text-sm text-gray-600">
+							<div>
+								<h3 className="font-semibold text-white mb-3 text-center">Prohibited Activities</h3>
+								<div className="space-y-2 text-gray-300">
 									<div>• Market manipulation and insider trading</div>
 									<div>• Money laundering and terrorism financing</div>
 									<div>• Violation of sanctions and regulations</div>
@@ -122,19 +122,19 @@ export default function TermsAndConditionsPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Intellectual Property Rights</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
-							<div className="bg-white/80 p-6 rounded-lg border border-gray-100">
-								<h3 className="font-semibold text-gray-800 mb-3">Protected Content</h3>
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Intellectual Property Rights</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
+							<div>
+								<h3 className="font-semibold text-white mb-3">Protected Content</h3>
 								<p className="mb-4">ViewMarket content, including text, graphics, logos, software, and materials, are protected by intellectual property laws and remain our exclusive property.</p>
-								<div className="grid md:grid-cols-2 gap-6">
+								<div className="space-y-6">
 									<div>
-										<h4 className="font-medium text-gray-800 mb-2">Limited License</h4>
-										<p className="text-sm text-gray-600">Non-exclusive access for personal trading activities only</p>
+										<h4 className="font-medium text-white mb-2">Limited License</h4>
+										<p className="text-gray-300">Non-exclusive access for personal trading activities only</p>
 									</div>
 									<div>
-										<h4 className="font-medium text-gray-800 mb-2">Usage Restrictions</h4>
-										<p className="text-sm text-gray-600">No copying, redistribution, or derivative works without permission</p>
+										<h4 className="font-medium text-white mb-2">Usage Restrictions</h4>
+										<p className="text-gray-300">No copying, redistribution, or derivative works without permission</p>
 									</div>
 								</div>
 							</div>
@@ -142,43 +142,43 @@ export default function TermsAndConditionsPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Disclaimers and Liability</h2>
-						<div className="bg-yellow-50 p-8 rounded-lg border border-yellow-100">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Disclaimers and Liability</h2>
+						<div>
 							<div className="text-center mb-6">
-								<div className="w-16 h-0.5 bg-yellow-300 mx-auto mb-4"></div>
-								<h3 className="text-xl font-medium text-gray-800 mb-4">Important Disclaimers</h3>
+								<div className="w-16 h-0.5 bg-white mx-auto mb-4"></div>
+								<h3 className="text-xl font-medium text-white mb-4">Important Disclaimers</h3>
 							</div>
-							<div className="grid md:grid-cols-2 gap-8">
+							<div className="space-y-8">
 								<div>
-									<h4 className="font-semibold text-gray-800 mb-3">No Warranties</h4>
-									<p className="text-gray-600 mb-4">Services provided &quot;as is&quot; without warranties of merchantability or fitness for purpose.</p>
-									<h4 className="font-semibold text-gray-800 mb-3">Investment Risk</h4>
-									<p className="text-gray-600">Substantial risk of loss - users solely responsible for trading decisions.</p>
+									<h4 className="font-semibold text-white mb-3">No Warranties</h4>
+									<p className="text-gray-300 mb-4">Services provided &quot;as is&quot; without warranties of merchantability or fitness for purpose.</p>
+									<h4 className="font-semibold text-white mb-3">Investment Risk</h4>
+									<p className="text-gray-300">Substantial risk of loss - users solely responsible for trading decisions.</p>
 								</div>
 								<div>
-									<h4 className="font-semibold text-gray-800 mb-3">Limitation of Liability</h4>
-									<p className="text-gray-600 mb-4">Maximum legal limitation on direct, indirect, and consequential damages.</p>
-									<h4 className="font-semibold text-gray-800 mb-3">Force Majeure</h4>
-									<p className="text-gray-600">No liability for circumstances beyond reasonable control.</p>
+									<h4 className="font-semibold text-white mb-3">Limitation of Liability</h4>
+									<p className="text-gray-300 mb-4">Maximum legal limitation on direct, indirect, and consequential damages.</p>
+									<h4 className="font-semibold text-white mb-3">Force Majeure</h4>
+									<p className="text-gray-300">No liability for circumstances beyond reasonable control.</p>
 								</div>
 							</div>
 						</div>
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Termination & Dispute Resolution</h2>
-						<div className="grid md:grid-cols-2 gap-8">
-							<div className="bg-white/50 p-6 rounded-lg border border-gray-100">
-								<h3 className="font-semibold text-gray-800 mb-3">Account Termination</h3>
-								<p className="text-gray-600 mb-3">Either party may terminate with or without cause. Violations result in immediate suspension.</p>
-								<h4 className="font-medium text-gray-800 mb-2">Effect of Termination</h4>
-								<p className="text-sm text-gray-600">Access ceases immediately with remaining balance returned per legal requirements.</p>
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Termination & Dispute Resolution</h2>
+						<div className="space-y-8">
+							<div>
+								<h3 className="font-semibold text-white mb-3">Account Termination</h3>
+								<p className="text-gray-300 mb-3">Either party may terminate with or without cause. Violations result in immediate suspension.</p>
+								<h4 className="font-medium text-white mb-2">Effect of Termination</h4>
+								<p className="text-gray-300">Access ceases immediately with remaining balance returned per legal requirements.</p>
 							</div>
-							<div className="bg-white/50 p-6 rounded-lg border border-gray-100">
-								<h3 className="font-semibold text-gray-800 mb-3">Dispute Resolution</h3>
-								<p className="text-gray-600 mb-3">Binding arbitration through American Arbitration Association rules in New York.</p>
-								<h4 className="font-medium text-gray-800 mb-2">Class Action Waiver</h4>
-								<p className="text-sm text-gray-600">Individual basis proceedings only, not as part of class actions.</p>
+							<div>
+								<h3 className="font-semibold text-white mb-3">Dispute Resolution</h3>
+								<p className="text-gray-300 mb-3">Binding arbitration through American Arbitration Association rules in New York.</p>
+								<h4 className="font-medium text-white mb-2">Class Action Waiver</h4>
+								<p className="text-gray-300">Individual basis proceedings only, not as part of class actions.</p>
 							</div>
 						</div>
 					</section>

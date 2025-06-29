@@ -40,8 +40,8 @@ export default function BrandPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Visual Brand Guidelines & Identity</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Visual Brand Guidelines & Identity</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Our visual brand guidelines system is designed to convey professionalism, innovation, and accessibility across all touchpoints of our financial technology brand. The ViewMarket logo combines clean typography with a subtle visual element that suggests both upward movement and market dynamics, reflecting our focus on helping traders achieve growth and success in financial markets through our trading platform brand.
 							</p>
@@ -58,8 +58,8 @@ export default function BrandPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Trading Brand Voice & Communication</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Trading Brand Voice & Communication</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								The ViewMarket financial technology brand voice is authoritative yet approachable, combining deep market expertise with clear, accessible communication following our established brand guidelines. We avoid unnecessary jargon while maintaining the precision and accuracy that professional traders expect. Our communication style reflects our commitment to education and empowerment, providing context and explanation alongside information and data for our trading platform brand.
 							</p>
@@ -76,8 +76,8 @@ export default function BrandPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Strategic Brand Partnerships Opportunities</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Strategic Brand Partnerships Opportunities</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								ViewMarket actively seeks strategic brand partnerships with organizations that share our commitment to innovation in financial technology and improving outcomes for traders and investors. We&apos;re interested in brand partnerships collaborations that enhance our trading platform brand capabilities, expand our market reach, or provide additional value to our user community through mutually beneficial financial technology brand alliances.
 							</p>
@@ -94,8 +94,8 @@ export default function BrandPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Brand Guidelines Asset Usage</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Brand Guidelines Asset Usage</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Partners and authorized users who wish to use ViewMarket trading brand assets must follow our comprehensive brand guidelines to ensure consistent representation across all applications. Our financial technology brand assets are available in multiple formats and variations to accommodate different use cases while maintaining visual consistency and quality according to our trading platform brand standards.
 							</p>
@@ -112,8 +112,8 @@ export default function BrandPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Media & Press Resources</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Media & Press Resources</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Media professionals and journalists can access our press kit, which includes high-resolution trading brand assets, executive biographies, company information, and recent news releases following our brand guidelines. We maintain relationships with financial media outlets and industry publications to ensure accurate representation of our financial technology brand and services in news coverage.
 							</p>

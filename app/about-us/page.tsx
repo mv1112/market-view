@@ -37,8 +37,8 @@ export default function AboutUsPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Our Values</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Our Values</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								<strong>Innovation:</strong> We are committed to staying at the forefront of financial technology, continuously developing and implementing cutting-edge solutions that give our trading community a competitive advantage through our advanced trading platform. Our research and development team works tirelessly to identify emerging trends and technologies that can benefit our online trading platform users, from artificial intelligence and machine learning to blockchain and quantum computing applications in trading.
 							</p>
@@ -55,8 +55,8 @@ export default function AboutUsPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Our Financial Technology Platform</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Our Financial Technology Platform</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								ViewMarket&apos;s financial technology platform represents the culmination of years of development and refinement, built from the ground up to handle the demanding requirements of modern financial markets. Our online trading platform infrastructure is designed for ultra-low latency, high availability, and massive scalability, ensuring that our trading community can access markets and execute trades with institutional-grade speed and reliability through our advanced fintech platform.
 							</p>
@@ -73,8 +73,8 @@ export default function AboutUsPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Global Market Access</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Global Market Access</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								ViewMarket provides comprehensive access to global financial markets through our online trading platform, enabling our trading community to trade stocks, forex, commodities, cryptocurrencies, and derivatives from around the world through a single integrated fintech platform. Our extensive network of partnerships with exchanges, brokers, and data providers ensures that users have access to the widest possible range of trading opportunities via our investment platform.
 							</p>
@@ -88,8 +88,8 @@ export default function AboutUsPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Our Commitment to Education</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Our Commitment to Education</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								At ViewMarket, we believe that successful trading requires not just access to tools and data through our online trading platform, but also knowledge and understanding of market dynamics, risk management principles, and trading strategies. That&apos;s why we&apos;ve invested heavily in creating comprehensive educational resources that help our trading community develop the skills they need to succeed in financial markets through our fintech platform.
 							</p>
@@ -103,8 +103,8 @@ export default function AboutUsPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Trading Community and Support</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Trading Community and Support</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								The ViewMarket trading community is composed of traders, investors, and financial professionals from around the world who share a common interest in achieving success in financial markets through our online trading platform. We foster a collaborative environment where users can share insights, discuss strategies, and learn from each other&apos;s experiences. Our community forums, social features, and networking events help connect like-minded individuals and create opportunities for collaboration and learning within our fintech platform ecosystem.
 							</p>

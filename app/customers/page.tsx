@@ -37,8 +37,8 @@ export default function CustomersPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Retail Traders Community</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Retail Traders Community</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Our retail traders community consists of individual investors and traders who range from beginners taking their first steps in financial markets to experienced professionals with decades of trading experience. These retail traders appreciate having access to institutional-quality tools and data that were traditionally available only to large financial institutions, enabling them to compete more effectively in modern markets through our investment platform.
 							</p>
@@ -52,8 +52,8 @@ export default function CustomersPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Professional Traders & Money Managers</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Professional Traders & Money Managers</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Professional traders, including portfolio managers, investment advisors, and wealth management firms, represent a significant and important segment of our trading community. These professional traders manage assets on behalf of their clients and require sophisticated tools for portfolio construction, risk management, and performance analysis. Our investment platform provides the comprehensive functionality and institutional-grade reliability that these professional traders demand.
 							</p>
@@ -67,8 +67,8 @@ export default function CustomersPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Institutional Clients & Corporate Users</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Institutional Clients & Corporate Users</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Our institutional clients base includes pension funds, insurance companies, family offices, and corporate treasury departments that require sophisticated investment management capabilities through our trading community platform. These institutional clients typically have substantial assets under management and complex investment mandates that require careful monitoring and sophisticated risk management approaches as investment platform users.
 							</p>
@@ -82,8 +82,8 @@ export default function CustomersPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Algorithmic Trading Specialists</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Algorithmic Trading Specialists</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								A growing segment of our trading community consists of algorithmic trading specialists who develop and implement automated trading strategies using our advanced API and algorithmic trading infrastructure. These investment platform users include quantitative researchers, algorithm developers, and systematic trading firms that rely on mathematical models and automated execution to generate returns within our professional traders ecosystem.
 							</p>
@@ -97,8 +97,8 @@ export default function CustomersPage() {
 					</section>
 
 					<section className="max-w-4xl mx-auto">
-						<h2 className="text-3xl font-light text-gray-800 mb-8 text-center">Trader Testimonials & Success Stories</h2>
-						<div className="space-y-6 text-lg leading-relaxed text-gray-600">
+						<h2 className="text-3xl font-light text-white mb-8 text-center">Trader Testimonials & Success Stories</h2>
+						<div className="space-y-6 text-lg leading-relaxed text-gray-300">
 							<p>
 								Over the years, we&apos;ve had the privilege of supporting numerous trader testimonials and success stories that demonstrate the power of combining professional-grade tools with skill, dedication, and sound risk management within our trading community. These trader testimonials span all segments of our customer base and include both spectacular individual achievements and steady, consistent performance improvements over time by our investment platform users.
 							</p>
