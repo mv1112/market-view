@@ -136,22 +136,6 @@ function ChartsPageSkeleton() {
 function LandingPageSkeleton() {
   return (
     <div className="min-h-screen bg-black">
-      {/* Header Skeleton - matches the actual header container width */}
-      <div className="w-full h-16 px-3 py-2">
-        <div className="max-w-[1200px] mx-auto h-full flex items-center justify-between bg-black/20 backdrop-blur-xl backdrop-saturate-[140%] rounded-xl px-4 border border-gray-800/50">
-          <div className="flex items-center space-x-3">
-            <Skeleton className="h-5 w-5 rounded" />
-            <Skeleton className="h-4 w-28" />
-          </div>
-          <div className="hidden md:flex items-center space-x-6">
-            <Skeleton className="h-3 w-14" />
-            <Skeleton className="h-3 w-16" />
-            <Skeleton className="h-3 w-14" />
-          </div>
-          <Skeleton className="h-6 w-20 rounded-lg" />
-        </div>
-      </div>
-      
       {/* Hero Section Skeleton - matches main hero layout */}
       <div className="max-w-7xl mx-auto px-6 py-20 text-center">
         {/* Main heading skeleton */}

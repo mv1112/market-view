@@ -100,7 +100,7 @@ export default function TimeFrameDropdown({ isOpen, onClose, selectedTimeFrame, 
     new Set(timeFrameSections.filter(section => section.defaultExpanded).map(section => section.id))
   )
 
-  // Apply custom scrollbar styles for white theme
+  // Apply custom scrollbar styles for dark theme
   React.useEffect(() => {
     if (isOpen) {
       const style = document.createElement('style')
@@ -109,35 +109,35 @@ export default function TimeFrameDropdown({ isOpen, onClose, selectedTimeFrame, 
           width: 8px;
         }
         .timeframe-dropdown::-webkit-scrollbar-track {
-          background: white;
+          background: #000000;
         }
         .timeframe-dropdown::-webkit-scrollbar-thumb {
-          background: #d1d5db;
+          background: rgba(255, 255, 255, 0.2);
           border-radius: 4px;
         }
         .timeframe-dropdown::-webkit-scrollbar-thumb:hover {
-          background: #9ca3af;
+          background: rgba(255, 255, 255, 0.3);
         }
         
-        /* White theme hover effects */
+        /* Dark theme hover effects */
         .timeframe-dropdown .timeframe-item:hover {
-          background-color: #f3f4f6 !important;
-          color: #111827 !important;
+          background-color: rgba(255, 255, 255, 0.1) !important;
+          color: #FFFFFF !important;
         }
         
         .timeframe-dropdown .timeframe-section-header:hover {
-          background-color: #f9fafb !important;
-          color: #374151 !important;
+          background-color: rgba(255, 255, 255, 0.05) !important;
+          color: #FFFFFF !important;
         }
         
         .timeframe-dropdown .timeframe-add-custom:hover {
-          background-color: #f3f4f6 !important;
-          color: #111827 !important;
+          background-color: rgba(255, 255, 255, 0.1) !important;
+          color: #FFFFFF !important;
         }
         
         .timeframe-dropdown .timeframe-item.selected {
-          background-color: #111827 !important;
-          color: white !important;
+          background-color: rgba(255, 255, 255, 0.15) !important;
+          color: #FFFFFF !important;
         }
         
         /* Remove any focus outlines */
@@ -146,9 +146,9 @@ export default function TimeFrameDropdown({ isOpen, onClose, selectedTimeFrame, 
           box-shadow: none !important;
         }
         
-        /* White theme borders */
+        /* Dark theme borders */
         .timeframe-dropdown * {
-          border-color: #d1d5db !important;
+          border-color: rgba(255, 255, 255, 0.2) !important;
         }
       `
       document.head.appendChild(style)
@@ -185,17 +185,20 @@ export default function TimeFrameDropdown({ isOpen, onClose, selectedTimeFrame, 
       
       {/* Dropdown */}
       <div 
-        className="absolute bg-white border border-gray-300 rounded-lg shadow-2xl w-52 max-h-96 overflow-y-auto timeframe-dropdown"
+        className="absolute bg-black border border-gray-800 rounded-lg shadow-2xl w-52 max-h-96 overflow-y-auto timeframe-dropdown"
         style={{ 
-          backgroundColor: 'white',
+          backgroundColor: '#000000',
+          borderColor: 'rgba(255, 255, 255, 0.2)',
+          color: '#FFFFFF',
           top: '60px', // Position below the header
           left: '200px', // Position under the timeframe button
           scrollbarWidth: 'thin',
-          scrollbarColor: '#d1d5db white'
+          scrollbarColor: 'rgba(255, 255, 255, 0.2) #000000'
         }}
       >
         {/* Add Custom Interval */}
-        <div className="timeframe-add-custom px-4 py-3 border-b border-gray-200 hover:bg-gray-100 hover:text-gray-900 cursor-pointer transition-all duration-150 text-gray-900">
+        <div className="timeframe-add-custom px-4 py-3 border-b text-white cursor-pointer transition-all duration-150"
+          style={{ borderColor: 'rgba(255, 255, 255, 0.2)' }}>
           <div className="flex items-center gap-2">
             <Plus className="h-4 w-4" />
             <span className="text-sm font-medium">Add custom interval...</span>
@@ -207,7 +210,8 @@ export default function TimeFrameDropdown({ isOpen, onClose, selectedTimeFrame, 
           <div key={section.id}>
             {/* Section Header */}
             <div 
-              className="timeframe-section-header px-4 py-2 text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-gray-50 flex items-center justify-between"
+              className="timeframe-section-header px-4 py-2 text-xs font-semibold uppercase tracking-wider cursor-pointer flex items-center justify-between"
+              style={{ color: 'rgba(255, 255, 255, 0.6)' }}
               onClick={() => toggleSection(section.id)}
             >
               <span>{section.title}</span>
@@ -227,8 +231,8 @@ export default function TimeFrameDropdown({ isOpen, onClose, selectedTimeFrame, 
                     onClick={() => handleTimeFrameSelect(frame.value)}
                     className={`timeframe-item px-4 py-2 text-sm cursor-pointer transition-all duration-150 ${
                       selectedTimeFrame === frame.value
-                        ? 'selected bg-gray-900 text-white'
-                        : 'text-gray-900 hover:bg-gray-100 hover:text-gray-900'
+                        ? 'selected'
+                        : 'text-white'
                     }`}
                   >
                     {frame.label}

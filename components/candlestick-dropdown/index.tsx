@@ -244,7 +244,21 @@ const CandlestickDropdown = ({ isOpen, onToggle, selectedType, onCandlestickSele
     <div className="relative" ref={dropdownRef} data-candlestick-dropdown>
       <button
         onClick={onToggle}
-        className="h-6 px-1.5 hover:bg-gray-100 hover:text-gray-900 rounded flex items-center justify-center gap-1 text-sm font-medium transition-colors min-w-[45px]"
+        className="h-6 px-1.5 rounded flex items-center justify-center gap-1 text-sm font-medium transition-colors min-w-[45px] text-white"
+        style={{
+          backgroundColor: isOpen ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+          color: '#FFFFFF'
+        }}
+        onMouseEnter={(e) => {
+          if (!isOpen) {
+            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)'
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!isOpen) {
+            e.currentTarget.style.backgroundColor = 'transparent'
+          }
+        }}
         aria-expanded={isOpen}
         aria-haspopup="true"
         title={currentType.name}
@@ -255,7 +269,12 @@ const CandlestickDropdown = ({ isOpen, onToggle, selectedType, onCandlestickSele
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 w-52 bg-white border-2 border-gray-300 rounded shadow-xl z-[9999] pointer-events-auto">
+        <div className="absolute top-full left-0 mt-1 w-52 bg-black rounded shadow-xl z-[9999] pointer-events-auto"
+          style={{ 
+            backgroundColor: '#000000',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            color: '#FFFFFF'
+          }}>
           <div className="py-1">
             {candlestickTypes.map((type) => (
               <button
@@ -265,9 +284,23 @@ const CandlestickDropdown = ({ isOpen, onToggle, selectedType, onCandlestickSele
                   "w-full flex items-center gap-3 px-3 py-2 text-left text-sm transition-colors cursor-pointer",
                   selectedType === type.id 
                     ? "bg-gray-900 text-white" 
-                    : "text-gray-900 hover:bg-gray-100"
+                    : "text-white hover:bg-gray-900"
                 )}
+                style={{
+                  backgroundColor: selectedType === type.id ? 'rgba(255, 255, 255, 0.15)' : 'transparent',
+                  color: '#FFFFFF'
+                }}
                 onClick={(event) => handleTypeSelect(event, type)}
+                onMouseEnter={(e) => {
+                  if (selectedType !== type.id) {
+                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (selectedType !== type.id) {
+                    e.currentTarget.style.backgroundColor = 'transparent'
+                  }
+                }}
               >
                 {getIconForType(type.id)}
                 <span className="flex-1">{type.name}</span>

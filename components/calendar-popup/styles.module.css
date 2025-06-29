@@ -71,7 +71,7 @@
   width: 100%;
   padding: 0.5rem 1rem 0.5rem 3rem;
   background-color: transparent;
-  border: 1px solid #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 0.5rem; /* lg */
   color: #FFFFFF;
 }
@@ -82,7 +82,7 @@
 
 .searchInput:focus {
   outline: none;
-  border-width: 2px;
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .mainContentArea {
@@ -125,7 +125,7 @@
 
 .sidebarButton:focus {
   outline: none;
-  border: 2px solid #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .sidebarButton.disabled {
@@ -168,21 +168,23 @@
   border-radius: 0.5rem; /* lg */
   transition: background-color 0.2s, color 0.2s;
   background-color: transparent;
-  border: 1px solid #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #FFFFFF;
 }
 
 .tabButton:hover {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .tabButton.active {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .tabButton:focus {
   outline: none;
-  border-width: 2px;
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .tabButton.disabled {

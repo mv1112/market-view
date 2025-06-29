@@ -1,6 +1,7 @@
 import { type FC, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { AiFillApi } from "react-icons/ai"
+import { HiMagnifyingGlass } from "react-icons/hi2"
 
 // Enhanced broker data with categories
 const brokers = [
@@ -42,17 +43,27 @@ const BrokerCard: FC<{ broker: { name: string; logo: string; category: string } 
     <div 
       className={cn(
         "relative rounded-lg p-4 flex flex-col items-center justify-between min-h-[144px] w-full",
-        "bg-gray-900 border border-gray-700 shadow-sm",
-        "transition-all duration-200 hover:bg-gray-800 hover:border-gray-600",
+        "bg-black border shadow-sm",
+        "transition-all duration-200 hover:border-gray-600",
         "group"
       )}
+      style={{
+        backgroundColor: '#000000',
+        borderColor: 'rgba(255, 255, 255, 0.2)'
+      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onMouseOver={(e) => {
+        e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.02)'
+      }}
+      onMouseOut={(e) => {
+        e.currentTarget.style.backgroundColor = '#000000'
+      }}
     >
       {/* Connection status indicator */}
       <div className={cn(
         "absolute top-3 right-3 w-2 h-2 rounded-full transition-all duration-300",
-        isConnected ? "bg-green-500" : "bg-gray-400",
+        isConnected ? "bg-green-500" : "bg-gray-600",
         isHovered && "scale-150"
       )} />
       
@@ -60,9 +71,12 @@ const BrokerCard: FC<{ broker: { name: string; logo: string; category: string } 
       <div className="flex-1 flex flex-col items-center justify-center w-full p-2">
         <div className={cn(
           "w-12 h-12 mb-3 rounded-full flex items-center justify-center",
-          "bg-gray-800 border border-gray-600",
-          "transition-all duration-200 group-hover:bg-gray-700"
-        )}>
+          "bg-black border",
+          "transition-all duration-200"
+        )}
+        style={{
+          borderColor: 'rgba(255, 255, 255, 0.2)'
+        }}>
           <span className="text-lg font-bold text-white">
             {broker.logo}
           </span>
@@ -80,16 +94,30 @@ const BrokerCard: FC<{ broker: { name: string; logo: string; category: string } 
         disabled={isConnecting || isConnected}
         className={cn(
           "w-full py-2 px-3 rounded-md text-xs font-medium transition-all duration-200",
-          "bg-black text-white hover:bg-gray-900 active:bg-gray-800 border border-gray-600",
+          "bg-black text-white border",
           "flex items-center justify-center space-x-1.5 group/button font-medium",
-          isConnecting && "opacity-70 cursor-not-allowed bg-gray-800",
-          isConnected && "bg-green-900/50 border-green-600 text-green-300 hover:bg-green-900/60"
+          isConnecting && "opacity-70 cursor-not-allowed",
+          isConnected && "border-green-600 text-green-300"
         )}
+        style={{
+          backgroundColor: isConnected ? 'rgba(34, 197, 94, 0.1)' : '#000000',
+          borderColor: isConnected ? 'rgba(34, 197, 94, 0.5)' : 'rgba(255, 255, 255, 0.2)'
+        }}
+        onMouseEnter={(e) => {
+          if (!isConnecting && !isConnected) {
+            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)'
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!isConnecting && !isConnected) {
+            e.currentTarget.style.backgroundColor = '#000000'
+          }
+        }}
       >
         {isConnecting ? (
           <>
             <span className="w-3 h-3 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
-            <span className="text-gray-600">Connecting...</span>
+            <span className="text-gray-400">Connecting...</span>
           </>
         ) : isConnected ? (
           <>
@@ -119,7 +147,7 @@ const BrokerPage: FC = () => {
   return (
     <div className="h-full w-full flex flex-col">
       {/* Top Divider */}
-      <div className="h-px w-full bg-gray-700"></div>
+      <div className="h-px w-full" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}></div>
       
       <div className="h-full bg-black text-white overflow-auto">
         <div className="max-w-7xl mx-auto p-4 pb-8">
@@ -135,21 +163,21 @@ const BrokerPage: FC = () => {
                 placeholder="Search brokers..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full md:w-72 bg-gray-900 border border-gray-600 rounded-lg px-4 py-2.5 text-base text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 transition-all"
+                className="w-full md:w-72 bg-black rounded-lg px-4 py-2.5 text-base text-white placeholder-gray-400 focus:outline-none transition-all"
+                style={{
+                  backgroundColor: '#000000',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.4)'
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)'
+                }}
               />
-              <svg
-                className="absolute right-3 top-2.5 h-4 w-4 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
+              <HiMagnifyingGlass
+                className="absolute right-3 top-2.5 h-5 w-5 text-gray-400"
+              />
             </div>
           </div>
           
@@ -162,9 +190,29 @@ const BrokerPage: FC = () => {
                 className={cn(
                   "px-3 py-1.5 text-xs rounded-md border transition-all",
                   selectedCategory === (category === 'All' ? null : category) 
-                    ? "bg-white/10 border-white/30 text-white" 
-                    : "border-gray-600 text-gray-400 hover:bg-gray-800 hover:border-gray-500"
+                    ? "bg-white/10 text-white" 
+                    : "text-gray-400"
                 )}
+                style={{
+                  borderColor: selectedCategory === (category === 'All' ? null : category)
+                    ? 'rgba(255, 255, 255, 0.3)'
+                    : 'rgba(255, 255, 255, 0.2)',
+                  backgroundColor: selectedCategory === (category === 'All' ? null : category)
+                    ? 'rgba(255, 255, 255, 0.1)'
+                    : 'transparent'
+                }}
+                onMouseEnter={(e) => {
+                  if (selectedCategory !== (category === 'All' ? null : category)) {
+                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)'
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)'
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (selectedCategory !== (category === 'All' ? null : category)) {
+                    e.currentTarget.style.backgroundColor = 'transparent'
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)'
+                  }
+                }}
               >
                 {category}
               </button>
@@ -180,7 +228,8 @@ const BrokerPage: FC = () => {
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-12 text-center">
-              <div className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mb-4 border border-gray-600">
+              <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center mb-4 border"
+                style={{ borderColor: 'rgba(255, 255, 255, 0.2)' }}>
                 <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>

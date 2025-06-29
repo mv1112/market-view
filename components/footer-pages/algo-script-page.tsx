@@ -178,14 +178,14 @@ export default function AlgoScriptPage() {
       
       {/* Main Content Area with Panels */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Left Panel - Code Editor */}
-        <div className="flex-1 overflow-hidden" style={{ width: `calc(100% - ${rightPanelWidth}px)` }}>
-          <CodeEditor 
-            initialValue={code}
-            onChange={setCode}
-            className="h-full w-full"
-          />
-        </div>
+              {/* Left Panel - Code Editor */}
+      <div className="flex-1 overflow-hidden bg-black" style={{ width: `calc(100% - ${rightPanelWidth}px)` }}>
+        <CodeEditor 
+          initialValue={code}
+          onChange={setCode}
+          className="h-full w-full bg-black"
+        />
+      </div>
         
         {/* Resizer */}
         <div 
@@ -196,16 +196,16 @@ export default function AlgoScriptPage() {
         
         {/* Right Panel */}
         <div 
-          className="bg-gray-900 border-l border-gray-700 flex flex-col"
+          className="bg-black border-l border-gray-700 flex flex-col"
           style={{ width: `${rightPanelWidth}px` }}
         >
           {/* Right Panel Header */}
-          <div className="bg-gray-800 border-b border-gray-700 px-3 py-2">
+          <div className="bg-black border-b border-gray-700 px-3 py-2">
             <h3 className="text-sm font-medium text-white">Tools</h3>
           </div>
           
           {/* Right Panel Content - Empty */}
-          <div className="flex-1 overflow-y-auto bg-gray-900">
+          <div className="flex-1 overflow-y-auto bg-black">
             {/* Empty content area */}
           </div>
         </div>
