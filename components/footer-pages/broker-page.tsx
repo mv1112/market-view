@@ -1,42 +1,186 @@
-import { type FC, useState } from 'react'
+import { type FC, useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import { AiFillApi } from "react-icons/ai"
 import { HiMagnifyingGlass } from "react-icons/hi2"
+import { createPortal } from 'react-dom'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
 
-// Enhanced broker data with categories
+// Custom Centered Dialog Component
+const CenteredDialog: FC<{
+  isOpen: boolean
+  onClose: () => void
+  children: React.ReactNode
+}> = ({ isOpen, onClose, children }) => {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+    
+    return () => {
+      document.body.style.overflow = 'auto'
+    }
+  }, [isOpen])
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose()
+      }
+    }
+    
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [isOpen, onClose])
+
+  if (!mounted || !isOpen) return null
+
+  return createPortal(
+    <div className="fixed inset-0 z-[99999] flex items-center justify-center">
+      {/* Backdrop */}
+      <div 
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      
+      {/* Dialog Container */}
+      <div className="relative z-[100000] w-full max-w-md mx-4">
+        {children}
+      </div>
+    </div>,
+    document.body
+  )
+}
+
+// Enhanced broker data with categories and required credentials
 const brokers = [
-  { name: '5Paisa', logo: '5P', category: 'Stocks' },
-  { name: 'AliceBlue V2', logo: 'AB', category: 'Stocks' },
-  { name: 'Alpaca', logo: 'AL', category: 'Stocks' },
-  { name: 'AnandRathi', logo: 'AR', category: 'Stocks' },
-  { name: 'Angel Broking', logo: 'AN', category: 'Stocks' },
-  { name: 'Aditya Trading', logo: 'AD', category: 'Stocks' },
-  { name: 'Binance', logo: 'BN', category: 'Crypto' },
-  { name: 'Binance V2', logo: 'B2', category: 'Crypto' },
-  { name: 'BNS', logo: 'BS', category: 'Stocks' },
-  { name: 'BitMEX', logo: 'BM', category: 'Crypto' },
-  { name: 'ByBit', logo: 'BB', category: 'Crypto' },
-  { name: 'CoinDCX', logo: 'CX', category: 'Crypto' },
-  { name: 'Delta Exchange', logo: 'DX', category: 'Crypto' },
-  { name: 'DhanHQ', logo: 'DH', category: 'Stocks' },
-  { name: 'Finvasia', logo: 'FV', category: 'Stocks' },
-  { name: 'Forex', logo: 'FX', category: 'Forex' },
+  { 
+    name: 'Alice Blue', 
+    logo: 'AB', 
+    category: 'Stocks',
+    credentials: ['User ID', 'API Key', 'Secret Key']
+  },
+  { 
+    name: 'Angel Broking', 
+    logo: 'AN', 
+    category: 'Stocks',
+    credentials: ['Api Key', 'Secret Key']
+  },
+  { 
+    name: 'Binance', 
+    logo: 'BN', 
+    category: 'Crypto',
+    credentials: ['App Key', 'Secret key']
+  },
+  { 
+    name: 'Delta Exchange', 
+    logo: 'DX', 
+    category: 'Crypto',
+    credentials: ['API Key', 'Secret Key']
+  },
+  { 
+    name: 'Dhan', 
+    logo: 'DH', 
+    category: 'Stocks',
+    credentials: ['client id', 'access token']
+  },
+  { 
+    name: 'Finvisia', 
+    logo: 'FV', 
+    category: 'Stocks',
+    credentials: ['User ID', 'Password', 'Vendor Code', 'Api Key', '2FA']
+  },
+  { 
+    name: 'Fyers', 
+    logo: 'FY', 
+    category: 'Stocks',
+    credentials: ['API Key', 'Secret Key'] // Already implemented
+  },
+  { 
+    name: 'ICICI Direct', 
+    logo: 'IC', 
+    category: 'Stocks',
+    credentials: ['User ID', 'API Key', 'Secret Key', 'DOB', 'Password']
+  },
+  { 
+    name: 'IIFL', 
+    logo: 'IL', 
+    category: 'Stocks',
+    credentials: ['Interactive API Key', 'Interactive Secret Key', 'Market API Key', 'Market Secret Key']
+  },
+  { 
+    name: 'Kotak Neo', 
+    logo: 'KN', 
+    category: 'Stocks',
+    credentials: ['Consumer Key', 'Secret Key', 'Access Token', 'Mobile Number', 'Password', 'MPIN']
+  },
+  { 
+    name: 'MetaTrader 4', 
+    logo: 'M4', 
+    category: 'Forex',
+    credentials: ['User Id', 'Password', 'Host', 'Port']
+  },
+  { 
+    name: 'MetaTrader 5', 
+    logo: 'M5', 
+    category: 'Forex',
+    credentials: ['User Id', 'Password', 'Host', 'Port']
+  },
+  { 
+    name: 'Upstox', 
+    logo: 'UP', 
+    category: 'Stocks',
+    credentials: ['Api Key', 'App Secret Key', 'access token']
+  },
+  { 
+    name: 'Zerodha', 
+    logo: 'ZD', 
+    category: 'Stocks',
+    credentials: ['api key', 'secret key']
+  },
 ]
 
-const BrokerCard: FC<{ broker: { name: string; logo: string; category: string } }> = ({ broker }) => {
+const BrokerCard: FC<{ broker: { name: string; logo: string; category: string; credentials: string[] } }> = ({ broker }) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isConnecting, setIsConnecting] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [credentialValues, setCredentialValues] = useState<Record<string, string>>({})
 
   const handleConnect = () => {
-    if (isConnected) return
-    
+    if (isConnected) {
+      // Disconnect if already connected
+      setIsConnected(false)
+      setCredentialValues({}) // Clear saved credentials
+      return
+    }
+    setIsDialogOpen(true)
+  }
+
+  const handleSubmit = () => {
+    setIsDialogOpen(false)
     setIsConnecting(true)
     // Simulate API connection
     setTimeout(() => {
       setIsConnecting(false)
       setIsConnected(true)
     }, 1500)
+  }
+
+  const handleCredentialChange = (credentialName: string, value: string) => {
+    setCredentialValues(prev => ({
+      ...prev,
+      [credentialName]: value
+    }))
   }
 
   return (
@@ -60,12 +204,7 @@ const BrokerCard: FC<{ broker: { name: string; logo: string; category: string } 
         e.currentTarget.style.backgroundColor = '#000000'
       }}
     >
-      {/* Connection status indicator */}
-      <div className={cn(
-        "absolute top-3 right-3 w-2 h-2 rounded-full transition-all duration-300",
-        isConnected ? "bg-green-500" : "bg-gray-600",
-        isHovered && "scale-150"
-      )} />
+
       
       {/* Broker Logo */}
       <div className="flex-1 flex flex-col items-center justify-center w-full p-2">
@@ -91,13 +230,13 @@ const BrokerCard: FC<{ broker: { name: string; logo: string; category: string } 
       {/* Action Button */}
       <button
         onClick={handleConnect}
-        disabled={isConnecting || isConnected}
+        disabled={isConnecting}
         className={cn(
           "w-full py-2 px-3 rounded-md text-xs font-medium transition-all duration-200",
           "bg-black text-white border",
           "flex items-center justify-center space-x-1.5 group/button font-medium",
           isConnecting && "opacity-70 cursor-not-allowed",
-          isConnected && "border-green-600 text-green-300"
+          isConnected && "border-green-600 text-green-300 hover:bg-red-900/20 hover:border-red-500 hover:text-red-300"
         )}
         style={{
           backgroundColor: isConnected ? 'rgba(34, 197, 94, 0.1)' : '#000000',
@@ -113,6 +252,7 @@ const BrokerCard: FC<{ broker: { name: string; logo: string; category: string } 
             e.currentTarget.style.backgroundColor = '#000000'
           }
         }}
+        title={isConnected ? "Click to disconnect" : "Click to connect"}
       >
         {isConnecting ? (
           <>
@@ -120,15 +260,69 @@ const BrokerCard: FC<{ broker: { name: string; logo: string; category: string } 
             <span className="text-gray-400">Connecting...</span>
           </>
         ) : isConnected ? (
-          <>
-            <span className="text-green-300">✓ Connected</span>
-          </>
+          <span className="group-hover/button:hidden">✓ Connected</span>
         ) : (
-          <>
-            <AiFillApi className="w-4 h-4 group-hover/button:translate-x-0.5 transition-transform" />
-          </>
+          <AiFillApi className="w-4 h-4 group-hover/button:translate-x-0.5 transition-transform" />
+        )}
+        
+        {/* Disconnect text shown on hover when connected */}
+        {isConnected && (
+          <span className="hidden group-hover/button:inline">× Disconnect</span>
         )}
       </button>
+
+      {/* Connect Dialog */}
+      <CenteredDialog 
+        isOpen={isDialogOpen} 
+        onClose={() => setIsDialogOpen(false)}
+      >
+        <div className="bg-black border border-gray-800 text-white rounded-lg p-6 shadow-xl relative">
+          {/* Close button */}
+          <button
+            onClick={() => setIsDialogOpen(false)}
+            className="absolute right-4 top-4 text-gray-400 hover:text-white transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          
+          {/* Dialog Header */}
+          <h2 className="text-xl font-bold text-white mb-4">
+            Connect to {broker.name}
+          </h2>
+          
+          {/* Dialog Content */}
+          <div className="space-y-4">
+            {broker.credentials.map((credential) => (
+              <div key={credential} className="space-y-2">
+                <Label htmlFor={credential} className="text-sm text-gray-300">
+                  {credential}
+                </Label>
+                <Input
+                  id={credential}
+                  type={credential.toLowerCase().includes('password') || 
+                        credential.toLowerCase().includes('secret') || 
+                        credential.toLowerCase().includes('mpin') ? 'password' : 'text'}
+                  value={credentialValues[credential] || ''}
+                  onChange={(e) => handleCredentialChange(credential, e.target.value)}
+                  className="bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:border-gray-500"
+                  placeholder={`Enter ${credential}`}
+                />
+              </div>
+            ))}
+            
+            <Button
+              onClick={handleSubmit}
+              className="w-full bg-white text-black hover:bg-gray-200 font-medium"
+              disabled={Object.keys(credentialValues).length !== broker.credentials.length ||
+                       Object.values(credentialValues).some(val => !val)}
+            >
+              Connect
+            </Button>
+          </div>
+        </div>
+      </CenteredDialog>
     </div>
   )
 }

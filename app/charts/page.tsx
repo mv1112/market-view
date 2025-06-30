@@ -311,7 +311,7 @@ export default function ChartsPage() {
                 <div className="w-px h-6 bg-gray-600 mx-1 self-center"></div>
                 <button 
                   onClick={() => setIsTimeFrameDropdownOpen(true)}
-                  className="h-6 px-1.5 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center gap-1 text-sm font-medium transition-colors min-w-[45px] text-white"
+                  className="h-6 px-1.5 rounded flex items-center justify-center gap-1 text-sm font-medium transition-colors min-w-[45px] text-white"
                 >
                   <span className="text-sm font-semibold">{selectedTimeFrame}</span>
                 </button>
@@ -332,7 +332,7 @@ export default function ChartsPage() {
                 
                 <button 
                   onClick={() => setIsIndicatorsPopupOpen(true)}
-                  className="h-6 px-1.5 hover:bg-gray-800 hover:text-white rounded flex items-center gap-1 text-sm font-medium transition-colors min-w-[75px] text-white"
+                  className="h-6 px-1.5 rounded flex items-center gap-1 text-sm font-medium transition-colors min-w-[75px] text-white"
                 >
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -342,7 +342,7 @@ export default function ChartsPage() {
                 
                 <div className="w-px h-6 bg-gray-600 mx-1 self-center"></div>
                 
-                <button className="h-6 px-1.5 hover:bg-gray-800 hover:text-white rounded flex items-center gap-1 text-sm font-medium transition-colors min-w-[60px] text-white">
+                <button className="h-6 px-1.5 rounded flex items-center gap-1 text-sm font-medium transition-colors min-w-[60px] text-white">
                   <SquarePlay className="h-4 w-4" />
                   <span className="text-sm font-semibold">Replay</span>
                 </button>
@@ -353,7 +353,7 @@ export default function ChartsPage() {
               <div className="flex items-center">
                 <Link 
                   href="/pricing"
-                  className="group relative bg-black hover:bg-gray-900 text-white font-semibold text-xs px-3 py-1.5 rounded-lg border border-gray-800 hover:border-gray-700 shadow-sm hover:shadow-md transition-all duration-200 flex items-center gap-1.5"
+                  className="group relative bg-black text-white font-semibold text-xs px-3 py-1.5 rounded-lg border border-gray-800 shadow-sm transition-all duration-200 flex items-center gap-1.5"
                 >
                   {/* Logo */}
                   <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" className="text-white">
@@ -370,7 +370,7 @@ export default function ChartsPage() {
               
               <button 
                 onClick={handleToggleFullscreen}
-                className="h-8 w-8 hover:bg-gray-800 hover:text-white rounded-lg flex items-center justify-center transition-colors duration-200 text-white"
+                className="h-8 w-8 rounded-lg flex items-center justify-center transition-colors duration-200 text-white"
                 title={isFullscreen ? "Exit Fullscreen (ESC)" : "Enter Fullscreen"}
               >
                 {isFullscreen ? (
@@ -385,7 +385,7 @@ export default function ChartsPage() {
               <button 
                 onClick={handleTakeScreenshot}
                 disabled={isCapturingScreenshot}
-                className="h-8 w-8 hover:bg-gray-800 hover:text-white rounded-lg flex items-center justify-center transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-white"
+                className="h-8 w-8 rounded-lg flex items-center justify-center transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-white"
                 title={isCapturingScreenshot ? "Taking Screenshot..." : "Take Screenshot"}
               >
                 <FaCamera className={`h-5 w-5 transition-colors duration-200 ${isCapturingScreenshot ? 'animate-pulse' : ''}`} />
@@ -394,7 +394,7 @@ export default function ChartsPage() {
               <div className="w-px h-6 bg-gray-600 mx-1"></div>
               
               <button 
-                className="h-8 w-8 hover:bg-gray-800 hover:text-white rounded-lg flex items-center justify-center transition-colors duration-200 text-white"
+                className="h-8 w-8 rounded-lg flex items-center justify-center transition-colors duration-200 text-white"
                 title="Share Screen"
               >
                 <LuScreenShare className="h-5 w-5 transition-colors duration-200" />
@@ -404,7 +404,7 @@ export default function ChartsPage() {
               
               <button 
                 onClick={() => setIsSettingsPopupOpen(true)}
-                className="h-8 w-8 hover:bg-gray-800 hover:text-white rounded-lg flex items-center justify-center transition-colors duration-200 text-white"
+                className="h-8 w-8 rounded-lg flex items-center justify-center transition-colors duration-200 text-white"
                 title="Settings"
               >
                 <svg className="h-5 w-5 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -415,7 +415,7 @@ export default function ChartsPage() {
               
               <div className="w-px h-6 bg-gray-600 mx-1"></div>
               
-              <LogoutButton variant="ghost" size="icon" className="h-8 w-8 rounded-lg transition-colors duration-200 text-white hover:bg-gray-800">
+              <LogoutButton variant="ghost" size="icon" className="h-8 w-8 rounded-lg transition-colors duration-200 text-white">
                 <LuLogOut className="h-5 w-5 transition-colors duration-200" />
               </LogoutButton>
             </div>
@@ -463,7 +463,7 @@ export default function ChartsPage() {
                     className={`h-8 px-3 rounded flex items-center text-sm transition-colors ${
                       activeFooterPage === 'broker'
                         ? 'bg-gray-800 text-white'
-                        : 'hover:bg-gray-800 hover:text-white text-gray-300'
+                        : 'text-gray-300'
                     }`}
                   >
                     <span>Broker</span>
@@ -474,7 +474,7 @@ export default function ChartsPage() {
                     className={`h-8 px-3 rounded flex items-center text-sm transition-colors ${
                       activeFooterPage === 'algo-script'
                         ? 'bg-gray-800 text-white'
-                        : 'hover:bg-gray-800 hover:text-white text-gray-300'
+                        : 'text-gray-300'
                     }`}
                   >
                     <span>Algo Script</span>
@@ -485,7 +485,7 @@ export default function ChartsPage() {
                     className={`h-8 px-3 rounded flex items-center text-sm transition-colors ${
                       activeFooterPage === 'strategy-tester'
                         ? 'bg-gray-800 text-white'
-                        : 'hover:bg-gray-800 hover:text-white text-gray-300'
+                        : 'text-gray-300'
                     }`}
                   >
                     <span>Strategy Tester</span>
@@ -496,7 +496,7 @@ export default function ChartsPage() {
                     className={`h-8 px-3 rounded flex items-center text-sm transition-colors ${
                       activeFooterPage === 'screener'
                         ? 'bg-gray-800 text-white'
-                        : 'hover:bg-gray-800 hover:text-white text-gray-300'
+                        : 'text-gray-300'
                     }`}
                   >
                     <span>Screener</span>
@@ -507,7 +507,7 @@ export default function ChartsPage() {
                     className={`h-8 px-3 rounded flex items-center text-sm transition-colors ${
                       activeFooterPage === 'strategy-builder'
                         ? 'bg-gray-800 text-white'
-                        : 'hover:bg-gray-800 hover:text-white text-gray-300'
+                        : 'text-gray-300'
                     }`}
                   >
                     <span>Strategy Builder</span>
@@ -515,7 +515,7 @@ export default function ChartsPage() {
                 </div>
                 
                 <div className="flex items-center">
-                  <button className="h-8 w-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors text-gray-300">
+                  <button className="h-8 w-8 rounded flex items-center justify-center transition-colors text-gray-300">
                     <LuMaximize className="h-4 w-4" />
                   </button>
                 </div>
@@ -534,7 +534,7 @@ export default function ChartsPage() {
             <div className="flex flex-col items-center p-2 gap-3">
               <button 
                 onClick={() => setIsToolsPopupOpen(true)}
-                className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
+                className="w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
                 title="Tools"
               >
                 <MdModeEditOutline className="w-6 h-6" />
@@ -544,7 +544,7 @@ export default function ChartsPage() {
               
               <button 
                 onClick={() => setIsAlertsPopupOpen(true)}
-                className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
+                className="w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
                 title="Alerts"
               >
                 <LuAlarmClock className="w-6 h-6" />
@@ -554,7 +554,7 @@ export default function ChartsPage() {
               
               <button 
                 onClick={() => setIsResearchPopupOpen(true)}
-                className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
+                className="w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
                 title="Research"
               >
                 <GiArchiveResearch className="w-6 h-6" />
@@ -564,7 +564,7 @@ export default function ChartsPage() {
               
               <button 
                 onClick={() => setIsChatsPopupOpen(true)}
-                className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
+                className="w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
                 title="Chats"
               >
                 <BiChat className="w-6 h-6" />
@@ -574,7 +574,7 @@ export default function ChartsPage() {
               
               <button 
                 onClick={() => setIsCalendarPopupOpen(true)}
-                className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
+                className="w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
                 title="Calendar"
               >
                 <IoCalendarNumberOutline className="w-6 h-6" />
@@ -586,7 +586,7 @@ export default function ChartsPage() {
             <div className="flex flex-col items-center gap-3 p-2">
               <button 
                 onClick={() => setIsNotificationPopupOpen(true)}
-                className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
+                className="w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
                 title="Notifications"
               >
                 <IoMdNotificationsOutline className="w-6 h-6" />
@@ -596,7 +596,7 @@ export default function ChartsPage() {
               
               <button 
                 onClick={() => setIsHelpPopupOpen(true)}
-                className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
+                className="w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
                 title="Help"
               >
                 <BsQuestionCircle className="w-6 h-6" />
