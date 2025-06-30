@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr"
 import { NextResponse, type NextRequest } from "next/server"
 import { isDevelopment, safeConsole } from "@/lib/utils"
+import { isAdminEmail } from "@/lib/auth-redirects"
 
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({
@@ -53,9 +54,9 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // If user is authenticated and trying to access auth routes, redirect to dashboard
+  // If user is authenticated and trying to access auth routes, redirect based on role
   if (user && isAuthRoute) {
-    url.pathname = '/charts'
+    url.pathname = isAdminEmail(user.email || '') ? '/admin' : '/charts'
     return NextResponse.redirect(url)
   }
 

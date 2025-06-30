@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { SocialLoginButton } from "@/components/ui/social-login-button"
+import { isAdminEmail } from "@/lib/auth-redirects"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState, useEffect } from "react"
@@ -60,7 +61,11 @@ export function LoginForm({ className, onSwitchToSignUp, onSwitchToForgotPasswor
           setError('An unexpected error occurred.')
         }
       } else if (data?.user) {
-        router.push(redirectTo)
+        // Use role-based redirect for admin users
+        const userEmail = data.user.email || ''
+        const finalRedirect = isAdminEmail(userEmail) ? '/admin' : (redirectTo === '/charts' ? '/charts' : redirectTo)
+        
+        router.push(finalRedirect)
         router.refresh()
       }
     } catch (error: unknown) {

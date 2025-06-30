@@ -306,8 +306,27 @@ const BrokerCard: FC<{ broker: { name: string; logo: string; category: string; c
                         credential.toLowerCase().includes('mpin') ? 'password' : 'text'}
                   value={credentialValues[credential] || ''}
                   onChange={(e) => handleCredentialChange(credential, e.target.value)}
-                  className="bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:border-gray-500"
+                  className="!bg-black border-gray-700 text-white placeholder-gray-500 focus:border-gray-500 focus:ring-0 focus:outline-none focus:!bg-black hover:!bg-black"
                   placeholder={`Enter ${credential}`}
+                  style={{
+                    backgroundColor: '#000000',
+                    borderColor: '#374151',
+                    boxShadow: 'none',
+                    outline: 'none',
+                    color: '#ffffff'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.backgroundColor = '#000000'
+                    e.currentTarget.style.boxShadow = 'none'
+                    e.currentTarget.style.outline = 'none'
+                    e.currentTarget.style.borderColor = '#6b7280'
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.backgroundColor = '#000000'
+                    e.currentTarget.style.boxShadow = 'none'
+                    e.currentTarget.style.outline = 'none'
+                    e.currentTarget.style.borderColor = '#374151'
+                  }}
                 />
               </div>
             ))}
@@ -357,16 +376,20 @@ const BrokerPage: FC = () => {
                 placeholder="Search brokers..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full md:w-72 bg-black rounded-lg px-4 py-2.5 text-base text-white placeholder-gray-400 focus:outline-none transition-all"
+                className="w-full md:w-72 bg-black rounded-lg px-4 py-2.5 text-base text-white placeholder-gray-400 focus:outline-none transition-all focus:ring-0 focus:border-gray-500"
                 style={{
                   backgroundColor: '#000000',
-                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  boxShadow: 'none'
                 }}
                 onFocus={(e) => {
                   e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.4)'
+                  e.currentTarget.style.boxShadow = 'none'
+                  e.currentTarget.style.outline = 'none'
                 }}
                 onBlur={(e) => {
                   e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)'
+                  e.currentTarget.style.boxShadow = 'none'
                 }}
               />
               <HiMagnifyingGlass

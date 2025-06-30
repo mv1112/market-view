@@ -16,6 +16,13 @@ export default function AdminLayout({
   const router = useRouter()
 
   useEffect(() => {
+    document.body.setAttribute('data-admin', 'true');
+    return () => {
+      document.body.removeAttribute('data-admin');
+    };
+  }, []);
+
+  useEffect(() => {
     // Only redirect if we have enough info to make a decision
     if (!isAuthenticated) {
       router.push('/auth')

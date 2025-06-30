@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
-import { ChartsPageSkeleton, LandingPageSkeleton } from '@/components/ui/skeleton'
 
 interface NavigationLoadingContextType {
   isNavigating: boolean
@@ -41,14 +40,7 @@ export function NavigationLoadingProvider({ children }: NavigationLoadingProvide
   }
 
   const getSkeletonForPath = (path: string): React.ReactNode => {
-    if (path.startsWith('/charts')) {
-      return <ChartsPageSkeleton />
-    } else if (path === '/' || path.startsWith('/auth')) {
-      return <LandingPageSkeleton />
-    } else {
-      // Default landing page skeleton for other pages
-      return <LandingPageSkeleton />
-    }
+    return null
   }
 
   const contextValue: NavigationLoadingContextType = {

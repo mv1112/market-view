@@ -36,7 +36,6 @@ import { IoMdNotificationsOutline } from "react-icons/io"
 import { MdModeEditOutline } from "react-icons/md"
 import Link from "next/link"
 import { authService } from "@/lib/auth"
-import { ChartsPageSkeleton } from '@/components/ui/skeleton'
 
 type FooterPageType = 'broker' | 'algo-script' | 'screener' | 'strategy-tester' | 'strategy-builder'
 
@@ -289,11 +288,11 @@ export default function ChartsPage() {
   }, [])
 
   if (isLoading) {
-    return <ChartsPageSkeleton />
+    return null
   }
 
   return (
-    <Suspense fallback={<ChartsPageSkeleton />}>
+    <Suspense fallback={null}>
       <div className="h-screen bg-black text-white flex flex-col overflow-hidden" ref={containerRef}>
         {/* Header */}
         <header className="border-b-2 border-gray-700 bg-black rounded-b-lg flex-shrink-0">

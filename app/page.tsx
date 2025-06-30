@@ -10,7 +10,7 @@ import Collaborate from './sections/collaborate'
 import Foundation from './sections/foundation'
 
 import AmbientLighting from '@/components/ambient-lighting'
-import { LandingPageSkeleton } from '@/components/ui/skeleton'
+// Loading state handled by Next.js
 
 const Home: FC = () => {
 	const [isLoading, setIsLoading] = useState(true)
@@ -24,9 +24,13 @@ const Home: FC = () => {
 		return () => clearTimeout(timer)
 	}, [])
 
-	// Show skeleton during initial loading only (not navigation)
+	// Show minimal loading state if needed
 	if (isLoading) {
-		return <LandingPageSkeleton />
+		return (
+			<main className="min-h-screen pt-[calc(var(--header-top)+var(--header-height))] flex items-center justify-center">
+				<div className="animate-pulse">Loading...</div>
+			</main>
+		)
 	}
 
 	return (

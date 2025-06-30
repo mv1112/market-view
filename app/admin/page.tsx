@@ -19,6 +19,16 @@ import {
   TrendingUp,
   LogOut
 } from 'lucide-react'
+import {
+  SidebarProvider,
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarSeparator,
+} from '@/components/ui/sidebar'
 
 export default function AdminDashboard() {
   const { user, profile, isAuthenticated } = useAuth()
@@ -82,46 +92,50 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Admin Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <Shield className="h-5 w-5 text-white" />
+    <SidebarProvider>
+      <div className="min-h-screen flex flex-col relative">
+        {/* Header at the very top, full width */}
+        <header className="bg-white shadow-sm border-b w-full fixed top-0 left-0 right-0 z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              <div className="flex items-center">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <Shield className="h-5 w-5 text-white" />
+                  </div>
+                  <h1 className="text-xl font-bold text-gray-900">Admin Dashboard</h1>
                 </div>
-                <h1 className="text-xl font-bold text-gray-900">Admin Dashboard</h1>
               </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm text-gray-600">Admin Mode</span>
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span className="text-sm text-gray-600">Admin Mode</span>
+                </div>
+                <Button 
+                  variant="outline" 
+                  onClick={() => router.push('/charts')}
+                  className="text-sm"
+                >
+                  Switch to Trading View
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={handleLogout}
+                  disabled={isLoggingOut}
+                  className="text-sm text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  {isLoggingOut ? "Signing out..." : "Logout"}
+                </Button>
               </div>
-              <Button 
-                variant="outline" 
-                onClick={() => router.push('/charts')}
-                className="text-sm"
-              >
-                Switch to Trading View
-              </Button>
-              <Button 
-                variant="outline" 
-                onClick={handleLogout}
-                disabled={isLoggingOut}
-                className="text-sm text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
-              >
-                <LogOut className="h-4 w-4 mr-2" />
-                {isLoggingOut ? "Signing out..." : "Logout"}
-              </Button>
             </div>
           </div>
+        </header>
+        {/* Empty content area with padding top to account for fixed header */}
+        <div className="pt-16">
+          {/* All other content has been removed as requested */}
         </div>
       </div>
-
-
-    </div>
+    </SidebarProvider>
   )
-} 
+}

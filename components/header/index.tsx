@@ -6,7 +6,6 @@ import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import { Menu } from 'lucide-react'
 import { useAuth } from '@/lib/auth-context'
-import HeaderSkeleton from './header-skeleton'
 import styles from './styles.module.css'
 
 // Simple Profile Avatar Component for Header
@@ -56,9 +55,30 @@ const SimpleProfileAvatar: FC = () => {
 const Header: FC = () => {
 	const { isAuthenticated, isLoading, isInitialized } = useAuth()
 
-	// Show skeleton during initial load
+	// Show minimal header during initial load
 	if (!isInitialized || isLoading) {
-		return <HeaderSkeleton />
+		return (
+			<div className={styles.header}>
+				<header className={styles.header__wrapper}>
+					<nav className={styles.header__root}>
+						<div className='relative'>
+							<ul className={styles.header__list}>
+								<li className={cn(styles.header__logo, styles.header__item)}>
+									<Link href='/' className={styles.header__logo__link}>
+										<div className={styles.header__logo__icon}>
+											<svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+												<path d="M2 2h16v16H2V2zm2 2v12h12V4H4zm2 2h8v8H6V6z"/>
+											</svg>
+										</div>
+										<span className={styles.header__logo__text}>ViewMarket</span>
+									</Link>
+								</li>
+							</ul>
+						</div>
+					</nav>
+				</header>
+			</div>
+		)
 	}
 
 	return (
