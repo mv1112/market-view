@@ -4,6 +4,7 @@ import React, { Component, ReactNode, ErrorInfo } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { AlertTriangle, RefreshCw, Home, Bug } from 'lucide-react'
+import { safeConsole } from '@/lib/utils'
 
 interface ErrorBoundaryState {
   hasError: boolean
@@ -50,7 +51,7 @@ class ErrorReportingService {
         body: JSON.stringify(errorReport),
       })
     } catch (reportingError) {
-      console.warn('Failed to report error:', reportingError)
+      safeConsole.warn('Failed to report error:', reportingError)
     }
   }
 }

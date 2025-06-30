@@ -1,6 +1,7 @@
 'use client'
 
 import React, { Component, ReactNode } from 'react'
+import { safeConsole } from '@/lib/utils'
 
 interface AuthErrorBoundaryState {
   hasError: boolean
@@ -23,7 +24,7 @@ class AuthErrorBoundary extends Component<AuthErrorBoundaryProps, AuthErrorBound
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Authentication Error:', error, errorInfo)
+    safeConsole.error('Authentication Error:', error, errorInfo)
   }
 
   render() {

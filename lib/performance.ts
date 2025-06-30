@@ -1,3 +1,5 @@
+import { isDevelopment, safeConsole } from '@/lib/utils'
+
 interface PerformanceEntry {
   name: string
   value: number
@@ -5,6 +7,13 @@ interface PerformanceEntry {
   timestamp: number
   url: string
   userAgent: string
+}
+
+interface DeviceInfo {
+  type: string
+  memory: number
+  cores: number
+  connection: string
 }
 
 class PerformanceMonitor {
@@ -31,7 +40,9 @@ class PerformanceMonitor {
   }
 
   private trackNavigationTiming() {
-    if (!('performance' in window) || !('getEntriesByType' in performance)) {
+    if (typeof window === 'undefined') return
+    
+    if (!('performance' in window) || !('getEntriesByType' in window.performance)) {
       return
     }
 
@@ -80,7 +91,7 @@ class PerformanceMonitor {
   }
 
   private trackPaintMetrics() {
-    if (!('performance' in window) || !('getEntriesByType' in performance)) {
+    if (!('performance' in window) || !('getEntriesByType' in window.performance)) {
       return
     }
 
@@ -110,11 +121,6 @@ class PerformanceMonitor {
 
     this.metrics.set(name, entry)
     this.sendMetric(entry)
-    
-    // Log to console in development
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`Performance: ${name}: ${value.toFixed(2)}ms (${rating})`)
-    }
   }
 
   public trackPageLoad(pageName: string) {
@@ -148,7 +154,7 @@ class PerformanceMonitor {
         },
         body: JSON.stringify(metric),
       }).catch((error) => {
-        console.warn('Failed to send performance metric:', error)
+        safeConsole.warn('Failed to send performance metric:', error)
       })
     }
   }
@@ -173,6 +179,41 @@ class PerformanceMonitor {
     }
     
     return JSON.stringify(report, null, 2)
+  }
+
+  private getDeviceType(): string {
+    if (typeof window === 'undefined') return 'unknown'
+    
+    const userAgent = navigator.userAgent.toLowerCase()
+    
+    if (/mobile|android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent)) {
+      if (/tablet|ipad/i.test(userAgent)) {
+        return 'tablet'
+      }
+      return 'mobile'
+    }
+    
+    return 'desktop'
+  }
+
+  private getDeviceInfo(): DeviceInfo {
+    if (typeof window === 'undefined') {
+      return {
+        type: 'unknown',
+        memory: 0,
+        cores: 0,
+        connection: 'unknown'
+      }
+    }
+
+    const nav = navigator as any
+    
+    return {
+      type: this.getDeviceType(),
+      memory: nav.deviceMemory || 0,
+      cores: nav.hardwareConcurrency || 0,
+      connection: nav.connection?.effectiveType || 'unknown'
+    }
   }
 }
 

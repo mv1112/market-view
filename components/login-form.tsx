@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { authService, getDeviceFingerprint } from "@/lib/auth"
+import { authService, getDeviceFingerprint, getClientIP } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -46,26 +46,25 @@ export function LoginForm({ className, onSwitchToSignUp, onSwitchToForgotPasswor
     e.preventDefault()
     setIsLoading(true)
     setError(null)
-
+    
     try {
-      const { data, error } = await authService.login(email, password, ipAddress)
+      const ip = await getClientIP()
+      const { data, error } = await authService.login(email, password, ip)
 
       if (error) {
-        setError(error instanceof Error ? error.message : "An error occurred during login")
-      } else if (data && data.user) {
-        // Successful login - redirect based on role with router.push for better loading states
-        const { isAdminEmail, getRoleBasedRedirect } = await import('@/lib/auth-redirects')
-        
-        let targetPage = '/charts' // default
-        if (isAdminEmail(data.user.email || '')) {
-          targetPage = '/admin'
+        if (error instanceof Error) {
+          setError(error.message)
+        } else if (typeof error === 'object' && error !== null && 'message' in error && typeof (error as any).message === 'string') {
+          setError((error as { message: string }).message);
+        } else {
+          setError('An unexpected error occurred.')
         }
-        
-        // Use router.push for better loading states and skeleton display
-        router.push(targetPage)
+      } else if (data?.user) {
+        router.push(redirectTo)
+        router.refresh()
       }
     } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred during login")
+      setError(error instanceof Error ? error.message : 'An unexpected error occurred')
     } finally {
       setIsLoading(false)
     }

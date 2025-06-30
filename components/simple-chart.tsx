@@ -23,23 +23,22 @@ const generateData = () => {
     const randomWalk = (Math.random() - 0.5) * volatility
     const change = trendComponent + randomWalk
     
-    const open = price
-    const close = price + change
+    const close = Math.sin(i * 0.1) * 10 + 100 + (Math.random() - 0.5) * 2
+    const high = close + Math.random() * 5
+    const low = close - Math.random() * 5
+    const open = close + (Math.random() - 0.5) * 3
     
-    // Ensure high is higher than both open and close
-    const maxPrice = Math.max(open, close)
-    const high = maxPrice + Math.random() * 0.5
-    
-    // Ensure low is lower than both open and close  
-    const minPrice = Math.min(open, close)
-    const low = minPrice - Math.random() * 0.5
+    const safeOpen = Number(open.toFixed(2))
+    const safeHigh = Number(high.toFixed(2))
+    const safeLow = Number(low.toFixed(2))
+    const safeClose = Number(close.toFixed(2))
     
     data.push({
       time,
-      open: Number(open.toFixed(2)),
-      high: Number(high.toFixed(2)),
-      low: Number(low.toFixed(2)),
-      close: Number(close.toFixed(2))
+      open: isNaN(safeOpen) ? 100 : safeOpen,
+      high: isNaN(safeHigh) ? 100 : safeHigh,
+      low: isNaN(safeLow) ? 100 : safeLow,
+      close: isNaN(safeClose) ? 100 : safeClose
     })
     
     price = close
@@ -98,10 +97,14 @@ export default function SimpleChart({ className = "" }: SimpleChartProps) {
          }
        }
       
-      window.addEventListener('resize', handleResize)
+      if (typeof window !== 'undefined') {
+        window.addEventListener('resize', handleResize)
+      }
       
       return () => {
-        window.removeEventListener('resize', handleResize)
+        if (typeof window !== 'undefined') {
+          window.removeEventListener('resize', handleResize)
+        }
         if (chart) {
           chart.remove()
         }

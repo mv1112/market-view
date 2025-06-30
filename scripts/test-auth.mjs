@@ -91,7 +91,7 @@ async function testSecurityLogging() {
     user_id_param: null,
     event_type_param: 'system_test',
     event_description_param: 'Authentication system test',
-    ip_address_param: '127.0.0.1',
+            ip_address_param: 'test-client-ip',
     user_agent_param: 'Test Script',
     risk_score_param: 0,
     metadata_param: { test: true, timestamp: new Date().toISOString() }
@@ -126,7 +126,7 @@ async function testSessionFunctions() {
     user_id_param: '00000000-0000-0000-0000-000000000000',
     session_token_param: 'test-token',
     device_info_param: { test: true },
-    ip_address_param: '127.0.0.1'
+          ip_address_param: 'test-client-ip'
   })
 
   if (createError && createError.message.includes('does not exist')) {

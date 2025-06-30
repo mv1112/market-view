@@ -28,10 +28,13 @@ function CartPageContent() {
     const yearlyPrice = searchParams.get('yearly')
 
     if (planName && monthlyPrice && yearlyPrice) {
+      const parsedMonthlyPrice = parseInt(monthlyPrice, 10)
+      const parsedYearlyPrice = parseInt(yearlyPrice, 10)
+      
       setSelectedPlan({
         name: `ViewMarket ${planName}`,
-        monthlyPrice: parseInt(monthlyPrice),
-        yearlyPrice: parseInt(yearlyPrice)
+        monthlyPrice: isNaN(parsedMonthlyPrice) ? 0 : parsedMonthlyPrice,
+        yearlyPrice: isNaN(parsedYearlyPrice) ? 0 : parsedYearlyPrice
       })
     }
   }, [searchParams])

@@ -16,7 +16,8 @@ import {
   HistogramSeries
 } from 'lightweight-charts'
 import { calculateIndicator, CandleData } from '@/lib/indicators'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Settings } from 'lucide-react'
+import { safeConsole } from '@/lib/utils'
 
 interface TradingViewChartProps {
   symbol: string
@@ -56,7 +57,6 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
   const chartContainerRef = useRef<HTMLDivElement>(null)
   const chartRef = useRef<IChartApi | null>(null)
   const mainSeriesRef = useRef<ChartSeriesType | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
   const [appliedIndicators, setAppliedIndicators] = useState<AppliedIndicator[]>([])
   const [chartData, setChartData] = useState<CandleData[]>([])
 
@@ -241,25 +241,26 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
     // Fit content to show all data
     chart.timeScale().fitContent()
 
-    setIsLoading(false)
-
     // Handle resize
     const handleResize = () => {
-      if (chartContainerRef.current && chart) {
-        chart.applyOptions({
+      if (chartContainerRef.current && chartRef.current) {
+        chartRef.current.applyOptions({
           width: chartContainerRef.current.clientWidth,
-          height: chartContainerRef.current.clientHeight,
+          height: chartContainerRef.current.clientHeight
         })
       }
     }
 
-    window.addEventListener('resize', handleResize)
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize)
+    }
 
-    // Cleanup
     return () => {
-      window.removeEventListener('resize', handleResize)
-      if (chart) {
-        chart.remove()
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', handleResize)
+      }
+      if (chartRef.current) {
+        chartRef.current.remove()
       }
     }
   }, [chartType, generateSampleData, createSeriesForChartType, convertDataForSeries])
@@ -267,7 +268,6 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
   // Update chart when symbol or timeframe changes
   useEffect(() => {
     if (mainSeriesRef.current) {
-      setIsLoading(true)
       // Simulate data loading
       setTimeout(() => {
         const newData = generateSampleData()
@@ -275,7 +275,6 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
         const seriesData = convertDataForSeries(newData, chartType)
         mainSeriesRef.current?.setData(seriesData)
         chartRef.current?.timeScale().fitContent()
-        setIsLoading(false)
       }, 500)
     }
   }, [symbol, timeFrame, chartType, generateSampleData, convertDataForSeries])
@@ -309,7 +308,6 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
       // Check if indicator is already applied
       const isAlreadyApplied = appliedIndicators.some(ind => ind.name === indicatorName)
       if (isAlreadyApplied) {
-        console.log(`Indicator ${indicatorName} is already applied`)
         return
       }
 
@@ -344,9 +342,8 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
 
       setAppliedIndicators(prev => [...prev, newIndicator])
 
-      console.log(`Added indicator: ${indicatorName}`)
     } catch (error) {
-      console.error(`Error adding indicator ${indicatorName}:`, error)
+      safeConsole.error(`Error adding indicator ${indicatorName}:`, error)
     }
   }, [chartData, appliedIndicators])
 
@@ -364,8 +361,6 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
     if (onRemoveIndicator) {
       onRemoveIndicator(indicatorName)
     }
-    
-    console.log(`Removed indicator: ${indicatorName}`)
   }, [appliedIndicators, onRemoveIndicator])
 
   // Effect to handle indicators prop changes
@@ -388,95 +383,12 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
     })
   }, [indicators, chartData, appliedIndicators, addIndicator, removeIndicator])
 
-      return (
+  return (
     <div className={`relative w-full h-full ${className}`}>
-      {isLoading && (
-        <div className="absolute inset-0 bg-black/95 backdrop-blur-sm flex flex-col z-10">
-          {/* Chart Header Skeleton */}
-          <div className="p-4 border-b border-gray-700">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <Skeleton className="h-6 w-20" /> {/* Symbol */}
-                <Skeleton className="h-4 w-16" /> {/* Price */}
-                <Skeleton className="h-4 w-12" /> {/* Change */}
-              </div>
-              <div className="flex items-center space-x-2">
-                <Skeleton className="h-8 w-16" /> {/* Timeframe */}
-                <Skeleton className="h-8 w-20" /> {/* Chart type */}
-                <Skeleton className="h-8 w-8" />   {/* Settings */}
-              </div>
-            </div>
-          </div>
-          
-          {/* Chart Content Skeleton */}
-          <div className="flex-1 p-4">
-            <div className="h-full bg-gray-900 rounded-lg border border-gray-700 relative overflow-hidden">
-              {/* Price Scale */}
-              <div className="absolute right-2 top-4 space-y-4">
-                {[...Array(8)].map((_, i) => (
-                  <Skeleton key={i} className="h-3 w-12" />
-                ))}
-              </div>
-              
-              {/* Time Scale */}
-              <div className="absolute bottom-2 left-4 right-16 flex justify-between">
-                {[...Array(6)].map((_, i) => (
-                  <Skeleton key={i} className="h-3 w-16" />
-                ))}
-              </div>
-              
-              {/* Chart Bars/Candles Simulation */}
-              <div className="absolute inset-4 bottom-8 right-16 flex items-end justify-between">
-                {[...Array(30)].map((_, i) => (
-                  <div key={i} className="flex flex-col items-center space-y-1">
-                    <Skeleton 
-                      className="w-2" 
-                      style={{ height: `${Math.random() * 60 + 20}%` }}
-                    />
-                    <Skeleton 
-                      className="w-1" 
-                      style={{ height: `${Math.random() * 20 + 5}%` }}
-                    />
-                  </div>
-                ))}
-              </div>
-              
-              {/* Volume Bars */}
-              <div className="absolute bottom-8 left-4 right-16 h-16 flex items-end justify-between">
-                {[...Array(30)].map((_, i) => (
-                  <Skeleton 
-                    key={i}
-                    className="w-2" 
-                    style={{ height: `${Math.random() * 80 + 20}%` }}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-          
-          {/* Chart Tools Skeleton */}
-          <div className="p-4 border-t border-gray-700">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <Skeleton className="h-8 w-20" /> {/* Indicators */}
-                <Skeleton className="h-8 w-16" /> {/* Tools */}
-                <Skeleton className="h-8 w-18" /> {/* Alerts */}
-              </div>
-              <div className="flex items-center space-x-2">
-                <Skeleton className="h-8 w-8" />   {/* Screenshot */}
-                <Skeleton className="h-8 w-8" />   {/* Fullscreen */}
-                <Skeleton className="h-8 w-8" />   {/* Share */}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      
       <div
         ref={chartContainerRef}
         className="w-full h-full"
       />
-      
       {/* ViewMarket Logo Overlay - positioned like TradingView logo */}
       <a 
         href="https://www.viewmarket.in/" 
@@ -490,7 +402,6 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
         </svg>
         <span className="text-sm font-semibold text-white">ViewMarket</span>
       </a>
-      
       {/* Chart overlay info */}
       <div className="absolute top-4 right-4 bg-gray-800/90 backdrop-blur-sm px-3 py-2 rounded-lg border border-gray-600 shadow-sm">
         <div className="text-sm font-semibold text-white">{symbol}</div>
@@ -501,7 +412,6 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
           </div>
         )}
       </div>
-
       {/* TradingView-style Indicators Panel */}
       {appliedIndicators.length > 0 && (
         <div className="absolute top-4 left-4 z-20">
@@ -517,35 +427,23 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
                   className="w-2 h-2 rounded-full mr-2 flex-shrink-0"
                   style={{ backgroundColor: indicator.color }}
                 />
-                
                 {/* Indicator name */}
                 <span className="text-white text-xs font-medium mr-2 flex-1">
                   {indicator.name.length > 20 ? `${indicator.name.substring(0, 20)}...` : indicator.name}
                 </span>
-                
                 {/* Settings button */}
                 <button
                   onClick={() => {
-                    // TODO: Implement settings functionality
-                    console.log(`Settings for ${indicator.name}`)
+                    if (process.env.NODE_ENV === 'development') {
+                      console.log('Settings clicked for indicator:', indicator.name)
+                    }
                   }}
-                  className="flex items-center justify-center w-4 h-4 text-gray-300 hover:text-white hover:bg-gray-700 rounded transition-colors mr-1"
-                  title="Indicator Settings"
+                  className="p-2 hover:bg-gray-100 rounded opacity-50 cursor-not-allowed"
+                  title="Settings (Coming Soon)"
+                  disabled
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    className="w-3 h-3"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M6.955 1.45A.5.5 0 0 1 7.452 1h1.096a.5.5 0 0 1 .497.45l.17 1.699a.518.518 0 0 0 .307.392c.169.078.327.174.466.286a.518.518 0 0 0 .458.054l1.67-.405a.5.5 0 0 1 .555.206l.548.948a.5.5 0 0 1-.122.65l-1.339 1.077a.518.518 0 0 0-.185.45c.005.1.005.199 0 .299a.518.518 0 0 0 .185.45l1.339 1.077a.5.5 0 0 1 .122.65l-.548.948a.5.5 0 0 1-.555.206l-1.67-.405a.518.518 0 0 0-.458.054 5.967 5.967 0 0 1-.466.286.518.518 0 0 0-.307.392L8.545 14.55a.5.5 0 0 1-.497.45H7.452a.5.5 0 0 1-.497-.45l-.17-1.699a.518.518 0 0 0-.307-.392 5.973 5.973 0 0 1-.466-.286.518.518 0 0 0-.458-.054l-1.67.405a.5.5 0 0 1-.555-.206l-.548-.948a.5.5 0 0 1 .122-.65l1.339-1.077a.518.518 0 0 0 .185-.45 6.01 6.01 0 0 1 0-.299.518.518 0 0 0-.185-.45L2.902 6.916a.5.5 0 0 1-.122-.65l.548-.948a.5.5 0 0 1 .555-.206l1.67.405a.518.518 0 0 0 .458-.054c.139-.112.297-.208.466-.286a.518.518 0 0 0 .307-.392L6.955 1.45ZM8 10.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <Settings className="w-4 h-4" />
                 </button>
-                
                 {/* Delete button */}
                 <button
                   onClick={() => removeIndicator(indicator.name)}

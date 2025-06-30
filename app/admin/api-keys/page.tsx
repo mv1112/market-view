@@ -19,6 +19,7 @@ import {
   ArrowLeft
 } from 'lucide-react'
 import Link from 'next/link'
+import { safeConsole } from '@/lib/utils'
 
 interface ApiProvider {
   id: string
@@ -128,7 +129,7 @@ export default function ApiKeysManagement() {
     }
 
     // Here you would call the API to save the key
-    console.log('Adding API key:', {
+    safeConsole.log('Adding API key:', {
       provider: selectedProvider,
       ...newKeyData
     })

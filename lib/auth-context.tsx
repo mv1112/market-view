@@ -5,6 +5,7 @@ import { User, Session, AuthError } from '@supabase/supabase-js'
 import { createClient } from '@/lib/client'
 import { UserProfile, authService } from '@/lib/auth'
 import { Skeleton, ChartsPageSkeleton } from '@/components/ui/skeleton'
+import { safeConsole } from '@/lib/utils'
 
 // Enterprise-grade type definitions
 export interface AuthState {
@@ -107,10 +108,17 @@ export function AuthProvider({ children, fallback }: AuthProviderProps) {
       })
 
       // Get current session with timeout
-      const { data: { session }, error: sessionError } = await Promise.race([
+      const sessionResult = await Promise.race([
         supabase.auth.getSession(),
         timeoutPromise
-      ]) as any
+      ])
+      
+      // Type guard to check if it's an error
+      if (sessionResult instanceof Error) {
+        throw sessionResult
+      }
+      
+      const { data: { session }, error: sessionError } = sessionResult as Awaited<ReturnType<typeof supabase.auth.getSession>>
       
       if (sessionError) {
         throw sessionError
@@ -137,7 +145,7 @@ export function AuthProvider({ children, fallback }: AuthProviderProps) {
             }))
           })
           .catch(error => {
-            console.warn('Failed to fetch user profile:', error)
+            safeConsole.warn('Failed to fetch user profile:', error)
             // Don't update auth state for profile errors
           })
       } else {
@@ -153,7 +161,7 @@ export function AuthProvider({ children, fallback }: AuthProviderProps) {
         }))
       }
     } catch (error) {
-      console.error('Auth refresh failed:', error)
+      safeConsole.error('Auth refresh failed:', error)
       
       setAuthState(prev => ({
         ...prev,
@@ -178,7 +186,7 @@ export function AuthProvider({ children, fallback }: AuthProviderProps) {
       try {
         await refreshAuth()
       } catch (error) {
-        console.error('Auth initialization failed:', error)
+        safeConsole.error('Auth initialization failed:', error)
         // Force initialization complete even if auth fails
         setAuthState(prev => ({
           ...prev,
@@ -196,7 +204,7 @@ export function AuthProvider({ children, fallback }: AuthProviderProps) {
     const fallbackTimeout = setTimeout(() => {
       setAuthState(prev => {
         if (!prev.isInitialized) {
-          console.warn('Auth initialization timeout, proceeding without auth')
+          safeConsole.warn('Auth initialization timeout, proceeding without auth')
           return {
             ...prev,
             isLoading: false,
@@ -237,7 +245,7 @@ export function AuthProvider({ children, fallback }: AuthProviderProps) {
                   setAuthState(prev => ({ ...prev, profile }))
                 })
                 .catch(error => {
-                  console.warn('Failed to fetch user profile:', error)
+                  safeConsole.warn('Failed to fetch user profile:', error)
                 })
             }
           } else if (event === 'SIGNED_OUT') {
@@ -252,7 +260,7 @@ export function AuthProvider({ children, fallback }: AuthProviderProps) {
             }))
           }
         } catch (error) {
-          console.error('Auth state change error:', error)
+          safeConsole.error('Auth state change error:', error)
           setAuthState(prev => ({
             ...prev,
             error: error as AuthError | Error
@@ -269,7 +277,7 @@ export function AuthProvider({ children, fallback }: AuthProviderProps) {
   // Session expiry warning effect
   useEffect(() => {
     if (computedValues.isSessionExpiring && authState.user) {
-      console.warn('Session expiring soon. Consider implementing refresh UI.')
+      safeConsole.warn('Session expiring soon. Consider implementing refresh UI.')
       // Here you could trigger a notification or refresh the session automatically
     }
   }, [computedValues.isSessionExpiring, authState.user])

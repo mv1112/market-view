@@ -232,4 +232,78 @@ export const isValidUrl = (url: string): boolean => {
   } catch {
     return false
   }
+}
+
+// Email validation
+export const validateEmail = (email: string): ValidationResult<{ email: string }> => {
+  const errors: string[] = []
+  if (!email || typeof email !== 'string') {
+    errors.push('Email is required')
+  } else if (!isEmail(email)) {
+    errors.push('Invalid email format')
+  }
+
+  if (errors.length > 0) {
+    return { success: false, data: null, errors }
+  }
+
+  return {
+    success: true,
+    data: { email: sanitizeInput(email) },
+    errors: []
+  }
+}
+
+// Password validation
+export const validatePassword = (password: string): ValidationResult<{ password: string }> => {
+  const errors: string[] = []
+  if (!password || typeof password !== 'string') {
+    errors.push('Password is required')
+  } else if (!isStrongPassword(password)) {
+    errors.push('Password is not strong enough. Use at least 8 characters, with uppercase, lowercase, numbers, and special characters.')
+  }
+
+  if (errors.length > 0) {
+    return { success: false, data: null, errors }
+  }
+
+  return {
+    success: true,
+    data: { password },
+    errors: []
+  }
+}
+
+// API Key validation
+export const validateApiKey = (data: unknown): ValidationResult<{ name: string; expires_at: Date | null }> => {
+  const errors: string[] = []
+  
+  if (!data || typeof data !== 'object') {
+    return { success: false, data: null, errors: ['Invalid data format'] }
+  }
+  
+  const input = data as Record<string, unknown>
+  
+  if (!input.name || typeof input.name !== 'string') {
+    errors.push('Name is required')
+  } else if (input.name.length > 255) {
+    errors.push('Name is too long')
+  }
+  
+  if (input.expires_at && !(input.expires_at instanceof Date)) {
+    errors.push('Expires_at must be a Date')
+  }
+  
+  if (errors.length > 0) {
+    return { success: false, data: null, errors }
+  }
+  
+  return {
+    success: true,
+    data: {
+      name: sanitizeInput(input.name as string),
+      expires_at: input.expires_at instanceof Date ? input.expires_at : null
+    },
+    errors: []
+  }
 } 

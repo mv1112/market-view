@@ -32,17 +32,22 @@ const generateSampleData = (): CandleData[] => {
     const trend = Math.sin(i / 100) * 0.1 // Slight trend component
     const randomMove = (Math.random() - 0.5) * volatility + trend
     
-    const open = currentPrice
-    const close = open + randomMove
-    const high = Math.max(open, close) + Math.random() * 0.2
-    const low = Math.min(open, close) - Math.random() * 0.2
+    const close = Math.sin(i * 0.1) * 10 + 100 + (Math.random() - 0.5) * 2
+    const high = close + Math.random() * 5
+    const low = close - Math.random() * 5
+    const open = close + (Math.random() - 0.5) * 3
+    
+    const safeOpen = parseFloat(open.toFixed(2))
+    const safeHigh = parseFloat(high.toFixed(2))
+    const safeLow = parseFloat(low.toFixed(2))
+    const safeClose = parseFloat(close.toFixed(2))
     
     data.push({
       time: time as any,
-      open: parseFloat(open.toFixed(2)),
-      high: parseFloat(high.toFixed(2)),
-      low: parseFloat(low.toFixed(2)),
-      close: parseFloat(close.toFixed(2))
+      open: isNaN(safeOpen) ? 100 : safeOpen,
+      high: isNaN(safeHigh) ? 100 : safeHigh,
+      low: isNaN(safeLow) ? 100 : safeLow,
+      close: isNaN(safeClose) ? 100 : safeClose
     })
     
     currentPrice = close
@@ -132,11 +137,15 @@ export default function TradingChart({ className = "", appliedIndicators = [], o
       }
     }
 
-    window.addEventListener('resize', handleResize)
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize)
+    }
 
     // Cleanup
     return () => {
-      window.removeEventListener('resize', handleResize)
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', handleResize)
+      }
       chart.remove()
       chartRef.current = null
       candlestickSeriesRef.current = null

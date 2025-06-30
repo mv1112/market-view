@@ -6,8 +6,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { SocialLoginButton } from "@/components/ui/social-login-button"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { validateEmail, validatePassword } from "@/lib/validations"
 
 interface SignUpFormProps extends React.ComponentPropsWithoutRef<"div"> {
   onSwitchToLogin?: () => void
@@ -31,27 +33,26 @@ export function SignUpForm({ className, onSwitchToLogin, ...props }: SignUpFormP
   }
 
   const validateForm = () => {
+    const newErrors: Record<string, string> = {}
+    
     if (!formData.fullName.trim()) {
-      setError("Full name is required")
-      return false
+      newErrors.fullName = "Full name is required"
     }
-    if (!formData.email.trim()) {
-      setError("Email is required")
-      return false
+    
+    const emailValidation = validateEmail(formData.email)
+    if (!emailValidation.success) {
+      newErrors.email = emailValidation.errors.join(', ')
     }
-    if (formData.password.length < 8) {
-      setError("Password must be at least 8 characters long")
-      return false
+    
+    const passwordValidation = validatePassword(formData.password)
+    if (!passwordValidation.success) {
+      newErrors.password = passwordValidation.errors.join(', ')
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match"
     }
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match")
-      return false
-    }
-    if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
-      setError("Password must contain at least one uppercase letter, one lowercase letter, and one number")
-      return false
-    }
-    return true
+
+    setError(newErrors.fullName || newErrors.email || newErrors.password || newErrors.confirmPassword)
+    return Object.keys(newErrors).length === 0
   }
 
   const handleSignUp = async (e: React.FormEvent) => {

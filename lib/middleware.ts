@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr"
 import { NextResponse, type NextRequest } from "next/server"
+import { isDevelopment, safeConsole } from "@/lib/utils"
 
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({
@@ -86,7 +87,7 @@ export async function updateSession(request: NextRequest) {
         }
       }
     } catch (error) {
-      console.warn('User profile check failed in middleware, proceeding:', error)
+      safeConsole.warn('User profile check failed in middleware, proceeding:', error)
       // Continue without profile check if table doesn't exist
     }
 
@@ -153,7 +154,7 @@ export async function checkDatabaseRateLimit(
       resetTime: new Date(Date.now() + config.windowMs)
     }
   } catch (error) {
-    console.warn('Rate limit check failed, allowing request:', error)
+    safeConsole.warn('Rate limit check failed, allowing request:', error)
     return {
       allowed: true,
       remaining: config.maxAttempts,
@@ -189,7 +190,7 @@ export async function checkEdgeKVRateLimit(
       resetTime: new Date(now + config.windowMs)
     }
   } catch (error) {
-    console.warn('Edge KV rate limit check failed, allowing request:', error)
+    safeConsole.warn('Edge KV rate limit check failed, allowing request:', error)
     return {
       allowed: true,
       remaining: config.maxAttempts,

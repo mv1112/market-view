@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/client'
 import { createClient as createServerClient } from '@/lib/server'
 import { User } from '@supabase/supabase-js'
+import { safeConsole } from '@/lib/utils'
 
 export interface UserProfile {
   id: string
@@ -124,8 +125,22 @@ export class AuthService {
           })
         )
         
-        // Execute in parallel instead of sequential
-        await Promise.allSettled(promises)
+        // Clean up old sessions and rate limits in parallel
+        const promisesCleanup = [
+          this.supabase.rpc('cleanup_old_sessions', {
+            user_id_param: data.user.id,
+            device_info_param: ipAddress || 'unknown'
+          }),
+          this.supabase.rpc('cleanup_old_rate_limits')
+        ]
+        
+        try {
+          await Promise.allSettled(promises)
+          await Promise.allSettled(promisesCleanup)
+        } catch (error) {
+          // Log but don't fail login if cleanup fails
+          safeConsole.warn('Session cleanup failed:', error)
+        }
       }
 
       return { data, error: null }
@@ -215,7 +230,7 @@ export class AuthService {
       // Note: Supabase doesn't provide a direct way to delete OAuth identities via the client library
       // This would typically require admin/server-side operations
       // For now, we'll simulate the operation but note that this is a limitation
-      console.warn('OAuth disconnection requires server-side implementation')
+      safeConsole.warn('OAuth disconnection requires server-side implementation')
       
       // You would need to implement this on the server side using the Supabase Admin API
       // or create a custom database function
@@ -240,13 +255,13 @@ export class AuthService {
         .single()
 
       if (error) {
-        console.warn('User profile fetch failed:', error.message)
+        safeConsole.warn('User profile fetch failed:', error.message)
         return null
       }
       
       return data as UserProfile
     } catch (error) {
-      console.warn('Error fetching user profile:', error)
+      safeConsole.warn('Error fetching user profile:', error)
       return null
     }
   }
@@ -280,7 +295,7 @@ export class AuthService {
 
       return data[0] as UserStats
     } catch (error) {
-      console.warn('Error fetching user stats:', error)
+      safeConsole.warn('Error fetching user stats:', error)
       return null
     }
   }
@@ -293,7 +308,7 @@ export class AuthService {
         activity_type: activityType
       })
     } catch (error) {
-      console.warn('Activity logging failed:', error)
+      safeConsole.warn('Activity logging failed:', error)
     }
   }
 
@@ -394,7 +409,7 @@ export class AuthService {
         resetTime: new Date(Date.now() + windowMs)
       }
     } catch (error) {
-      console.warn('Rate limit check failed, allowing request:', error)
+      safeConsole.warn('Rate limit check failed, allowing request:', error)
       // Fail open - allow request if rate limit check fails
       return {
         allowed: true,
@@ -415,7 +430,7 @@ export class AuthService {
           created_at: new Date().toISOString()
         })
     } catch (error) {
-      console.warn('Failed to record rate limit attempt:', error)
+      safeConsole.warn('Failed to record rate limit attempt:', error)
     }
   }
 }
@@ -437,31 +452,62 @@ export function getDeviceFingerprint(): DeviceInfo {
     }
   }
 
-  const canvas = document.createElement('canvas')
-  const ctx = canvas.getContext('2d')
-  ctx?.fillText('fingerprint', 10, 10)
-  const canvasFingerprint = canvas.toDataURL()
+  try {
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
+    ctx?.fillText('fingerprint', 10, 10)
+    const canvasFingerprint = canvas.toDataURL()
 
-  return {
-    fingerprint: btoa(canvasFingerprint + navigator.userAgent + screen.width + screen.height),
-    userAgent: navigator.userAgent,
-    platform: navigator.platform,
-    browser: navigator.userAgent.includes('Chrome') ? 'Chrome' : 
-             navigator.userAgent.includes('Firefox') ? 'Firefox' : 
-             navigator.userAgent.includes('Safari') ? 'Safari' : 'Other',
-    screen_resolution: `${screen.width}x${screen.height}`,
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    language: navigator.language
+    return {
+      fingerprint: btoa(canvasFingerprint + navigator.userAgent + screen.width + screen.height),
+      userAgent: navigator.userAgent,
+      platform: navigator.platform,
+      browser: navigator.userAgent.includes('Chrome') ? 'Chrome' : 
+               navigator.userAgent.includes('Firefox') ? 'Firefox' : 
+               navigator.userAgent.includes('Safari') ? 'Safari' : 'Other',
+      screen_resolution: `${screen.width}x${screen.height}`,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      language: navigator.language
+    }
+  } catch (error) {
+    // Fallback if canvas or other APIs fail
+    return {
+      fingerprint: 'browser-error',
+      userAgent: navigator?.userAgent || 'unknown',
+      platform: navigator?.platform || 'unknown',
+      browser: 'unknown',
+      screen_resolution: 'unknown',
+      timezone: 'UTC',
+      language: navigator?.language || 'en'
+    }
   }
 }
 
 // Get client IP (simplified)
 export async function getClientIP(): Promise<string> {
   try {
-    const response = await fetch('https://api.ipify.org?format=json')
+    // Add timeout to prevent hanging
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout
+    
+    const response = await fetch('https://api.ipify.org?format=json', {
+      signal: controller.signal
+    })
+    
+    clearTimeout(timeoutId)
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    
     const data = await response.json()
     return data.ip || 'unknown'
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      safeConsole.warn('IP fetch timeout')
+    } else {
+      safeConsole.warn('Failed to fetch IP:', error)
+    }
     return 'unknown'
   }
 } 

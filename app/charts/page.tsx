@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useCallback, useEffect } from "react"
+import { useState, useRef, useCallback, useEffect, Suspense } from "react"
 import { MdFullscreen, MdFullscreenExit } from "react-icons/md"
 import { FaCamera } from "react-icons/fa"
 import { LuScreenShare, LuLogOut } from "react-icons/lu"
@@ -36,10 +36,12 @@ import { IoMdNotificationsOutline } from "react-icons/io"
 import { MdModeEditOutline } from "react-icons/md"
 import Link from "next/link"
 import { authService } from "@/lib/auth"
+import { ChartsPageSkeleton } from '@/components/ui/skeleton'
 
 type FooterPageType = 'broker' | 'algo-script' | 'screener' | 'strategy-tester' | 'strategy-builder'
 
 export default function ChartsPage() {
+  const [isLoading, setIsLoading] = useState(true)
   const [userEmail, setUserEmail] = useState<string>("")
   const [selectedSymbol, setSelectedSymbol] = useState("NIFTY")
   const [isTimeFrameDropdownOpen, setIsTimeFrameDropdownOpen] = useState(false)
@@ -78,6 +80,8 @@ export default function ChartsPage() {
         }
       } catch (error) {
         console.error('Error initializing charts page:', error)
+      } finally {
+        setIsLoading(false)
       }
     }
     
@@ -284,374 +288,380 @@ export default function ChartsPage() {
     }
   }, [])
 
+  if (isLoading) {
+    return <ChartsPageSkeleton />
+  }
+
   return (
-    <div className="h-screen bg-black text-white flex flex-col overflow-hidden" ref={containerRef}>
-      {/* Header */}
-      <header className="border-b-2 border-gray-700 bg-black rounded-b-lg flex-shrink-0">
-        <div className="flex h-10 items-center justify-between pl-2 pr-1">
-          <div className="flex items-center gap-4">
-            <div className="w-7 h-7 bg-white rounded-full flex items-center justify-center">
-              <span className="text-black font-semibold text-xs">
-                {userEmail ? getEmailInitial(userEmail) : "U"}
-              </span>
+    <Suspense fallback={<ChartsPageSkeleton />}>
+      <div className="h-screen bg-black text-white flex flex-col overflow-hidden" ref={containerRef}>
+        {/* Header */}
+        <header className="border-b-2 border-gray-700 bg-black rounded-b-lg flex-shrink-0">
+          <div className="flex h-10 items-center justify-between pl-2 pr-1">
+            <div className="flex items-center gap-4">
+              <div className="w-7 h-7 bg-white rounded-full flex items-center justify-center">
+                <span className="text-black font-semibold text-xs">
+                  {userEmail ? getEmailInitial(userEmail) : "U"}
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                {/* Symbol Search Button (replaces old symbol button) */}
+                <HeaderSymbolSearchBtn />
+                <div className="w-px h-6 bg-gray-600 mx-1 self-center"></div>
+                <button 
+                  onClick={() => setIsTimeFrameDropdownOpen(true)}
+                  className="h-6 px-1.5 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center gap-1 text-sm font-medium transition-colors min-w-[45px] text-white"
+                >
+                  <span className="text-sm font-semibold">{selectedTimeFrame}</span>
+                </button>
+                
+                <div className="w-px h-6 bg-gray-600 mx-1 self-center"></div>
+                
+                <CandlestickDropdown 
+                  isOpen={isCandlestickDropdownOpen}
+                  onToggle={() => setIsCandlestickDropdownOpen(!isCandlestickDropdownOpen)}
+                  selectedType={selectedCandlestickType}
+                  onCandlestickSelect={(type) => {
+                    handleCandlestickSelect(type)
+                    setIsCandlestickDropdownOpen(false)
+                  }}
+                />
+                
+                <div className="w-px h-6 bg-gray-600 mx-1 self-center"></div>
+                
+                <button 
+                  onClick={() => setIsIndicatorsPopupOpen(true)}
+                  className="h-6 px-1.5 hover:bg-gray-800 hover:text-white rounded flex items-center gap-1 text-sm font-medium transition-colors min-w-[75px] text-white"
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span className="text-sm font-semibold">Indicators</span>
+                </button>
+                
+                <div className="w-px h-6 bg-gray-600 mx-1 self-center"></div>
+                
+                <button className="h-6 px-1.5 hover:bg-gray-800 hover:text-white rounded flex items-center gap-1 text-sm font-medium transition-colors min-w-[60px] text-white">
+                  <SquarePlay className="h-4 w-4" />
+                  <span className="text-sm font-semibold">Replay</span>
+                </button>
+              </div>
             </div>
             
-            <div className="flex items-center gap-3">
-              {/* Symbol Search Button (replaces old symbol button) */}
-              <HeaderSymbolSearchBtn />
-              <div className="w-px h-6 bg-gray-600 mx-1 self-center"></div>
+            <div className="flex items-center gap-3 pr-4">
+              <div className="flex items-center">
+                <Link 
+                  href="/pricing"
+                  className="group relative bg-black hover:bg-gray-900 text-white font-semibold text-xs px-3 py-1.5 rounded-lg border border-gray-800 hover:border-gray-700 shadow-sm hover:shadow-md transition-all duration-200 flex items-center gap-1.5"
+                >
+                  {/* Logo */}
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" className="text-white">
+                    <path d="M2 2h16v16H2V2zm2 2v12h12V4H4zm2 2h8v8H6V6z"/>
+                  </svg>
+                  
+                  <span className="text-white">
+                    ViewMarket Free
+                  </span>
+                </Link>
+              </div>
+              
+              <div className="w-px h-5 bg-gray-600 mx-1"></div>
+              
               <button 
-                onClick={() => setIsTimeFrameDropdownOpen(true)}
-                className="h-6 px-1.5 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center gap-1 text-sm font-medium transition-colors min-w-[45px] text-white"
+                onClick={handleToggleFullscreen}
+                className="h-8 w-8 hover:bg-gray-800 hover:text-white rounded-lg flex items-center justify-center transition-colors duration-200 text-white"
+                title={isFullscreen ? "Exit Fullscreen (ESC)" : "Enter Fullscreen"}
               >
-                <span className="text-sm font-semibold">{selectedTimeFrame}</span>
+                {isFullscreen ? (
+                  <MdFullscreenExit className="h-5 w-5 transition-colors duration-200 text-white" />
+                ) : (
+                  <MdFullscreen className="h-5 w-5 transition-colors duration-200" />
+                )}
               </button>
               
-              <div className="w-px h-6 bg-gray-600 mx-1 self-center"></div>
+              <div className="w-px h-6 bg-gray-600 mx-1"></div>
               
-              <CandlestickDropdown 
-                isOpen={isCandlestickDropdownOpen}
-                onToggle={() => setIsCandlestickDropdownOpen(!isCandlestickDropdownOpen)}
-                selectedType={selectedCandlestickType}
-                onCandlestickSelect={(type) => {
-                  handleCandlestickSelect(type)
-                  setIsCandlestickDropdownOpen(false)
+              <button 
+                onClick={handleTakeScreenshot}
+                disabled={isCapturingScreenshot}
+                className="h-8 w-8 hover:bg-gray-800 hover:text-white rounded-lg flex items-center justify-center transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-white"
+                title={isCapturingScreenshot ? "Taking Screenshot..." : "Take Screenshot"}
+              >
+                <FaCamera className={`h-5 w-5 transition-colors duration-200 ${isCapturingScreenshot ? 'animate-pulse' : ''}`} />
+              </button>
+              
+              <div className="w-px h-6 bg-gray-600 mx-1"></div>
+              
+              <button 
+                className="h-8 w-8 hover:bg-gray-800 hover:text-white rounded-lg flex items-center justify-center transition-colors duration-200 text-white"
+                title="Share Screen"
+              >
+                <LuScreenShare className="h-5 w-5 transition-colors duration-200" />
+              </button>
+              
+              <div className="w-px h-6 bg-gray-600 mx-1"></div>
+              
+              <button 
+                onClick={() => setIsSettingsPopupOpen(true)}
+                className="h-8 w-8 hover:bg-gray-800 hover:text-white rounded-lg flex items-center justify-center transition-colors duration-200 text-white"
+                title="Settings"
+              >
+                <svg className="h-5 w-5 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.50 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </button>
+              
+              <div className="w-px h-6 bg-gray-600 mx-1"></div>
+              
+              <LogoutButton variant="ghost" size="icon" className="h-8 w-8 rounded-lg transition-colors duration-200 text-white hover:bg-gray-800">
+                <LuLogOut className="h-5 w-5 transition-colors duration-200" />
+              </LogoutButton>
+            </div>
+          </div>
+        </header>
+
+        {/* Content area */}
+        <div className="flex flex-1 overflow-hidden">
+          <div className="flex flex-col flex-1 overflow-hidden">
+            {/* TradingView Chart Area */}
+            <div 
+              className="flex-1 overflow-hidden"
+              style={{ height: `calc(100vh - 40px - ${footerHeight}px)`, minHeight: '1px' }}
+            >
+              <div className="w-full h-full bg-black">
+                <TradingViewChart
+                  symbol={selectedSymbol}
+                  timeFrame={selectedTimeFrame}
+                  chartType={selectedCandlestickType}
+                  indicators={appliedIndicators}
+                  onRemoveIndicator={handleRemoveIndicator}
+                  className="w-full h-full"
+                />
+              </div>
+            </div>
+
+            {/* Footer */}
+            <footer 
+              className="bg-black border-t-2 border-gray-700 rounded-t-lg flex-shrink-0 relative"
+              style={{ height: `${footerHeight}px` }}
+            >
+              <div 
+                className="absolute top-0 left-0 right-0 h-2 cursor-ns-resize"
+                onMouseDown={handleMouseDown}
+                style={{ 
+                  borderTopLeftRadius: '0.5rem',
+                  borderTopRightRadius: '0.5rem',
                 }}
               />
               
-              <div className="w-px h-6 bg-gray-600 mx-1 self-center"></div>
+              <div className="flex items-center justify-between h-10 px-2">
+                <div className="flex items-center gap-2 pl-4">
+                  <button 
+                    onClick={handleBrokerClick}
+                    className={`h-8 px-3 rounded flex items-center text-sm transition-colors ${
+                      activeFooterPage === 'broker'
+                        ? 'bg-gray-800 text-white'
+                        : 'hover:bg-gray-800 hover:text-white text-gray-300'
+                    }`}
+                  >
+                    <span>Broker</span>
+                  </button>
+                  
+                  <button 
+                    onClick={handleAlgoScriptClick}
+                    className={`h-8 px-3 rounded flex items-center text-sm transition-colors ${
+                      activeFooterPage === 'algo-script'
+                        ? 'bg-gray-800 text-white'
+                        : 'hover:bg-gray-800 hover:text-white text-gray-300'
+                    }`}
+                  >
+                    <span>Algo Script</span>
+                  </button>
+                  
+                  <button 
+                    onClick={handleStrategyTesterClick}
+                    className={`h-8 px-3 rounded flex items-center text-sm transition-colors ${
+                      activeFooterPage === 'strategy-tester'
+                        ? 'bg-gray-800 text-white'
+                        : 'hover:bg-gray-800 hover:text-white text-gray-300'
+                    }`}
+                  >
+                    <span>Strategy Tester</span>
+                  </button>
+                  
+                  <button 
+                    onClick={handleScreenerClick}
+                    className={`h-8 px-3 rounded flex items-center text-sm transition-colors ${
+                      activeFooterPage === 'screener'
+                        ? 'bg-gray-800 text-white'
+                        : 'hover:bg-gray-800 hover:text-white text-gray-300'
+                    }`}
+                  >
+                    <span>Screener</span>
+                  </button>
+                  
+                  <button 
+                    onClick={handleStrategyBuilderClick}
+                    className={`h-8 px-3 rounded flex items-center text-sm transition-colors ${
+                      activeFooterPage === 'strategy-builder'
+                        ? 'bg-gray-800 text-white'
+                        : 'hover:bg-gray-800 hover:text-white text-gray-300'
+                    }`}
+                  >
+                    <span>Strategy Builder</span>
+                  </button>
+                </div>
+                
+                <div className="flex items-center">
+                  <button className="h-8 w-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors text-gray-300">
+                    <LuMaximize className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+              
+              {footerHeight > 40 && (
+                <div className="overflow-y-auto" style={{ height: `${footerHeight - 40}px` }}>
+                  {renderActiveFooterPage()}
+                </div>
+              )}
+            </footer>
+          </div>
+          
+          {/* Right Side Panel */}
+          <div className="w-12 bg-black border-l-2 border-gray-700 rounded-l-lg flex flex-col flex-shrink-0">
+            <div className="flex flex-col items-center p-2 gap-3">
+              <button 
+                onClick={() => setIsToolsPopupOpen(true)}
+                className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
+                title="Tools"
+              >
+                <MdModeEditOutline className="w-6 h-6" />
+              </button>
+              
+              <div className="h-px w-5 bg-gray-600 my-1"></div>
               
               <button 
-                onClick={() => setIsIndicatorsPopupOpen(true)}
-                className="h-6 px-1.5 hover:bg-gray-800 hover:text-white rounded flex items-center gap-1 text-sm font-medium transition-colors min-w-[75px] text-white"
+                onClick={() => setIsAlertsPopupOpen(true)}
+                className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
+                title="Alerts"
               >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span className="text-sm font-semibold">Indicators</span>
+                <LuAlarmClock className="w-6 h-6" />
               </button>
               
-              <div className="w-px h-6 bg-gray-600 mx-1 self-center"></div>
+              <div className="h-px w-5 bg-gray-600 my-1"></div>
               
-              <button className="h-6 px-1.5 hover:bg-gray-800 hover:text-white rounded flex items-center gap-1 text-sm font-medium transition-colors min-w-[60px] text-white">
-                <SquarePlay className="h-4 w-4" />
-                <span className="text-sm font-semibold">Replay</span>
+              <button 
+                onClick={() => setIsResearchPopupOpen(true)}
+                className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
+                title="Research"
+              >
+                <GiArchiveResearch className="w-6 h-6" />
+              </button>
+              
+              <div className="h-px w-5 bg-gray-600 my-1"></div>
+              
+              <button 
+                onClick={() => setIsChatsPopupOpen(true)}
+                className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
+                title="Chats"
+              >
+                <BiChat className="w-6 h-6" />
+              </button>
+              
+              <div className="h-px w-5 bg-gray-600 my-1"></div>
+              
+              <button 
+                onClick={() => setIsCalendarPopupOpen(true)}
+                className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
+                title="Calendar"
+              >
+                <IoCalendarNumberOutline className="w-6 h-6" />
               </button>
             </div>
-          </div>
-          
-          <div className="flex items-center gap-3 pr-4">
-            <div className="flex items-center">
-              <Link 
-                href="/pricing"
-                className="group relative bg-black hover:bg-gray-900 text-white font-semibold text-xs px-3 py-1.5 rounded-lg border border-gray-800 hover:border-gray-700 shadow-sm hover:shadow-md transition-all duration-200 flex items-center gap-1.5"
+            
+            <div className="flex-1"></div>
+            
+            <div className="flex flex-col items-center gap-3 p-2">
+              <button 
+                onClick={() => setIsNotificationPopupOpen(true)}
+                className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
+                title="Notifications"
               >
-                {/* Logo */}
-                <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" className="text-white">
-                  <path d="M2 2h16v16H2V2zm2 2v12h12V4H4zm2 2h8v8H6V6z"/>
-                </svg>
-                
-                <span className="text-white">
-                  ViewMarket Free
-                </span>
-              </Link>
+                <IoMdNotificationsOutline className="w-6 h-6" />
+              </button>
+              
+              <div className="h-px w-5 bg-gray-600 my-1"></div>
+              
+              <button 
+                onClick={() => setIsHelpPopupOpen(true)}
+                className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
+                title="Help"
+              >
+                <BsQuestionCircle className="w-6 h-6" />
+              </button>
             </div>
-            
-            <div className="w-px h-5 bg-gray-600 mx-1"></div>
-            
-            <button 
-              onClick={handleToggleFullscreen}
-              className="h-8 w-8 hover:bg-gray-800 hover:text-white rounded-lg flex items-center justify-center transition-colors duration-200 text-white"
-              title={isFullscreen ? "Exit Fullscreen (ESC)" : "Enter Fullscreen"}
-            >
-              {isFullscreen ? (
-                <MdFullscreenExit className="h-5 w-5 transition-colors duration-200 text-white" />
-              ) : (
-                <MdFullscreen className="h-5 w-5 transition-colors duration-200" />
-              )}
-            </button>
-            
-            <div className="w-px h-6 bg-gray-600 mx-1"></div>
-            
-            <button 
-              onClick={handleTakeScreenshot}
-              disabled={isCapturingScreenshot}
-              className="h-8 w-8 hover:bg-gray-800 hover:text-white rounded-lg flex items-center justify-center transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-white"
-              title={isCapturingScreenshot ? "Taking Screenshot..." : "Take Screenshot"}
-            >
-              <FaCamera className={`h-5 w-5 transition-colors duration-200 ${isCapturingScreenshot ? 'animate-pulse' : ''}`} />
-            </button>
-            
-            <div className="w-px h-6 bg-gray-600 mx-1"></div>
-            
-            <button 
-              className="h-8 w-8 hover:bg-gray-800 hover:text-white rounded-lg flex items-center justify-center transition-colors duration-200 text-white"
-              title="Share Screen"
-            >
-              <LuScreenShare className="h-5 w-5 transition-colors duration-200" />
-            </button>
-            
-            <div className="w-px h-6 bg-gray-600 mx-1"></div>
-            
-            <button 
-              onClick={() => setIsSettingsPopupOpen(true)}
-              className="h-8 w-8 hover:bg-gray-800 hover:text-white rounded-lg flex items-center justify-center transition-colors duration-200 text-white"
-              title="Settings"
-            >
-              <svg className="h-5 w-5 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.50 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </button>
-            
-            <div className="w-px h-6 bg-gray-600 mx-1"></div>
-            
-            <LogoutButton variant="ghost" size="icon" className="h-8 w-8 rounded-lg transition-colors duration-200 text-white hover:bg-gray-800">
-              <LuLogOut className="h-5 w-5 transition-colors duration-200" />
-            </LogoutButton>
           </div>
         </div>
-      </header>
 
-      {/* Content area */}
-      <div className="flex flex-1 overflow-hidden">
-        <div className="flex flex-col flex-1 overflow-hidden">
-          {/* TradingView Chart Area */}
-          <div 
-            className="flex-1 overflow-hidden"
-            style={{ height: `calc(100vh - 40px - ${footerHeight}px)`, minHeight: '1px' }}
-          >
-            <div className="w-full h-full bg-black">
-              <TradingViewChart
-                symbol={selectedSymbol}
-                timeFrame={selectedTimeFrame}
-                chartType={selectedCandlestickType}
-                indicators={appliedIndicators}
-                onRemoveIndicator={handleRemoveIndicator}
-                className="w-full h-full"
-              />
-            </div>
-          </div>
-
-          {/* Footer */}
-          <footer 
-            className="bg-black border-t-2 border-gray-700 rounded-t-lg flex-shrink-0 relative"
-            style={{ height: `${footerHeight}px` }}
-          >
-            <div 
-              className="absolute top-0 left-0 right-0 h-2 cursor-ns-resize"
-              onMouseDown={handleMouseDown}
-              style={{ 
-                borderTopLeftRadius: '0.5rem',
-                borderTopRightRadius: '0.5rem',
-              }}
-            />
-            
-            <div className="flex items-center justify-between h-10 px-2">
-              <div className="flex items-center gap-2 pl-4">
-                <button 
-                  onClick={handleBrokerClick}
-                  className={`h-8 px-3 rounded flex items-center text-sm transition-colors ${
-                    activeFooterPage === 'broker'
-                      ? 'bg-gray-800 text-white'
-                      : 'hover:bg-gray-800 hover:text-white text-gray-300'
-                  }`}
-                >
-                  <span>Broker</span>
-                </button>
-                
-                <button 
-                  onClick={handleAlgoScriptClick}
-                  className={`h-8 px-3 rounded flex items-center text-sm transition-colors ${
-                    activeFooterPage === 'algo-script'
-                      ? 'bg-gray-800 text-white'
-                      : 'hover:bg-gray-800 hover:text-white text-gray-300'
-                  }`}
-                >
-                  <span>Algo Script</span>
-                </button>
-                
-                <button 
-                  onClick={handleStrategyTesterClick}
-                  className={`h-8 px-3 rounded flex items-center text-sm transition-colors ${
-                    activeFooterPage === 'strategy-tester'
-                      ? 'bg-gray-800 text-white'
-                      : 'hover:bg-gray-800 hover:text-white text-gray-300'
-                  }`}
-                >
-                  <span>Strategy Tester</span>
-                </button>
-                
-                <button 
-                  onClick={handleScreenerClick}
-                  className={`h-8 px-3 rounded flex items-center text-sm transition-colors ${
-                    activeFooterPage === 'screener'
-                      ? 'bg-gray-800 text-white'
-                      : 'hover:bg-gray-800 hover:text-white text-gray-300'
-                  }`}
-                >
-                  <span>Screener</span>
-                </button>
-                
-                <button 
-                  onClick={handleStrategyBuilderClick}
-                  className={`h-8 px-3 rounded flex items-center text-sm transition-colors ${
-                    activeFooterPage === 'strategy-builder'
-                      ? 'bg-gray-800 text-white'
-                      : 'hover:bg-gray-800 hover:text-white text-gray-300'
-                  }`}
-                >
-                  <span>Strategy Builder</span>
-                </button>
-              </div>
-              
-              <div className="flex items-center">
-                <button className="h-8 w-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors text-gray-300">
-                  <LuMaximize className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-            
-            {footerHeight > 40 && (
-              <div className="overflow-y-auto" style={{ height: `${footerHeight - 40}px` }}>
-                {renderActiveFooterPage()}
-              </div>
-            )}
-          </footer>
+        {/* Popups */}
+        <div className="dark">
         </div>
         
-        {/* Right Side Panel */}
-        <div className="w-12 bg-black border-l-2 border-gray-700 rounded-l-lg flex flex-col flex-shrink-0">
-          <div className="flex flex-col items-center p-2 gap-3">
-            <button 
-              onClick={() => setIsToolsPopupOpen(true)}
-              className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
-              title="Tools"
-            >
-              <MdModeEditOutline className="w-6 h-6" />
-            </button>
-            
-            <div className="h-px w-5 bg-gray-600 my-1"></div>
-            
-            <button 
-              onClick={() => setIsAlertsPopupOpen(true)}
-              className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
-              title="Alerts"
-            >
-              <LuAlarmClock className="w-6 h-6" />
-            </button>
-            
-            <div className="h-px w-5 bg-gray-600 my-1"></div>
-            
-            <button 
-              onClick={() => setIsResearchPopupOpen(true)}
-              className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
-              title="Research"
-            >
-              <GiArchiveResearch className="w-6 h-6" />
-            </button>
-            
-            <div className="h-px w-5 bg-gray-600 my-1"></div>
-            
-            <button 
-              onClick={() => setIsChatsPopupOpen(true)}
-              className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
-              title="Chats"
-            >
-              <BiChat className="w-6 h-6" />
-            </button>
-            
-            <div className="h-px w-5 bg-gray-600 my-1"></div>
-            
-            <button 
-              onClick={() => setIsCalendarPopupOpen(true)}
-              className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
-              title="Calendar"
-            >
-              <IoCalendarNumberOutline className="w-6 h-6" />
-            </button>
-          </div>
-          
-          <div className="flex-1"></div>
-          
-          <div className="flex flex-col items-center gap-3 p-2">
-            <button 
-              onClick={() => setIsNotificationPopupOpen(true)}
-              className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
-              title="Notifications"
-            >
-              <IoMdNotificationsOutline className="w-6 h-6" />
-            </button>
-            
-            <div className="h-px w-5 bg-gray-600 my-1"></div>
-            
-            <button 
-              onClick={() => setIsHelpPopupOpen(true)}
-              className="w-8 h-8 hover:bg-gray-800 hover:text-white rounded flex items-center justify-center transition-colors duration-200 text-gray-300"
-              title="Help"
-            >
-              <BsQuestionCircle className="w-6 h-6" />
-            </button>
-          </div>
-        </div>
+        <TimeFrameDropdown
+          isOpen={isTimeFrameDropdownOpen}
+          onClose={() => setIsTimeFrameDropdownOpen(false)}
+          selectedTimeFrame={selectedTimeFrame}
+          onTimeFrameSelect={handleTimeFrameSelect}
+        />
+        
+        <IndicatorsPopup 
+          isOpen={isIndicatorsPopupOpen}
+          onClose={() => setIsIndicatorsPopupOpen(false)}
+          onApplyIndicator={handleApplyIndicator}
+        />
+        
+        <SettingsPopup 
+          isOpen={isSettingsPopupOpen}
+          onClose={() => setIsSettingsPopupOpen(false)}
+        />
+
+        <ToolsPopup 
+          isOpen={isToolsPopupOpen}
+          onClose={() => setIsToolsPopupOpen(false)}
+        />
+
+        <AlertsPopup 
+          isOpen={isAlertsPopupOpen}
+          onClose={() => setIsAlertsPopupOpen(false)}
+        />
+
+        <ResearchPopup 
+          isOpen={isResearchPopupOpen}
+          onClose={() => setIsResearchPopupOpen(false)}
+        />
+
+        <ChatsPopup 
+          isOpen={isChatsPopupOpen}
+          onClose={() => setIsChatsPopupOpen(false)}
+        />
+
+        <CalendarPopup 
+          isOpen={isCalendarPopupOpen}
+          onClose={() => setIsCalendarPopupOpen(false)}
+        />
+
+        <NotificationPopup 
+          isOpen={isNotificationPopupOpen}
+          onClose={() => setIsNotificationPopupOpen(false)}
+        />
+
+        <HelpPopup 
+          isOpen={isHelpPopupOpen}
+          onClose={() => setIsHelpPopupOpen(false)}
+        />
       </div>
-
-      {/* Popups */}
-      <div className="dark">
-      </div>
-      
-      <TimeFrameDropdown
-        isOpen={isTimeFrameDropdownOpen}
-        onClose={() => setIsTimeFrameDropdownOpen(false)}
-        selectedTimeFrame={selectedTimeFrame}
-        onTimeFrameSelect={handleTimeFrameSelect}
-      />
-      
-      <IndicatorsPopup 
-        isOpen={isIndicatorsPopupOpen}
-        onClose={() => setIsIndicatorsPopupOpen(false)}
-        onApplyIndicator={handleApplyIndicator}
-      />
-      
-      <SettingsPopup 
-        isOpen={isSettingsPopupOpen}
-        onClose={() => setIsSettingsPopupOpen(false)}
-      />
-
-      <ToolsPopup 
-        isOpen={isToolsPopupOpen}
-        onClose={() => setIsToolsPopupOpen(false)}
-      />
-
-      <AlertsPopup 
-        isOpen={isAlertsPopupOpen}
-        onClose={() => setIsAlertsPopupOpen(false)}
-      />
-
-      <ResearchPopup 
-        isOpen={isResearchPopupOpen}
-        onClose={() => setIsResearchPopupOpen(false)}
-      />
-
-      <ChatsPopup 
-        isOpen={isChatsPopupOpen}
-        onClose={() => setIsChatsPopupOpen(false)}
-      />
-
-      <CalendarPopup 
-        isOpen={isCalendarPopupOpen}
-        onClose={() => setIsCalendarPopupOpen(false)}
-      />
-
-      <NotificationPopup 
-        isOpen={isNotificationPopupOpen}
-        onClose={() => setIsNotificationPopupOpen(false)}
-      />
-
-      <HelpPopup 
-        isOpen={isHelpPopupOpen}
-        onClose={() => setIsHelpPopupOpen(false)}
-      />
-    </div>
+    </Suspense>
   )
 } 

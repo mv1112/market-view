@@ -5,7 +5,10 @@
 
 import { useAuth as useAuthContext } from '@/lib/auth-context'
 import { useEffect, useCallback } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import { isAdminEmail } from '../auth-redirects'
+import { UserProfile } from '../auth'
+import { safeConsole } from '@/lib/utils'
 
 /**
  * Main authentication hook - re-exports the context hook
@@ -20,7 +23,7 @@ export function useAuthRedirect(options?: {
   redirectTo?: string
   onlyForGuests?: boolean
 }) {
-  const { isAuthenticated, isLoading, isInitialized } = useAuth()
+  const { isAuthenticated, isLoading, isInitialized, user, profile } = useAuth()
   const router = useRouter()
   const pathname = usePathname()
 
@@ -37,12 +40,47 @@ export function useAuthRedirect(options?: {
       
       router.push(redirectPath)
     }
-  }, [isAuthenticated, isLoading, isInitialized, router, pathname, options])
+
+    if (!isLoading) {
+      const userIsAuthenticated = !!user
+      
+      // Redirect unauthenticated users from protected routes
+      if (options?.requireAuth && !userIsAuthenticated) {
+        if (options?.redirectTo) {
+          router.push(options.redirectTo)
+        }
+        return
+      }
+      
+      // Redirect authenticated users from public routes
+      if (options?.onlyForGuests && userIsAuthenticated) {
+        if (options?.redirectTo) {
+          router.push(options.redirectTo)
+        }
+        return
+      }
+
+      // Handle role-based redirects
+      if (userIsAuthenticated && profile) {
+        if (isAdminEmail(user?.email || '')) {
+          if (pathname !== '/admin') {
+            safeConsole.log('Admin user detected, should redirect to /admin')
+          }
+        } else {
+          if (pathname === '/admin') {
+            router.push('/charts')
+          }
+        }
+      }
+    }
+  }, [isAuthenticated, isLoading, isInitialized, router, pathname, user, profile, options])
+
+  const shouldRender = (options?.requireAuth && !!user) || !options?.requireAuth
 
   return {
     isAuthenticated,
     isLoading,
-    shouldRender: isInitialized && !isLoading,
+    shouldRender,
     canAccess: options?.requireAuth ? isAuthenticated : 
                options?.onlyForGuests ? !isAuthenticated : true
   }
@@ -58,7 +96,7 @@ export function useSessionMonitor() {
     try {
       await refreshAuth()
     } catch (error) {
-      console.error('Failed to refresh session:', error)
+      safeConsole.error('Failed to refresh session:', error)
     }
   }, [refreshAuth])
 
@@ -139,4 +177,43 @@ export function useAuthStatus() {
     showContent: isInitialized && !isLoading,
     showSkeleton: !isInitialized || isLoading
   }
+}
+
+// Custom hook to check role access
+export const useRoleAccessCustom = (requiredRole: UserProfile['role']) => {
+  const { profile, user } = useAuth()
+  
+  const userRole = profile?.role
+  const canAccess = userRole === requiredRole
+  const isAdmin = userRole === 'admin'
+  
+  // Also check email for admin role as a fallback
+  const isAdminByEmail = user?.email ? isAdminEmail(user.email) : false
+  
+  return {
+    userRole,
+    canAccess,
+    isAdmin: isAdmin || isAdminByEmail
+  }
+}
+
+// Hook to handle session refresh errors
+export const useSessionRefresh = () => {
+  const { refreshAuth } = useAuth()
+
+  useEffect(() => {
+    const handleRefresh = async () => {
+      try {
+        await refreshAuth()
+      } catch (error) {
+        safeConsole.error('Failed to refresh session:', error)
+        // Optionally, trigger a logout or show a notification
+      }
+    }
+
+    // Set an interval to refresh the session periodically
+    const intervalId = setInterval(handleRefresh, 15 * 60 * 1000) // Every 15 minutes
+
+    return () => clearInterval(intervalId)
+  }, [refreshAuth])
 } 

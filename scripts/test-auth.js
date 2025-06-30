@@ -248,7 +248,7 @@ async function testSecurityLogging() {
     user_id_param: null,
     event_type_param: 'test_event',
     event_description_param: 'Test security event for authentication system',
-    ip_address_param: '127.0.0.1',
+            ip_address_param: 'test-client-ip',
     user_agent_param: 'Test User Agent',
     risk_score_param: 10,
     metadata_param: { test: true, timestamp: new Date().toISOString() }
@@ -292,7 +292,7 @@ async function testSessionManagement() {
     user_id_param: testUserId,
     session_token_param: testSessionToken,
     device_info_param: testDeviceInfo,
-    ip_address_param: '127.0.0.1'
+          ip_address_param: 'test-client-ip'
   })
 
   if (error) {
